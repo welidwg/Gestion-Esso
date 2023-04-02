@@ -63,6 +63,9 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+            'table' => 'users',
+            'username' => 'login', // specify the column name for the username
+            'password' => 'password', // specify the column name for the password
         ],
 
         // 'users' => [

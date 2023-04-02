@@ -1,0 +1,13 @@
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 10px;
+    text-decoration: none !important;
+    margin: 6px;
+    text-decoration: none;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button a {
+    text-decoration: none !important;
+    color: black;
+}

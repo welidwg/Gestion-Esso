@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ env('APP_NAME') }} - Se connecter</title>
+    <title>Kiosque - Se connecter</title>
     <link rel="stylesheet" href="{{ asset('assets/fa/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
 
@@ -21,16 +21,16 @@
         <div class="col-md-6">
             <div class="p">
 
-                <form class="user bg-light p-4 rounded-4 shadow">
+                <form class="user bg-light p-4 rounded-2 shadow" id="user_auth_form">
                     <div class="text-center">
                         <h4 class="text-dark  fw-bolder mb-4">Se connecter</h4>
                     </div>
-                    <div class="mb-3"><input id="exampleInputEmail" class="form-control form-control-user"
-                            type="text" aria-describedby="emailHelp" placeholder="Votre nom d'utilisateur"
-                            name="username" /></div>
+                    <div class="mb-3"><input id="exampleInputEmail" class="form-control shadow-none form-control-user"
+                            type="text" aria-describedby="" required placeholder="Votre login" name="login" />
+                    </div>
                     <div class="mb-3">
-                        <input id="" class="form-control form-control-user" type="password"
-                            placeholder="Mot de passe" name="password" />
+                        <input id="" class="form-control form-control-user shadow-none" type="password"
+                            placeholder="Mot de passe" name="password" required />
                     </div>
                     <div class="mb-3">
                         {{-- <div class="custom-control custom-checkbox small">
@@ -39,9 +39,10 @@
                                     class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label>
                             </div>
                         </div> --}}
-                    </div><button class="btn btn-primary d-block btn-user w-100" type="submit">Connexion <i
-                            class="fal fa-sign-in-alt"></i></button>
-                    <hr />
+                    </div><button class="btn bg-gradient-dark d-block btn-user mt-3 w-100 text-light"
+                        type="submit">Connexion <i class="fal fa-sign-in-alt"></i></button>
+
+                    <div class="errors text-danger text-center mt-3" id="errors"></div>
                 </form>
 
             </div>
@@ -57,5 +58,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"
     integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('/js/user.js') }}"></script>
 
 </html>

@@ -11,30 +11,61 @@
         </a>
         <hr class="sidebar-divider my-0" />
         <ul id="accordionSidebar" class="navbar-nav text-light">
-            <li class="nav-item">
-                <a class="nav-link   {{ Route::currentRouteName() == 'view.main' ? 'active' : '' }}"
-                    href="index.html"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
 
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="table.html"><i class="fas fa-table"></i><span>Table</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.html"><i class="far fa-user-circle"></i><span>Login</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="register.html"><i class="fas fa-user-circle"></i><span>Register</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="blank.html"><i class="fas fa-window-maximize"></i><span>Blank
-                        Page</span></a>
-            </li>
+            @if (Auth::user()->role == 0)
+                <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'view.main' ? 'active' : '' }}"
+                        href="/main"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'stats' ? 'active' : '' }}"
+                        href="/stats/moyenne"><i class="fas fa-tachometer-alt"></i><span>Moyenne de
+                            consommation</span></a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'carburant.index' ? 'active' : '' }}"
+                        href="{{ route('carburant.index') }}"><i class="fas fa-box-full"></i><span>Carburants</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'releve.index' ? 'active' : '' }}"
+                        href="{{ route('releve.index') }}"><i class="fas fa-file-chart-pie"></i><span>Journal
+                            caisse</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'facture.create' ? 'active' : '' }}"
+                        href="{{ route('facture.create') }}"><i class="fas fa-file-plus"></i><span>Ajouter
+                            facture</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'facture.index' ? 'active' : '' }}"
+                        href="{{ route('facture.index') }}"><i class="far fa-file-invoice"></i><span>Historique
+                            factures</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'view.add_user' ? 'active' : '' }}"
+                        href="{{ route('view.add_user') }}"><i class="fas fa-user-plus"></i><span>Ajouter
+                            utilisteur</span></a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'releve.create' ? 'active' : '' }}"
+                        href="{{ route('releve.create') }}"><i
+                            class="fas fa-tachometer-alt"></i><span>Relevé</span></a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'factureCaissier.create' ? 'active' : '' }}"
+                        href="{{ route('factureCaissier.create') }}"><i class="fas fa-tachometer-alt"></i><span>Mise
+                            à
+                            jour stock</span></a>
+
+                </li>
+            @endif
         </ul>
-        <div class="text-center d-none d-md-inline">
+        {{-- <div class="text-center d-none d-md-inline">
             <button id="sidebarToggle" class="btn rounded-circle border-0" type="button"></button>
-        </div>
+        </div> --}}
     </div>
 </nav>
