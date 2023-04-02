@@ -146,3 +146,35 @@ $("#edit_marge_form").on("submit", (e) => {
             // $("#errors").html(errors.message);
         });
 });
+$("#edit_prix_form").on("submit", (e) => {
+    e.preventDefault();
+    axios
+        .post(
+            $("#edit_prix_form").attr("action"),
+            $("#edit_prix_form").serialize()
+        )
+        .then((res) => {
+            // console.log(res);
+
+            Swal.fire({
+                title: "Operation Réussite !",
+                text: res.data.message,
+                icon: "success",
+                timer: 1500,
+            });
+            console.log("====================================");
+            console.log(res.data);
+            console.log("====================================");
+
+            setTimeout(() => {
+                window.location.href = "/carburant";
+            }, 600);
+        })
+        .catch((err) => {
+            // console.error();
+            let errors = err.response.data;
+            console.log(errors);
+
+            // $("#errors").html(errors.message);
+        });
+});
