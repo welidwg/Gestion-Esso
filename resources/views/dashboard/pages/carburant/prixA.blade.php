@@ -15,7 +15,7 @@
                             <div class="col-md-3"><label class="form-label" for=""><strong>Titre</strong></label>
                             </div>
                             <div class="col-md-8"><label class="form-label" for=""><strong>Prix
-                                        d'achat</strong></label>
+                                        d'achat (TTC)</strong></label>
                             </div>
                         </div>
                         @foreach ($carburants as $carb)
@@ -53,5 +53,5 @@
             </div>
         </div>
         <script src="{{ asset('/js/carburant.js') }}"></script>
-    @endsection
-</div>
+    </div>
+@endsection

@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Carburant;
 use App\Models\FactureCaissier;
 use App\Models\Releve;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->to("/main");
+    }
     return view('welcome');
 })->name("view.login");
 Route::get('/pdf',  [PdfController::class, "index"])->name("view.pdf");
@@ -79,9 +83,14 @@ Route::group(["middleware" => "auth"], function () {
         "/carburant/editMarge",
         [CarburantControllerA::class, "editMarge"]
     )->name("carburant.editMarge")->middleware("admin");
+    Route::post(
+        "/carburant/editPrixA",
+        [CarburantControllerA::class, "editPrixA"]
+    )->name("carburant.editPrixA")->middleware("admin");
     Route::get("/carburant/jauge", [CarburantControllerA::class, "jauge"])->name("carburant.jauge")->middleware("admin");
     Route::get("/carburant/seuil", [CarburantControllerA::class, "seuil"])->name("carburant.seuil")->middleware("admin");
     Route::get("/carburant/marge", [CarburantControllerA::class, "marge"])->name("carburant.marge")->middleware("admin");
+    Route::get("/carburant/prix", [CarburantControllerA::class, "prixA"])->name("carburant.prix")->middleware("admin");
     Route::resource("carburant", CarburantControllerA::class)->middleware("admin");
 
 

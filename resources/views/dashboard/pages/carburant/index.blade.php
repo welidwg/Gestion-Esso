@@ -4,23 +4,35 @@
   @endsection
   @section('content')
       <div class="card shadow">
-          <div class="card-header py-3 row d-flex align-items-center justify-content-start">
+          <div class="card-header py-2">
               <p class="text-primary m-0 fw-bold fs-5 col">Carburants
 
               </p>
-              <a class="btn shadow-sm rounded-4 mx-3 col" href="{{ route('carburant.create') }}"><i class="fas fa-plus"></i>
-                  Nouveau
-                  produit</a>
-              <a class="btn shadow-sm rounded-4 mx-3 col" href="{{ route('carburant.seuil') }}"><i class="fas fa-pen"></i>
-                  Modifier
-                  seuil</a>
-              <a class="btn shadow-sm rounded-4 mx-3 col" href="{{ route('carburant.jauge') }}"><i class="fas fa-pen"></i>
-                  Modifier
-                  Jauge</a>
-              <a class="btn shadow-sm rounded-4 mx-3 col" href="{{ route('carburant.marge') }}"><i class="fas fa-pen"></i>
-                  Modifier
-                  Marge</a>
+              <div class=" row d-flex align-items-center justify-content-start">
+
+                  <a class="btn shadow-sm rounded-4 mb-3 col-md-2 mx-md-2 " href="{{ route('carburant.create') }}"><i
+                          class="fas fa-plus"></i>
+                      Nouveau
+                      produit</a>
+                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.prix') }}"><i
+                          class="fas fa-pen"></i>
+                      Modifier
+                      prix d'achat</a>
+                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.seuil') }}"><i
+                          class="fas fa-pen"></i>
+                      Modifier
+                      seuil</a>
+                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.jauge') }}"><i
+                          class="fas fa-pen"></i>
+                      Modifier
+                      Jauge</a>
+                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.marge') }}"><i
+                          class="fas fa-pen"></i>
+                      Modifier
+                      Marge</a>
+              </div>
           </div>
+
           <div class="card-body">
 
               <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">

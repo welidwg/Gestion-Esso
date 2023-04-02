@@ -116,6 +116,12 @@ class CarburantControllerA extends Controller
         $all = Carburant::all();
         return view("dashboard.pages.carburant.marge", ["carburants" => $all]);
     }
+    public function prixA()
+    {
+        # code...
+        $all = Carburant::all();
+        return view("dashboard.pages.carburant.prixA", ["carburants" => $all]);
+    }
     public function editjauge(Request $req)
     {
         # code...
@@ -171,6 +177,30 @@ class CarburantControllerA extends Controller
             $v->prixV = $newPV;
             $v->valeur_stock = $v->qtiteStk * $newPV;
             $v->save();
+            # code...
+        }
+
+        return "done";
+    }
+
+    public function editPrixA(Request $req)
+    {
+        # code...
+        $all = Carburant::all();
+        $column = "";
+        $data = "";
+        foreach ($all as $v) {
+            $data = "prixA" . $v->id;
+            if ($v->prixA != $req->$data) {
+                $v->prixA = $req->$data;
+
+                $newPV = $req->$data * (1 + $v->marge_beneficiere);
+                $v->prixV = $newPV;
+                $v->valeur_stock = $v->qtiteStk * $newPV;
+                $v->save();
+            }
+
+
             # code...
         }
 
