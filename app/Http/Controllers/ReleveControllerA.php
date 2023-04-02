@@ -131,4 +131,11 @@ class ReleveControllerA extends Controller
         return redirect()->route('releve.index')
             ->with('success', 'Relevee bien supprimé');
     }
+
+    public function parCaissier()
+    {
+        $releves = Releve::with("caissier")->get();
+
+        return view("dashboard.pages.releve.par_caissier", ["releves" => $releves]);
+    }
 }

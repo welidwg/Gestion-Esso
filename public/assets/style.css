@@ -11,3 +11,8 @@
     text-decoration: none !important;
     color: black;
 }
+
+th,
+table {
+    color: black !important;
+}

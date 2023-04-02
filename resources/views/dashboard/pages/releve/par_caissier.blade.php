@@ -24,8 +24,9 @@
                   <table class="table my-0" id="table_index_releve">
                       <thead>
                           <tr>
-                              <th>Code caisser</th>
-                              <th>Nom Caissier</th>
+                              <th>Code du caissier</th>
+                              <th>Nom du caissier</th>
+                              <th>Date</th>
                               <th>Total saisie</th>
                               <th>Total rapport</th>
                               <th>Différence</th>
@@ -34,9 +35,11 @@
                       </thead>
                       <tbody>
                           @foreach ($releves as $releve)
-                              <tr>
+                              <tr
+                                  @if ($releve->diff != '0') style='background-color:rgba(255,0,0,0.3)' @else style='background-color:rgba(0,255,0,0.3)' @endif>
                                   <td>{{ $releve->caissier->code }}</td>
                                   <td>{{ $releve->caissier->nom }}</td>
+                                  <td>{{ $releve->date_systeme }}</td>
                                   <td>{{ $releve->totalSaisie }}</td>
                                   <td>{{ $releve->totalPdf }}</td>
                                   <td>{{ $releve->diff }}</td>

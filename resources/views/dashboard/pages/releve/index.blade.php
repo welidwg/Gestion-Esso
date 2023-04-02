@@ -38,7 +38,8 @@
                       </thead>
                       <tbody>
                           @foreach ($releves as $releve)
-                              <tr>
+                              <tr
+                                  @if ($releve->diff != '0') style='background-color:rgba(255,0,0,0.3)' @else style='background-color:rgba(0,255,0,0.3)' @endif>
                                   <td>{{ $releve->id }}</td>
                                   <td>{{ $releve->date_systeme }}</td>
                                   <td>{{ $releve->heure_d }}</td>

@@ -86,6 +86,7 @@ Route::group(["middleware" => "auth"], function () {
 
 
     //releve
+    Route::get("/releve/caisse", [ReleveControllerA::class, "parCaissier"])->name("releve.caissier")->middleware("admin");
     Route::resource("releve", ReleveControllerA::class);
 
     //facture
