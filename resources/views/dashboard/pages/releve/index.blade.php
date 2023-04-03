@@ -8,7 +8,9 @@
               <p class="text-primary m-0 fw-bold fs-5"> Journal caisse
 
               </p>
-              <a href="{{ route('releve.caissier') }}" class="btn"> <i class="fas fa-user"></i> Par caissier</a>
+              <a href="{{ route('releve.caissier') }}" class="btn shadow-sm rounded-4 mx-2 "> <i class="fas fa-user"></i>
+                  Rapport
+                  mensuel du caissier</a>
               {{-- <a class="btn shadow-sm rounded-4 mx-3" href="{{ route('carburant.create') }}"><i class="fas fa-plus"></i>
                   Nouveau
                   produit</a>

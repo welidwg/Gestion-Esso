@@ -41,6 +41,8 @@ Route::post("/user/auth", [UserController::class, "auth"])->name("backend.login"
 // })->name("view.add_user");
 
 Route::post('/user/add', [UserController::class, "store"])->name("backend.add_user");
+Route::get('/caissier', [UserController::class, "index"])->name("user.caissier");
+Route::get('/caissier/{id}/rapport', [UserController::class, "rapport"])->name("user.rapport");
 
 Route::group(["middleware" => "auth"], function () {
     //views
@@ -95,6 +97,15 @@ Route::group(["middleware" => "auth"], function () {
 
 
     //releve
+    Route::get("/releve/{date}/{user_id}", function ($date, $user_id) {
+        $year = date("Y", strtotime($date));
+        $month = date("m", strtotime($date));
+        $releves = Releve::where('user_id', $user_id)
+            ->whereMonth('date_systeme', $month)
+            ->whereYear('date_systeme', $year)
+            ->get();
+        return $releves;
+    })->name("releve.rapport")->middleware("admin");
     Route::get("/releve/caisse", [ReleveControllerA::class, "parCaissier"])->name("releve.caissier")->middleware("admin");
     Route::resource("releve", ReleveControllerA::class);
 

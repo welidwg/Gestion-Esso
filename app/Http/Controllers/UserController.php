@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     //
+
+    public function index()
+    {
+        return view("dashboard.pages.user.index", ["users" => User::where("role", 1)->get()]);
+    }
+    public function rapport($id)
+    {
+        return view("dashboard.pages.user.rapport", ["id" => $id]);
+    }
     public function auth(Request $req)
     {
         # code...

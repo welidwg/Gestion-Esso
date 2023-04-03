@@ -44,6 +44,11 @@
                             factures</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'user.caissier' ? 'active' : '' }}"
+                        href="{{ route('user.caissier') }}"><i class="fas fa-users"></i><span>Vos
+                            caissiers</span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'view.add_user' ? 'active' : '' }}"
                         href="{{ route('view.add_user') }}"><i class="fas fa-user-plus"></i><span>Ajouter
                             utilisteur</span></a>
