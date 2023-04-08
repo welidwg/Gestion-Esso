@@ -3,7 +3,18 @@
         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle me-3" type="button">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="text-secondary fw-bold"><i class="far fa-calendar"></i> {{ date('d/m/Y') }}</div>
+        <div class="text-secondary fw-bold">
+            <i class="far fa-calendar"></i> {{ date('d/m/Y ') }}
+            <i class="far fa-clock"></i><span id="time"></span>
+            <script>
+                $("#time").html(moment().format(' h:mm a'))
+
+                setInterval(() => {
+                    $("#time").html(moment().format(' h:mm:ss a'))
+
+                }, 500);
+            </script>
+        </div>
         <ul class="navbar-nav flex-nowrap ms-auto">
             {{-- <li class="nav-item dropdown d-sm-none no-arrow">
                 <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i
@@ -151,9 +162,9 @@
                     @if (Auth::check())
                         <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
                             href="#">
-                            <span
-                                class="d-none d-lg-inline me-2 text-gray-600  fw-bold ">{{ Auth::check() ? Auth::user()->nom : '' }}
-                                |
+                            <span class="d-none d-lg-inline me-2 text-gray-600  fw-bold "><i class="fal fa-user "></i>
+                                {{ Auth::check() ? Auth::user()->nom : '' }}
+                                <i class="far fa-grip-lines-vertical"></i>
                                 {{ Auth::user()->role == 0 ? 'Administrateur' : 'Caissier' }}
                             </span>
                         </a>
@@ -168,7 +179,7 @@
                                 class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i> Activity log</a> --}}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"><i
-                                class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i> Logout</a>
+                                class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>Déconnexion</a>
                     </div>
                 </div>
             </li>

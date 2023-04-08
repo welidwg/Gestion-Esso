@@ -4,32 +4,80 @@
   @endsection
   @section('content')
       <div class="card shadow">
-          <div class="card-header py-2">
-              <p class="text-primary m-0 fw-bold fs-5 col">Carburants
+          <div class="card-header py-2 d-flex  justify-content-between align-items-center ">
+              <span class="text-primary m-0 fw-bold fs-5 d-flex  ">Carburants
+                  <div class="dropdown no-arrow  ">
+                      <button class="btn  btn-sm dropdown-toggle mx-3 float-end" aria-expanded="false"
+                          data-bs-toggle="dropdown" type="button">
 
-              </p>
+                          <i class="fas fa-bars text-dark-400"></i> Menu
+                      </button>
+                      <div class="dropdown-menu shadow dropdown-menu-start animated--fade-in">
+
+                          <p class="text-center dropdown-header">Menu carburant</p>
+                          <a class="dropdown-item " href="{{ route('carburant.create') }}"><i class="fas fa-plus"></i>
+                              Nouveau
+                              produit</a>
+                          <a class="dropdown-item" href="{{ route('carburant.prix') }}"><i class="fas fa-pen"></i>
+                              Modifier
+                              prix d'achat</a>
+                          <a class="dropdown-item" href="{{ route('carburant.seuil') }}"><i class="fas fa-pen"></i>
+                              Modifier
+                              seuil absolu</a>
+                          <a class="dropdown-item" href="{{ route('carburant.jauge') }}"><i class="fas fa-pen"></i>
+                              Modifier
+                              Jauge</a>
+                          <a class="dropdown-item" href="{{ route('carburant.marge') }}"><i class="fas fa-pen"></i>
+                              Modifier
+                              Marge</a>
+                          <div class="dropdown-divider"></div>
+                          {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
+                      </div>
+                  </div>
+              </span>
+              <button class="btn shadow-sm rounded-4    mx-md-4" id="maj"><i class="far fa-cog"></i>
+                  Mise à jour du seuil calculé par semaine</button>
+              <script>
+                  $("#maj").on("click", () => {
+                      axios.post("{{ route('carburant.majSeuilCalcule') }}")
+                          .then(res => {
+                              console.log(res)
+                              Swal.fire({
+                                  title: `Opération réussite`,
+                                  text: "Seuil par semaine est mis à jour. ",
+                                  icon: "success",
+                              });
+                              setTimeout(() => {
+                                  window.location.reload()
+                              }, 700);
+                          })
+                          .catch(err => {
+                              console.error(err);
+                              Swal.fire({
+                                  title: `Opération échouée`,
+                                  text: "Erreur de serveur , veuillez réssayer plus tard. ",
+                                  icon: "error",
+                              });
+                          })
+                  })
+              </script>
+
               <div class=" row d-flex align-items-center justify-content-start">
 
-                  <a class="btn shadow-sm rounded-4 mb-3 col-md-2 mx-md-2 " href="{{ route('carburant.create') }}"><i
-                          class="fas fa-plus"></i>
-                      Nouveau
-                      produit</a>
-                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.prix') }}"><i
+
+
+                  {{-- <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.seuil') }}"><i
                           class="fas fa-pen"></i>
                       Modifier
-                      prix d'achat</a>
-                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.seuil') }}"><i
+                      seuil</a> --}}
+                  {{-- <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.jauge') }}"><i
                           class="fas fa-pen"></i>
                       Modifier
-                      seuil</a>
-                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.jauge') }}"><i
+                      Jauge</a> --}}
+                  {{-- <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.marge') }}"><i
                           class="fas fa-pen"></i>
                       Modifier
-                      Jauge</a>
-                  <a class="btn shadow-sm rounded-4  mb-3 col-md-2 mx-md-2" href="{{ route('carburant.marge') }}"><i
-                          class="fas fa-pen"></i>
-                      Modifier
-                      Marge</a>
+                      Marge</a> --}}
               </div>
           </div>
 
@@ -45,10 +93,11 @@
                               <th>Marge</th>
                               <th>Quantite de stock</th>
                               <th>Quantite de jauge</th>
-                              <th>Seuil</th>
                               <th>Seuil absolu</th>
+                              <th>Seuil calculé</th>
+
                               <th>Valeur de stock</th>
-                              <th>Action</th>
+                              {{-- <th>Action</th> --}}
                           </tr>
                       </thead>
                       <tbody>
@@ -66,15 +115,14 @@
                                       @endif
                                   </td>
                                   <td>{{ $carburant->qtiteJg }}</td>
-                                  <td>{{ $carburant->seuil }}</td>
                                   <td>{{ $carburant->seuilA }}</td>
+                                  <td>{{ $carburant->seuil }}</td>
                                   <td>{{ $carburant->valeur_stock . '€' }}</td>
-                                  <td>
+                                  {{-- <td>
                                       <div class="d-flex flex-row justify-content-start align-items-center">
-                                          {{-- <a href=""><i class="fas fa-edit text-info"></i></a> --}}
                                           <a href=""><i class="fas fa-trash text-danger"></i></a>
                                       </div>
-                                  </td>
+                                  </td> --}}
                               </tr>
                           @endforeach
 

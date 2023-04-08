@@ -5,7 +5,7 @@
                 {{-- <i class="fas fa-laugh-wink"></i> --}}
             </div>
             <div class="sidebar-brand-text mx-3">
-                <span>Brand</span>
+                <span>Kiosque</span>
             </div>
 
         </a>

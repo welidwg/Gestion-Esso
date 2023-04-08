@@ -28,6 +28,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get("/token", function () {
+    return csrf_token();
+});
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->to("/main");
@@ -68,7 +72,10 @@ Route::group(["middleware" => "auth"], function () {
 
 
     //compte
-    Route::resource('comptes', CompteController::class)->middleware("admin");;
+    Route::post("/comptes/init", [CompteController::class, "init"])->name("comptes.init")->middleware("admin");
+    Route::resource('comptes', CompteController::class)->middleware("admin");
+
+
     Route::resource('carburants', CarburantController::class)->middleware("admin");;
 
     //carburant
@@ -76,6 +83,7 @@ Route::group(["middleware" => "auth"], function () {
         "/carburant/editjauge",
         [CarburantControllerA::class, "editjauge"]
     )->name("carburant.editJauge")->middleware("admin");
+
 
     Route::post(
         "/carburant/editSeuil",
@@ -89,6 +97,10 @@ Route::group(["middleware" => "auth"], function () {
         "/carburant/editPrixA",
         [CarburantControllerA::class, "editPrixA"]
     )->name("carburant.editPrixA")->middleware("admin");
+    Route::post(
+        "/carburant/majSeuilCalcule",
+        [CarburantControllerA::class, "majSeuilCalcule"]
+    )->name("carburant.majSeuilCalcule")->middleware("admin");;
     Route::get("/carburant/jauge", [CarburantControllerA::class, "jauge"])->name("carburant.jauge")->middleware("admin");
     Route::get("/carburant/seuil", [CarburantControllerA::class, "seuil"])->name("carburant.seuil")->middleware("admin");
     Route::get("/carburant/marge", [CarburantControllerA::class, "marge"])->name("carburant.marge")->middleware("admin");

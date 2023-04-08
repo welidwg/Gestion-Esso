@@ -31,7 +31,7 @@
                                 <div class="col-md-8">
                                     <div class="mb-3 d-flex">
                                         <input class="form-control text-dark w-75" type="number" step="0.01" required
-                                            id="" value="{{ $carb->seuil }}" placeholder=""
+                                            id="" value="{{ $carb->seuilA }}" placeholder=""
                                             name="seuil{{ $carb->id }}" />
                                     </div>
                                 </div>

@@ -16,6 +16,18 @@ class CompteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function init(Request $request)
+    {
+        # code...
+        $solde = $request->solde;
+        $compte = Compte::latest()->first();
+        if ($solde !== "") {
+            $compte->montant = $solde;
+            $compte->save();
+            return response(["success" => "Solde est réinitialisé"], 200);
+        }
+        return response(["error" => "Montant non valide !"], 500);
+    }
     public function index()
     {
         $comptes = Compte::paginate();

@@ -3,10 +3,10 @@
     Accueil
 @endsection
 @php
-    use App\models\Compte;
+    use App\Models\Compte;
     use App\Models\Releve;
     use App\Models\Carburant;
-    
+    use App\Models\User;
 @endphp
 @section('content')
     @if (Auth::user()->role == 0)
@@ -50,27 +50,112 @@
                 
             @endphp
         @endforeach
-        <div class="row">
-            <div class="col-md-6 col-xl-3 mb-4">
-                <div class="card shadow border-start-primary py-2">
-                    <div class="card-body">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col me-2">
-                                <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Montant en compte
-                                    </span>
+        <div class="">
+            <div class="row ">
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Votre solde
+                                        </span>
+                                    </div>
+                                    @php
+                                        
+                                        $cp = Compte::first();
+                                    @endphp
+                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $cp ? $cp->montant : '0' }} € </span>
+                                    </div>
+                                    <div class="text-dark  mb-0"><a class="btn shadow-sm rounded-2"
+                                            id="reinitCompte">Réinitialiser </a></div>
+                                    <script>
+                                        $("#reinitCompte").on("click", () => {
+                                            Swal.fire({
+                                                title: "Réinitialiser votre solde",
+                                                input: "number",
+                                                inputAttributes: {
+                                                    autocapitalize: "off",
+                                                },
+                                                showCancelButton: true,
+                                                confirmButtonText: "Réinitialiser",
+                                                cancelButtonText: "Annuler",
+                                                showLoaderOnConfirm: true,
+                                                preConfirm: async (inputData) => {
+                                                    console.log(inputData);
+                                                    return axios.post("/comptes/init", {
+                                                            solde: inputData
+                                                        })
+                                                        .then(res => {
+                                                            console.log(res)
+                                                            Swal.fire({
+                                                                title: `Opération réussite`,
+                                                                text: "Votre solde est bien réinitialisé. ",
+                                                                icon: "success",
+                                                            });
+                                                        })
+                                                        .catch(err => {
+                                                            console.log(err);
+                                                            Swal.showValidationMessage(`Opération échouée: ${err.message}`);
+
+                                                        })
+                                                    // fetch(`//api.github.com/users/${login}`)
+                                                    //     .then((response) => {
+                                                    //         if (!response.ok) {
+                                                    //             throw new Error(response.statusText);
+                                                    //         }
+                                                    //         return response.json();
+                                                    //     })
+                                                    //     .catch((error) => {
+                                                    //         Swal.showValidationMessage(`Request failed: ${error}`);
+                                                    //     });
+                                                },
+                                                allowOutsideClick: () => !Swal.isLoading(),
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    Swal({
+                                                        title: `Opération réussite`,
+                                                        text: "Votre solde est bien réinitialisé. ",
+                                                        icon: "success",
+                                                    });
+                                                }
+                                                console.log(result);
+                                            });
+                                        })
+                                    </script>
                                 </div>
-                                @php
-                                    
-                                    $cp = Compte::first();
-                                @endphp
-                                <div class="text-dark fw-bold h5 mb-0"><span>{{ $cp ? $cp->montant : '0' }} € </span></div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
                             </div>
-                            <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {{-- <div class="col-md-6 col-xl-3 mb-4">
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Recette
+                                            d'aujourd'hui
+                                        </span>
+                                    </div>
+                                    @php
+                                        $recette = 0;
+                                        
+                                        $releves = Releve::where('date_systeme', date('Y-m-d'))->get();
+                                        foreach ($releves as $rel) {
+                                            $recette += $rel->totalPdf;
+                                            # code...
+                                        }
+                                    @endphp
+                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $recette }} € </span></div>
+                                    <div class="text-dark  mb-0"></div>
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-md-6 col-xl-3 mb-4">
                 <div class="card shadow border-start-success py-2">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters">
@@ -123,13 +208,14 @@
                     </div>
                 </div> 
         </div> --}}
+            </div>
         </div>
         <div class="row">
-            <div class="col-lg-7 col-xl-8">
-                <div class="card shadow mb-4">
+            <div class="col-lg-6 col-xl-6">
+                <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Earnings Overview</h6>
-                        <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                        <h6 class="text-primary fw-bold m-0">Recette par carburant (en € ) </h6>
+                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
                                     class="fas fa-ellipsis-v text-gray-400"></i></button>
                             <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
@@ -138,15 +224,129 @@
                                 <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
                                     here</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body">
-                        <div class="chart-area"><canvas height="320" style="display: block; width: 572px; height: 320px;"
-                                width="572"></canvas></div>
+                        <div class="chart-area">
+                            <canvas height="auto" id="myChart"></canvas>
+                        </div>
+                        @php
+                            $carburants = [];
+                            $recettes = [];
+                            $carbs = Carburant::all();
+                            $title = '';
+                            $total = 0;
+                            foreach ($carbs as $carb) {
+                                array_push($carburants, $carb->titre);
+                                $title = 'qte_' . strtolower($carb->titre);
+                                if ($carb->titre == 'D-ENERGIE') {
+                                    $title = 'qte_denergie';
+                                }
+                                $releves1 = Releve::all();
+                                foreach ($releves1 as $r) {
+                                    $total += $r->$title;
+                                }
+                                array_push($recettes, $total);
+                                $total = 0;
+                            }
+                        @endphp
+                        <script type="text/javascript">
+                            var labels = {!! json_encode($carburants) !!};
+                            var users = {!! json_encode($recettes) !!};
+                            console.log(users);
+
+                            const data = {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'recette ',
+                                    // backgroundColor: 'rgb(255, 99, 132)',
+                                    // borderColor: 'rgb(255, 99, 132)',
+                                    data: users,
+                                }]
+                            };
+
+                            const config = {
+                                type: 'bar',
+                                data: data,
+                                options: {}
+                            };
+
+                            const myChart = new Chart(
+                                document.getElementById('myChart'),
+                                config
+                            );
+                        </script>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5 col-xl-4">
+            <div class="col-lg-6 col-xl-6">
+                <div class="card shadow mb-4 h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0">Recette par caissier (en € )</h6>
+                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
+                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
+                                    here</a>
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas height="auto" id="myChart2"></canvas>
+                        </div>
+                        @php
+                            $users = [];
+                            $recettes = [];
+                            $usrs = User::where('role', 1)->get();
+                            $total = 0;
+                            foreach ($usrs as $user) {
+                                array_push($users, $user->nom);
+                                $rel1 = Releve::where('user_id', $user->id)->get();
+                                foreach ($rel1 as $r1) {
+                                    # code...
+                                    $total += $r1->totalPdf;
+                                }
+                                array_push($recettes, $total);
+                                $total = 0;
+                            
+                                # code...
+                            }
+                            
+                        @endphp
+                        <script type="text/javascript">
+                            var labelss = {!! json_encode($users) !!};
+                            var userss = {!! json_encode($recettes) !!};
+                            console.log(users);
+
+                            const dataa = {
+                                labels: labelss,
+                                datasets: [{
+                                    label: 'recette ',
+                                    // backgroundColor: 'rgb(255, 99, 132)',
+                                    // borderColor: 'rgb(255, 99, 132)',
+                                    data: userss,
+                                }]
+                            };
+
+                            const configg = {
+                                type: 'bar',
+                                data: dataa,
+                                options: {}
+                            };
+
+                            const myChartt = new Chart(
+                                document.getElementById('myChart2'),
+                                configg
+                            );
+                        </script>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="col-lg-5 col-xl-4">
                 <div class="card shadow mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0">Consommation moyenne par jour ( {{ date('m/Y') }})</h6>
@@ -175,7 +375,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     @else
         {{-- <div class="d-sm-flex justify-content-between align-items-center mb-4">

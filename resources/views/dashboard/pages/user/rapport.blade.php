@@ -76,8 +76,9 @@
                               .then(res => {
                                   $("#tbody").html(``)
                                   $("#spinner").fadeOut()
+                                  table.destroy();
                                   if (res.data.length !== 0) {
-                                      table.destroy();
+                                      $("#tbody").html(``)
                                       res.data.map((releve, index) => {
 
                                           console.log(releve);
@@ -91,7 +92,6 @@
                                           `)
                                       })
                                   } else {
-                                      table.destroy();
                                       $("#tbody").html(``)
                                   }
                                   $('#table_rapport_mensuel').DataTable();
