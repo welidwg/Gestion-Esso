@@ -1,11 +1,11 @@
   @extends('dashboard/base')
   @section('title')
-      Journal caisse
+      Vos relevés
   @endsection
   @section('content')
       <div class="card shadow">
           <div class="card-header py-3 d-flex align-items-center justify-content-start">
-              <p class="text-primary m-0 fw-bold fs-5"> Journal caisse
+              <p class="text-primary m-0 fw-bold fs-5"> Vos relevés
 
               </p>
 
@@ -29,7 +29,6 @@
                               <th>Date</th>
                               <th>Heure debut</th>
                               <th>Heure fin</th>
-                              <th>Caissier</th>
                               <th>Total Saisie</th>
                               <th>Total Rapport</th>
                               <th>Différence</th>
@@ -44,7 +43,6 @@
                                   <td>{{ $releve->date_systeme }}</td>
                                   <td>{{ $releve->heure_d }}</td>
                                   <td>{{ $releve->heure_f }}</td>
-                                  <td>{{ $releve->caissier->nom }}</td>
                                   <td>{{ $releve->totalSaisie }}</td>
                                   <td>{{ $releve->totalPdf }}</td>
                                   <td>{{ $releve->diff }}</td>
@@ -53,12 +51,14 @@
                                           <form action="{{ route('releve.destroy', $releve->id) }}" method="POST">
                                               @method('DELETE')
                                               @csrf
+                                              <a href="{{ route('releve.edit', $releve->id) }}"><i
+                                                      class="fas fa-edit text-primary"></i></a>
                                               <a href="{{ route('releve.show', $releve->id) }}"><i
-                                                      class="fas fa-eye text-info"></i></a>
-                                              <button type="submit" class="btn bg-transparent border-none"
+                                                      class="fas fa-eye text-dark"></i></a>
+                                              {{-- <button type="submit" class="btn bg-transparent border-none"
                                                   id="delete_releve{{ $releve->id }}"
                                                   onclick="return confirm('Vois etes sur ?')"><i
-                                                      class="fas fa-trash text-danger"></i></button>
+                                                      class="fas fa-trash text-danger"></i></button> --}}
                                           </form>
                                       </div>
                                   </td>
@@ -78,5 +78,5 @@
               $('#table_index_releve').DataTable();
           });
       </script>
-      <script src="{{ asset('/js/releve.js') }}"></script>
+      {{-- <script src="{{ asset('/js/releve.js') }}"></script> --}}
   @endsection

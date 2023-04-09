@@ -67,6 +67,12 @@
                             jour stock</span></a>
 
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'caissier.releves' ? 'active' : '' }}"
+                        href="{{ route('caissier.releves') }}"><i class="fas fa-file"></i><span>Vos
+                            relevés</span></a>
+
+                </li>
             @endif
         </ul>
         {{-- <div class="text-center d-none d-md-inline">

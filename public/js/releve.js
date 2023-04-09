@@ -45,8 +45,24 @@ $("#generateTotalSaisiePdf").on("click", (e) => {
 setInterval(() => {
     let total1 = $("#totalSaisie").val();
     let total2 = $("#totalSaisiePdf").val();
+    let inp = document.getElementById("diff");
+    $("#diff").css("color", "white !important");
+    $("#diff").css("background-color", "limegreen !important");
+
     if (total1 !== 0 && total2 !== 0) {
-        $("#diff").val(total1 - total2);
+        let diff = total1 - total2;
+        inp.style.color = "white";
+
+        $("#diff").val(diff);
+        if (diff == 0) {
+            $("#diff").css("color", "white !important");
+            $("#diff").css("background-color", "limegreen !important");
+            inp.style.backgroundColor = "limegreen";
+        } else {
+            // $("#diff").addClass("bg-danger text-white");
+            inp.style.backgroundColor = "red";
+        }
+        console.log(diff);
     }
 }, 1200);
 
@@ -72,6 +88,11 @@ $("#add_releve_form").on("submit", (e) => {
             // console.error();
             let errors = err.response.data;
             console.log(errors);
+            Swal.fire(
+                "Operation Echouée !",
+                err.response.data.message,
+                "error"
+            );
 
             // $("#errors").html(errors.message);
         });

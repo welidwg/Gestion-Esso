@@ -54,3 +54,44 @@ $("#user_auth_form").on("submit", (e) => {
 </div>`);
         });
 });
+
+$("#form_delete_user").on("submit", (e) => {
+    e.preventDefault();
+});
+
+$("#edit_user_form").on("submit", (e) => {
+    e.preventDefault();
+    $(".errors").html("");
+    axios
+        .post(
+            $("#edit_user_form").attr("action"),
+            $("#edit_user_form").serialize()
+        )
+        .then((res) => {
+            // console.log(res);
+            Swal.fire("Operation Réussite !", res.data.message, "success");
+            $(".errors").html("");
+            setTimeout(() => {
+                window.location.href = "/caissier";
+            }, 700);
+        })
+        .catch((err) => {
+            // console.error();
+            // let errors = err.response.data;
+            // if (errors.message.login !== undefined) {
+            //     $("#username_error").html(errors.message.login[0]);
+            // }
+            // if (errors.message.password !== undefined) {
+            //     $("#password_error").html(errors.message.password[0]);
+            // }
+            // if (errors.message.code !== undefined) {
+            //     $("#code_error").html(errors.message.code[0]);
+            // }
+            console.log(err.message);
+            Swal.fire(
+                "Operation Echouée!",
+                "Erreur de serveur.Veuillez réssayer ultérieurement",
+                "error"
+            );
+        });
+});

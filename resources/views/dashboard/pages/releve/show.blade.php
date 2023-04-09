@@ -16,6 +16,7 @@
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
                                             début</strong></label><input class="form-control" type="time" required
                                         id="heure_d" placeholder="" value='{{ $releve->heure_d }}' name="heure_d"></div>
+
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
@@ -24,14 +25,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Date
-                                        </strong></label><input class="form-control bg-light" type="text" required
-                                        value="{{ date('d/m/Y', strtotime($releve->date_systeme)) }}" readonly
-                                        id="date_systeme" placeholder="" name="date_systeme"></div>
+                                        </strong></label><input readonly class="form-control bg-light" type="text"
+                                        required value="{{ date('d/m/Y', strtotime($releve->date_systeme)) }}"
+                                        @if (Auth::user()->role == 0) readonly @endif id="date_systeme" placeholder=""
+                                        name="date_systeme"></div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Code caissier
-                                        </strong></label><input class="form-control bg-light" type="text" required
-                                        value="{{ $releve->caissier->code }}" readonly id="code" placeholder=""
+                                        </strong></label><input readonly class="form-control bg-light" type="text"
+                                        required value="{{ $releve->caissier->code }}"
+                                        @if (Auth::user()->role == 0) readonly @endif id="code" placeholder=""
                                         name="code"></div>
                             </div>
                             {{-- <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
@@ -107,9 +110,10 @@
                                     </div>
                                     <div class="col-md-2 ">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                                    Total</strong> </label><input class="form-control bg-light"
-                                                type="number" required id="totalSaisie" placeholder=""
-                                                name="totalSaisie" readonly step="0.01" min="0"
+                                                    Total</strong> </label><a href="#!" id="generateTotalSaisie"
+                                                class="text-dark"><i class="fas fa-calculator"></i></a><input
+                                                class="form-control bg-light" type="number" required id="totalSaisie"
+                                                placeholder="" name="totalSaisie" readonly step="0.01" min="0"
                                                 value="{{ $releve->totalSaisie }}">
 
 
@@ -236,7 +240,7 @@
                                             style="display: none" id="check-done"></i>
                                         <i class="fas fa-times text-danger" id="check-error"
                                             style="display: none"></i></label><input class="form-control " type="number"
-                                        required id="diff" placeholder="" name="diff" readonly step="0.01"
+                                        required id="diff" placeholder="" name="diff" readonly
                                         value="{{ $releve->diff }}">
 
 
@@ -266,12 +270,19 @@
 
     </div>
     <script>
-        $('input').attr('readonly', true);
-        $('input').addClass("bg-light");
-        $('input').addClass("shadow-none text-dark");
+        // $('input').attr(' @if (Auth::user()->role == 0)
+        //     readonly
+        // @endif
+        // ', true);
+        // $('input').addClass("bg-light");
+        // $('input').addClass("shadow-none text-dark");
 
-        $('textarea').addClass("bg-light");
-        $('textarea').addClass("shadow-none");
-        $('textarea').attr('readonly', true);
+        // $('textarea').addClass("bg-light");
+        // $('textarea').addClass("shadow-none");
+        // $('textarea').attr(' @if (Auth::user()->role == 0)
+        //     readonly
+        // @endif
+        // ', true);
     </script>
+    <script src="{{ asset('/js/releve.js') }}"></script>
 @endsection

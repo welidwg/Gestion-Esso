@@ -29,10 +29,10 @@
                                         name="date_systeme"></div>
                             </div>
                             <div class="col-md-3">
-                                <div class="mb-3"><label class="form-label" for=""><strong>Code caissier
+                                <div class="mb-3"><label class="form-label" for=""><strong>Nom du caissier
                                         </strong></label><input class="form-control bg-light" type="text" required
-                                        value="{{ Auth::user()->code }}" readonly id="code" placeholder=""
-                                        name="code"></div>
+                                        value="{{ Auth::user()->nom }}" readonly id="nom" placeholder=""
+                                        name="nom"></div>
                             </div>
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                         </div>
@@ -47,7 +47,8 @@
                             </div> --}}
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold text-dark">-Les montants calculée </legend>
+                                <legend class="fw-bold text-dark"><i class="far fa-user"></i> Les montants calculée
+                                </legend>
                                 <div class="row">
                                     <div class="col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
@@ -121,7 +122,8 @@
                         </div>
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold text-dark">-Les montants calculée à partie du rapport </legend>
+                                <legend class="fw-bold text-dark"><i class="fal fa-file-alt"></i> Les montants calculée à
+                                    partie du rapport </legend>
                                 <div class="row">
                                     <div class="col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
@@ -195,6 +197,33 @@
                                 </div>
                             </fieldset>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="first_name"><strong>
+                                            Différence entre les Totaux</strong>
+
+
+                                    </label><input class="form-control " type="number" required id="diff"
+                                        placeholder="" name="diff" readonly step="0.01" value="0">
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label" for="first_name">
+                                        <strong>
+                                            S'il y a une différence , saisissez les causes
+                                        </strong>
+                                    </label>
+                                    <textarea class="form-control " id="diffExp" placeholder="" name="explication" step="0.01" value="0"></textarea>
+
+
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
                                 <legend class="fw-bold ">-Les quantités Vendues (à
@@ -224,32 +253,6 @@
 
                                 </div>
                             </fieldset>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                            Différence entre les Totaux</strong> <i class="fas fa-check text-success"
-                                            style="display: none" id="check-done"></i>
-                                        <i class="fas fa-times text-danger" id="check-error"
-                                            style="display: none"></i></label><input class="form-control " type="number"
-                                        required id="diff" placeholder="" name="diff" readonly step="0.01"
-                                        value="0">
-
-
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label class="form-label" for="first_name">
-                                        <strong>
-                                            S'il y a une différence , saisissez les causes
-                                        </strong>
-                                    </label>
-                                    <textarea class="form-control " id="diff" placeholder="" name="explication" step="0.01" value="0"></textarea>
-
-
-                                </div>
-                            </div>
                         </div>
                         <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit">Terminer la
                                 journée</button>

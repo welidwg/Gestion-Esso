@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Carburant;
 use App\Models\Compte;
+use App\Models\HeureTravail;
 use App\Models\Releve;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\Stub\ReturnStub;
 
@@ -55,28 +57,47 @@ class ReleveControllerA extends Controller
             $data = $request->all();
             $data["date_systeme"] = date("Y-m-d");
             $title = "";
+            $checkHeures = HeureTravail::where("user_id", $request->user_id)->first();
+            $start = Carbon::parse($data["heure_d"]);
+            $end = Carbon::parse($data["heure_f"]);
+            $duration = $end->diffInMinutes($start) / 60;
 
-            foreach ($request->input("titles") as $v) {
-                if ($v == "D-ENERGIE") {
-                    $title = "qte_denergie";
+            // if ($checkHeures) {
+            //     $checkHeures->heures += $duration;
+            //     $checkHeures->month = date("m");
+            // } else {
+            //     $new = new HeureTravail();
+            //     $new->user_id = $request->user_id;
+            //     $new->heures = $duration;
+            //     $new->month = $request->user_id;
+            // }
+
+            $check = Releve::where("user_id", $request->user_id)->where("date_systeme", date("Y-d-m", strtotime($request->date_systeme)))->get();
+            if ($check->count() == 0) {
+                foreach ($request->input("titles") as $v) {
+                    if ($v == "D-ENERGIE") {
+                        $title = "qte_denergie";
+                    } else {
+                        $title = "qte_" . strtolower($v);
+                    }
+
+                    $this->updateCarburant($v, $data[$title]);
+
+                    # code...
+                }
+                $compte = Compte::where("id", "!=", null)->first();
+                if ($compte) {
+                    $compte->montant += $request->totalPdf;
+                    $compte->save();
                 } else {
-                    $title = "qte_" . strtolower($v);
+                    Compte::create(["montant" => $request->totalPdf]);
                 }
 
-                $this->updateCarburant($v, $data[$title]);
-
-                # code...
-            }
-            $compte = Compte::where("id", "!=", null)->first();
-            if ($compte) {
-                $compte->montant += $request->totalPdf;
-                $compte->save();
+                Releve::create($data);
+                return response(json_encode(["type" => "success", "message" => "Bien ajouté !"]), 200);
             } else {
-                Compte::create(["montant" => $request->totalPdf]);
+                return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter aujourd'hui !"]), 500);
             }
-
-            Releve::create($data);
-            return response(json_encode(["type" => "success", "message" => "Relevee bien ajouté !"]), 200);
         } catch (\Throwable $th) {
             return response(json_encode(["type" => "error", "message" => $th->getMessage()]), 500);
         }
@@ -104,6 +125,7 @@ class ReleveControllerA extends Controller
     public function edit(Releve $releve)
     {
         //
+        return view("dashboard.pages.caissier.editreleve", ["releve" => $releve]);
     }
 
     /**

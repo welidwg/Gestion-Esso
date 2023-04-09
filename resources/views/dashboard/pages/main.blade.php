@@ -7,6 +7,7 @@
     use App\Models\Releve;
     use App\Models\Carburant;
     use App\Models\User;
+    use Carbon\Carbon;
 @endphp
 @section('content')
     @if (Auth::user()->role == 0)
@@ -155,6 +156,14 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    // $start = Carbon::parse('10:30:00');
+                    
+                    // $end = Carbon::parse('12:45:00');
+                    // $duration = $end->diffInMinutes($start);
+                    // echo 'Duration: ' . $duration . ' minutes';
+                    // echo 'hours : ' . $duration / 60;
+                @endphp
                 {{-- <div class="col-md-6 col-xl-3 mb-4">
                 <div class="card shadow border-start-success py-2">
                     <div class="card-body">

@@ -8,7 +8,7 @@ $("#get_moyenne_form").on("submit", (e) => {
             if (res.data.length !== 0) {
                 Object.entries(res.data).forEach(function (key, value) {
                     if (key) {
-                        $(`#${key[0]}`).val(key[1]);
+                        $(`#${key[0]}`).val(parseFloat(key[1]).toFixed(2));
                     }
                 });
             } else {

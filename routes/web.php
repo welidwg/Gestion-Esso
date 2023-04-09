@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Carburant;
 use App\Models\FactureCaissier;
 use App\Models\Releve;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -44,12 +45,13 @@ Route::post("/user/auth", [UserController::class, "auth"])->name("backend.login"
 //     return view('dashboard/pages/add_user');
 // })->name("view.add_user");
 
-Route::post('/user/add', [UserController::class, "store"])->name("backend.add_user");
-Route::get('/caissier', [UserController::class, "index"])->name("user.caissier");
-Route::get('/caissier/{id}/rapport', [UserController::class, "rapport"])->name("user.rapport");
 
 Route::group(["middleware" => "auth"], function () {
     //views
+    Route::get('/migrate', function () {
+        Artisan::call('migrate');
+        dd('migrated!');
+    });
     Route::get('/main', function () {
         $dates = Releve::select('date_systeme')->whereMonth('date_systeme', date("m"))
             ->whereYear('date_systeme', date("Y"))->distinct()->get();
@@ -65,10 +67,23 @@ Route::group(["middleware" => "auth"], function () {
         return view('dashboard/pages/add_carburant');
     })->name("view.add_carburant")->middleware('admin');
     //controllers
+
+
     //user
 
     Route::post('/user/add', [UserController::class, "store"])->name("backend.add_user")->middleware('admin');
     Route::get('/user/logout', [UserController::class, "logout"])->name("logout");
+    Route::post('/user/add', [UserController::class, "store"])->name("backend.add_user");
+    Route::delete('/user/{id}', [UserController::class, "destory"])->name("user.destroy");
+    Route::get('/user/{id}', [UserController::class, "show"])->name("user.show");
+    Route::post('/user/{id}/edit', [UserController::class, "edit"])->name("user.edit");
+    Route::get('/caissier', [
+        UserController::class, "index"
+    ])->name("user.caissier");
+    Route::get('/caissier/releves', [UserController::class, "rapports"])->name("caissier.releves");
+    Route::get('/caissier/hours', [UserController::class, "hours"])->name("caissier.hours");
+    Route::get('/caissier/{month}/hours', [UserController::class, "getHours"])->name("caissier.getHours");
+    Route::get('/caissier/{id}/rapport', [UserController::class, "rapport"])->name("user.rapport");
 
 
     //compte
