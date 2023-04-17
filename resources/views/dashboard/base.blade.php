@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
-    <title> {{ env('APP_NAME', 'Kiosque') }} -
+    <title> {{ env('APP_NAME', 'Gestion Esso') }} -
         @section('title')
         @show
     </title>
