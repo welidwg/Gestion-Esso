@@ -134,16 +134,13 @@ function DeleteReleve(path) {
     axios
         .delete(path)
         .then((res) => {
-            console.log("====================================");
-            console.log(res);
-            console.log("====================================");
             // console.log(res);
             Swal.fire("Operation Réussite !", res.data.message, "success");
             // $(".errors").html("");
             // $("#add_kiosque_form").trigger("reset");
-            // setTimeout(() => {
-            //     window.location.href = "/main";
-            // }, 600);
+            setTimeout(() => {
+                window.location.href = "/main";
+            }, 600);
         })
         .catch((err) => {
             // console.error();

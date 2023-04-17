@@ -368,9 +368,7 @@
                                             let pv = $('#type_selected option:selected').data('pv');
                                             let qte = $('#type_selected option:selected').data('qte');
                                             let id = $('#type_selected option:selected').data('id');
-                                            console.log('====================================');
-                                            console.log(qte);
-                                            console.log('====================================');
+
                                             let type = $('#type_selected option:selected').data('type');
                                             if (value != "") {
                                                 if ($(".container-rows").find(`#row_${value}`).length > 0) {
@@ -414,9 +412,7 @@
                                         `)
                                                     let prixVC = $("#prixVC_" + id).val();
                                                     $("#qteC_" + id).on("input", (e) => {
-                                                        console.log('====================================');
-                                                        console.log(e.target.value);
-                                                        console.log('====================================');
+
                                                         if (e.target.value !== 0 && !isNaN(e.target.value)) {
                                                             $(`#montantC_${id}`).val(parseFloat(e.target.value * prixVC).toFixed(2))
                                                         }
