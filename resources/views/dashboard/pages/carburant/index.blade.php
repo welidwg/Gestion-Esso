@@ -21,7 +21,8 @@
                           <a class="dropdown-item" href="{{ route('carburant.prix') }}"><i class="fas fa-pen"></i>
                               Modifier
                               prix d'achat</a>
-                          <a class="dropdown-item" href="{{ route('carburant.prixV') }}"><i class="fas fa-pen"></i>
+                          <a class="dropdown-item text-success fw-bold" href="{{ route('carburant.prixV') }}"><i
+                                  class="fas fa-pen"></i>
                               Modifier
                               prix de vente</a>
                           <a class="dropdown-item" href="{{ route('carburant.seuil') }}"><i class="fas fa-pen"></i>
