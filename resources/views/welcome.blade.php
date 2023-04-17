@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Kiosque - Se connecter</title>
+    <title>Gestion Esso - Se connecter</title>
     <link rel="stylesheet" href="{{ asset('assets/fa/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
