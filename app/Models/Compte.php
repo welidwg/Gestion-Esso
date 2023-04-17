@@ -17,20 +17,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Compte extends Model
 {
-    
-    static $rules = [
-		'montant' => 'required',
-    ];
 
-    protected $perPage = 20;
+  static $rules = [
+    'montant' => 'required',
+  ];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['montant'];
+  protected $perPage = 20;
 
-
-
+  /**
+   * Attributes that should be mass-assignable.
+   *
+   * @var array
+   */
+  protected $fillable = ['montant', "tva_achat", "tva_encaisse"];
 }

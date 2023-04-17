@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHeureTravailsTable extends Migration
+class CreateAchatCigarettesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateHeureTravailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('heure_travails', function (Blueprint $table) {
+        Schema::create('achat_cigarettes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->references('id')->on("users")->onDelete("cascade");
-            $table->float("heures")->default(0);
-            $table->integer("month");
+            $table->date("date_achat");
+            $table->float("total")->default(0);
+            $table->json("achat");
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateHeureTravailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('heure_travails');
+        Schema::dropIfExists('achat_cigarettes');
     }
 }

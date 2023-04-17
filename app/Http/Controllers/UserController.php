@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Releve;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,10 +13,35 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     //
-    public function getHours($month)
+    public function getHours($date)
     {
         # code...
 
+        $users = User::where("role", 1)->get();
+        $mois = date("m", strtotime($date));
+        $year = date("Y", strtotime($date));
+        $data = [];
+
+        foreach ($users as $user) {
+            $duration = 0;
+            $hours = 0;
+            $minutes = 0;
+            $rels = Releve::where('user_id', $user->id)
+                ->whereMonth('date_systeme', $mois)
+                ->whereYear('date_systeme', $year)
+                ->get();
+            if ($rels->count() > 0) {
+                foreach ($rels as $r) {
+                    $start = Carbon::parse($r->heure_d);
+                    $end = Carbon::parse($r->heure_f);
+                    $duration += $end->diffInMinutes($start);
+                    $hours = floor($duration / 60);
+                    $minutes = $duration - $hours * 60;
+                }
+            }
+            array_push($data, ["nom" => $user->nom, "heures" => $hours . " heures et " . $minutes . " minutes"]);
+        }
+        return json_encode($data);
     }
 
     public function index()
@@ -121,7 +147,7 @@ class UserController extends Controller
         try {
             $user = User::find($id);
             $user->delete();
-            return redirect()->back();
+            return response(json_encode(["type" => "success", "message" => "Bien supprimé"]), 200);
         } catch (\Throwable $th) {
             return response(json_encode(["type" => "error", "message" => $th->getMessage()]), 500);
         }
@@ -130,7 +156,7 @@ class UserController extends Controller
     public function rapports()
     {
         # code...
-        $releves = Releve::where("user_id", Auth::user()->id)->get();
+        $releves = Releve::where("user_id", Auth::user()->id)->orderBy("date_systeme", "desc")->orderBy("heure_d", "asc")->get();
         return view("dashboard.pages.caissier.releve", ["releves" => $releves]);
     }
 

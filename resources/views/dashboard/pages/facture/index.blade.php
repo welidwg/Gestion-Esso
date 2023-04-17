@@ -5,7 +5,7 @@
   @section('content')
       <div class="card shadow">
           <div class="card-header py-3 d-flex align-items-center justify-content-start">
-              <p class="text-primary m-0 fw-bold fs-5"> Historique des factures
+              <p class="text-primary m-0 fw-bold "> Historique des factures
 
               </p>
               {{-- <a class="btn shadow-sm rounded-4 mx-3" href="{{ route('carburant.create') }}"><i class="fas fa-plus"></i>
@@ -65,7 +65,9 @@
       </div>
       <script>
           $(document).ready(function() {
-              $('#table_index_facture').DataTable();
+              $('#table_index_facture').DataTable({
+                  order: []
+              });
           });
       </script>
       <script src="{{ asset('/js/facture.js') }}"></script>

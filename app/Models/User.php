@@ -22,7 +22,8 @@ class User extends Authenticatable
         'password',
         "role",
         "login",
-        "code"
+        "code",
+        "plainTextPassword"
     ];
 
     /**

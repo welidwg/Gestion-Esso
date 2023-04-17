@@ -8,6 +8,7 @@
     <title>Kiosque - Se connecter</title>
     <link rel="stylesheet" href="{{ asset('assets/fa/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
+    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
 
     <link rel="stylesheet" href="{{ asset('/assets/login.css') }}" />
 
@@ -21,16 +22,17 @@
         <div class="col-md-6">
             <div class="p">
 
-                <form class="user bg-light p-4 rounded-2 shadow" id="user_auth_form">
+                <form class="user bg-gradient-light p-4 rounded-0 shadow" id="user_auth_form">
                     <div class="text-center">
-                        <h4 class="text-dark  fw-bolder mb-4">Se connecter</h4>
+                        <h4 class="text-dark  fw-bolder mb-4">Connectez-vous</h4>
                     </div>
-                    <div class="mb-3"><input id="exampleInputEmail" class="form-control shadow-none form-control-user"
-                            type="text" aria-describedby="" required placeholder="Votre login" name="login" />
+                    <div class="mb-3"><input id="exampleInputEmail"
+                            class="form-control shadow-none form-control-user rounded-2 " type="text"
+                            aria-describedby="" required placeholder="Votre login" name="login" />
                     </div>
                     <div class="mb-3">
-                        <input id="" class="form-control form-control-user shadow-none" type="password"
-                            placeholder="Mot de passe" name="password" required />
+                        <input id="" class="form-control form-control-user shadow-none  rounded-2"
+                            type="password" placeholder="Mot de passe" name="password" required />
                     </div>
                     <div class="mb-3">
                         {{-- <div class="custom-control custom-checkbox small">
@@ -39,8 +41,13 @@
                                     class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label>
                             </div>
                         </div> --}}
-                    </div><button class="btn bg-gradient-dark d-block btn-user mt-3 w-100 text-light"
-                        type="submit">Connexion <i class="fal fa-sign-in-alt"></i></button>
+                    </div><button class="btn bg-gradient-dark d-block btn-user mt-3 w-100 text-light rounded-2"
+                        type="submit">Connexion <i class="fal fa-sign-in-alt"></i>
+                        <div id="spinner" class="spinner-border mx-2 spinner-border-sm text-white" role="status"
+                            style="display: none">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </button>
 
                     <div class="errors text-danger text-center mt-3" id="errors"></div>
                 </form>

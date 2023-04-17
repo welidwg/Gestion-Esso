@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3"><label class="form-label" for="username"><strong>Code
-                                        </strong></label><input class="form-control" type="text" required id="code"
+                                        </strong></label><input class="form-control" type="number" required id="code"
                                         placeholder="" name="code"></div>
                                 <div class="text-danger errors" id="code_error"></div>
                             </div>
@@ -54,8 +54,9 @@
                                             Type
                                             d'utilisateur</strong></label>
                                     <select class="form-select" name="role">
-                                        <option value="0">Administrateur</option>
                                         <option value="1">Caissier</option>
+                                        <option value="0">Administrateur</option>
+
                                     </select>
                                 </div>
                             </div>

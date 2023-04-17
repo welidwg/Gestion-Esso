@@ -123,6 +123,12 @@ class CarburantControllerA extends Controller
         $all = Carburant::all();
         return view("dashboard.pages.carburant.prixA", ["carburants" => $all]);
     }
+    public function prixV()
+    {
+        # code...
+        $all = Carburant::all();
+        return view("dashboard.pages.carburant.prixV", ["carburants" => $all]);
+    }
     public function editjauge(Request $req)
     {
         # code...
@@ -173,10 +179,10 @@ class CarburantControllerA extends Controller
         $data = "";
         foreach ($all as $v) {
             $data = "marge_beneficiere" . $v->id;
-            $newPV = $v->prixA * (1 + $req->$data);
+            // $newPV = $v->prixA * (1 + $req->$data);
             $v->marge_beneficiere = $req->$data;
-            $v->prixV = $newPV;
-            $v->valeur_stock = $v->qtiteStk * $newPV;
+            // $v->prixV = $newPV;
+            // $v->valeur_stock = $v->qtiteStk * $newPV;
             $v->save();
             # code...
         }
@@ -207,6 +213,27 @@ class CarburantControllerA extends Controller
 
         return "done";
     }
+    public function editPrixV(Request $req)
+    {
+        # code...
+        $all = Carburant::all();
+        $column = "";
+        $data = "";
+        foreach ($all as $v) {
+            $data = "prixV" . $v->id;
+            if ($v->prixV != $req->$data) {
+                $v->prixV = $req->$data;
+                $v->valeur_stock = $v->qtiteStk * $req->$data;
+                $v->save();
+            }
+
+
+            # code...
+        }
+
+        return "done";
+    }
+
     public function majSeuilCalcule(Request $req)
     {
         $carbs = Carburant::all();
@@ -214,39 +241,47 @@ class CarburantControllerA extends Controller
         $data = "";
         $moyennes = [];
         $test = 0;
+        foreach ($carbs as $carburant) {
+            $moyennes[$carburant->titre] = $carburant->seuilA;
+        }
         $dates = Releve::select('date_systeme')->whereBetween("date_systeme", [date("Y-m-d", strtotime($oneWeekAgo)), date("Y-m-d")])->distinct()->get();
         foreach ($dates as $date) {
             $rels = Releve::where('date_systeme', '=', $date->date_systeme)->get();
             if ($rels) {
-
                 foreach ($rels as $rel) {
+                    $ventes = json_decode($rel->vente);
                     foreach ($carbs as $carburant) {
                         $total = 0;
-                        $title = 'qte_' . strtolower($carburant->titre);
-                        if ($carburant->titre == 'D-ENERGIE') {
-                            $title = 'qte_denergie';
-                        }
-                        if ($rel->$title != 0.0) {
-                            $total += $rel->$title;
-                            // echo $rel->$title . ' ';
-                            if (isset($moyennes[$carburant->titre])) {
-                                $moyennes[$carburant->titre] += $total;
-                                // array_merge($moyennes, [$carburant->titre => $total]);
-                            } else {
-                                $moyennes["$carburant->titre"] = $total;
+                        foreach ($ventes as $vente) {
+                            foreach ($vente as $k => $v) {
+                                if ($k == $carburant->titre) {
+                                    $total += $v->qte;
+                                    if (isset($moyennes[$carburant->titre])) {
+                                        $moyennes[$carburant->titre] += $total;
+                                    } else {
+                                        $moyennes[$carburant->titre] = $total;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        foreach ($moyennes as $k => $v) {
-            $carb = Carburant::where("titre", $k)->first();
-            $moyennes[$k] = (($v / 7) * 3) + $carb->seuilA;
-            $carb->seuil = (($v / 7) * 3) + $carb->seuilA;
-            $carb->save();
-            // $test = $carb;
+        if (count($moyennes) !== 0) {
+            foreach ($moyennes as $k => $v) {
+                $carb = Carburant::where("titre", $k)->first();
+                if ($carb->seuilA == $v) {
+                    $carb->seuil = $carb->seuilA;
+                } else {
+                    $moyennes[$k] = (($v / 7) * 3) + $carb->seuilA;
+                    $carb->seuil = (($v / 7) * 3) + $carb->seuilA;
+                }
+                $carb->save();
+
+                // $test = $carb;
+            }
         }
-        return json_encode($moyennes);
+        return json_encode(count($moyennes));
     }
 }

@@ -2,10 +2,13 @@
   @section('title')
       Journal caisse
   @endsection
+  @php
+      use Carbon\Carbon;
+  @endphp
   @section('content')
       <div class="card shadow">
           <div class="card-header py-3 d-flex align-items-center justify-content-start">
-              <p class="text-primary m-0 fw-bold fs-5"> Journal caisse
+              <p class="text-primary m-0 fw-bold"> Journal caisse
 
               </p>
 
@@ -30,6 +33,7 @@
                               <th>Heure debut</th>
                               <th>Heure fin</th>
                               <th>Caissier</th>
+                              <th>Total heures</th>
                               <th>Total Saisie</th>
                               <th>Total Rapport</th>
                               <th>Différence</th>
@@ -45,6 +49,17 @@
                                   <td>{{ $releve->heure_d }}</td>
                                   <td>{{ $releve->heure_f }}</td>
                                   <td>{{ $releve->caissier->nom }}</td>
+
+                                  <td>
+                                      @php
+                                          $start = Carbon::parse($releve->heure_d);
+                                          $end = Carbon::parse($releve->heure_f);
+                                          $duration = $end->diffInMinutes($start);
+                                          $hours = floor($duration / 60);
+                                          $minutes = $duration - $hours * 60;
+                                      @endphp
+                                      {{ $hours . ' heures et ' . $minutes . ' mins' }}
+                                  </td>
                                   <td>{{ $releve->totalSaisie }}</td>
                                   <td>{{ $releve->totalPdf }}</td>
                                   <td>{{ $releve->diff }}</td>
@@ -75,7 +90,9 @@
       </div>
       <script>
           $(document).ready(function() {
-              $('#table_index_releve').DataTable();
+              $('#table_index_releve').DataTable({
+                  "order": []
+              });
           });
       </script>
       <script src="{{ asset('/js/releve.js') }}"></script>

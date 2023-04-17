@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarburantController;
 use App\Http\Controllers\CarburantControllerA;
+use App\Http\Controllers\CigaretteController;
 use App\Http\Controllers\CompteController;
 use App\Http\Controllers\FactureCaissierController;
 use App\Http\Controllers\FactureController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ReleveControllerA;
 use App\Http\Controllers\StatController;
 use App\Http\Controllers\UserController;
 use App\Models\Carburant;
+use App\Models\Cigarette;
 use App\Models\FactureCaissier;
 use App\Models\Releve;
 use Illuminate\Support\Facades\Artisan;
@@ -52,6 +54,10 @@ Route::group(["middleware" => "auth"], function () {
         Artisan::call('migrate');
         dd('migrated!');
     });
+    Route::get('/optimize', function () {
+        Artisan::call('optimize');
+        dd('optimized!');
+    });
     Route::get('/main', function () {
         $dates = Releve::select('date_systeme')->whereMonth('date_systeme', date("m"))
             ->whereYear('date_systeme', date("Y"))->distinct()->get();
@@ -83,7 +89,11 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/caissier/releves', [UserController::class, "rapports"])->name("caissier.releves");
     Route::get('/caissier/hours', [UserController::class, "hours"])->name("caissier.hours");
     Route::get('/caissier/{month}/hours', [UserController::class, "getHours"])->name("caissier.getHours");
-    Route::get('/caissier/{id}/rapport', [UserController::class, "rapport"])->name("user.rapport");
+    Route::get(
+        '/caissier/{id}/rapport',
+        [UserController::class, "rapport"]
+    )->name("user.rapport");
+    // Route::get('/caissier/heures/{month}', [UserController::class, "rapport"])->name("caissier.heures");
 
 
     //compte
@@ -113,6 +123,10 @@ Route::group(["middleware" => "auth"], function () {
         [CarburantControllerA::class, "editPrixA"]
     )->name("carburant.editPrixA")->middleware("admin");
     Route::post(
+        "/carburant/editPrixV",
+        [CarburantControllerA::class, "editPrixV"]
+    )->name("carburant.editPrixV")->middleware("admin");
+    Route::post(
         "/carburant/majSeuilCalcule",
         [CarburantControllerA::class, "majSeuilCalcule"]
     )->name("carburant.majSeuilCalcule")->middleware("admin");;
@@ -120,6 +134,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get("/carburant/seuil", [CarburantControllerA::class, "seuil"])->name("carburant.seuil")->middleware("admin");
     Route::get("/carburant/marge", [CarburantControllerA::class, "marge"])->name("carburant.marge")->middleware("admin");
     Route::get("/carburant/prix", [CarburantControllerA::class, "prixA"])->name("carburant.prix")->middleware("admin");
+    Route::get("/carburant/prixV", [CarburantControllerA::class, "prixV"])->name("carburant.prixV")->middleware("admin");
     Route::resource("carburant", CarburantControllerA::class)->middleware("admin");
 
 
@@ -146,6 +161,23 @@ Route::group(["middleware" => "auth"], function () {
         return response("not found", 404);
     });
     Route::resource("facture", FactureController::class);
+
+    //cigarettes
+
+
+    Route::get("cigarette/achat", [CigaretteController::class, "achat"])->name("cigarette.achat")->middleware("admin");
+    Route::get("cigarette/historique", [CigaretteController::class, "historique"])->name("cigarette.historique")->middleware("admin");
+    Route::get("cigarette/{id}/prixv", [CigaretteController::class, "prixV"])->name("cigarette.prixV")->middleware("admin");
+    Route::put("cigarette/achat/create", [CigaretteController::class, "achat_store"])->name("cigarette.achat_store")->middleware("admin");
+    Route::put("cigarette/{id}/editprix", [CigaretteController::class, "editPrixV"])->name("cigarette.editPrixV")->middleware("admin");
+    Route::resource("cigarette", CigaretteController::class)->middleware("admin");
+
+
+
+
+
+
+
     //stats
     Route::get("/stats/moyenne", function () {
         $carbs = Carburant::all();

@@ -49,28 +49,21 @@ class FactureCaissierController extends Controller
             $facture->user_id = Auth::id();
             $carbs = Carburant::all();
             foreach ($carbs as $carb) {
-                # code...
-                $data = [];
-                $prixA = $carb->prixA;
-                $qte = $carb->qtiteStk;
                 if ($request->has("qte_$carb->titre")) {
                     $newQte = $request->input("qte_$carb->titre");
-                    $pa = ($request->input("prixA_$carb->id") * $this->tva);
-                    $pv = $pa * (1 + $carb->marge_beneficiere);
-                    $vs = ($carb->qtiteStk + $newQte) * $pv;
-                    array_push($data, ["prixAHT" => $request->input("prixA_$carb->id"), "prixATTC" => $pa, "qte" => $newQte]);
-                    $carb->prixA = $pa;
-                    $carb->prixV = $pv;
+
+                    $vs = ($carb->qtiteStk + $newQte) * $carb->prixV;
+
                     $carb->qtiteStk += $newQte;
                     $carb->valeur_stock = $vs;
                     $carb->save();
                     $title =  $carb->titre;
-                    $facture->$title = json_encode($data);
+                    $facture->$title = $newQte;
                 }
             }
             $facture->save();
             // Facture::create($request->all());
-            return response(json_encode(["type" => "success", "message" => "Facture bien ajoutée !"]), 200);
+            return response(json_encode(["type" => "success", "message" => "Stock est à jour !"]), 200);
         } catch (\Throwable $th) {
             return response(json_encode(["type" => "error", "message" => $th->getMessage()]), 500);
         };

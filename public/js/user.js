@@ -34,6 +34,8 @@ $("#user_auth_form").on("submit", (e) => {
     // let data = new FormData()
     e.preventDefault();
     $(".errors").html("");
+    $("#spinner").fadeIn();
+
     axios
         .post("/user/auth", $("#user_auth_form").serialize())
         .then((res) => {
@@ -41,6 +43,7 @@ $("#user_auth_form").on("submit", (e) => {
             // Swal.fire("Operation Réussite !", res.data.message, "success");
             $(".errors").html("");
             $("#user_auth_form").trigger("reset");
+            $("#spinner").fadeOut();
             setTimeout(() => {
                 window.location.href = "/main";
             }, 600);
@@ -49,15 +52,15 @@ $("#user_auth_form").on("submit", (e) => {
             // console.error();
             let errors = err.response.data;
             console.log(errors);
+            $("#spinner").fadeOut();
+
             $("#errors").html(`<div class="alert alert-danger" role="alert">
     ${errors.message}
 </div>`);
         });
 });
 
-$("#form_delete_user").on("submit", (e) => {
-    e.preventDefault();
-});
+
 
 $("#edit_user_form").on("submit", (e) => {
     e.preventDefault();

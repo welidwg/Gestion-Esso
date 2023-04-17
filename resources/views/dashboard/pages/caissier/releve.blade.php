@@ -51,8 +51,7 @@
                                           <form action="{{ route('releve.destroy', $releve->id) }}" method="POST">
                                               @method('DELETE')
                                               @csrf
-                                              <a href="{{ route('releve.edit', $releve->id) }}"><i
-                                                      class="fas fa-edit text-primary"></i></a>
+
                                               <a href="{{ route('releve.show', $releve->id) }}"><i
                                                       class="fas fa-eye text-dark"></i></a>
                                               {{-- <button type="submit" class="btn bg-transparent border-none"
@@ -75,7 +74,9 @@
       </div>
       <script>
           $(document).ready(function() {
-              $('#table_index_releve').DataTable();
+              $('#table_index_releve').DataTable({
+                  order: []
+              });
           });
       </script>
       {{-- <script src="{{ asset('/js/releve.js') }}"></script> --}}

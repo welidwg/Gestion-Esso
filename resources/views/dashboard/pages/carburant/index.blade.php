@@ -5,7 +5,7 @@
   @section('content')
       <div class="card shadow">
           <div class="card-header py-2 d-flex  justify-content-between align-items-center ">
-              <span class="text-primary m-0 fw-bold fs-5 d-flex  ">Carburants
+              <span class="text-primary m-0 fw-bold d-flex  ">Carburants
                   <div class="dropdown no-arrow  ">
                       <button class="btn  btn-sm dropdown-toggle mx-3 float-end" aria-expanded="false"
                           data-bs-toggle="dropdown" type="button">
@@ -21,6 +21,9 @@
                           <a class="dropdown-item" href="{{ route('carburant.prix') }}"><i class="fas fa-pen"></i>
                               Modifier
                               prix d'achat</a>
+                          <a class="dropdown-item" href="{{ route('carburant.prixV') }}"><i class="fas fa-pen"></i>
+                              Modifier
+                              prix de vente</a>
                           <a class="dropdown-item" href="{{ route('carburant.seuil') }}"><i class="fas fa-pen"></i>
                               Modifier
                               seuil absolu</a>

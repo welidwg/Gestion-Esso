@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-dark p-0">
+<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-dark p-0 toggled">
     <div class="container-fluid d-flex flex-column p-0">
         <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
             <div class="sidebar-brand-icon rotate-n-15">
@@ -29,8 +29,14 @@
                         href="{{ route('carburant.index') }}"><i class="fas fa-box-full"></i><span>Carburants</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-success {{ Route::currentRouteName() == 'cigarette.index' ? 'active' : '' }}"
+                        href="{{ route('cigarette.index') }}">
+                        <i class="fas fa-smoking text-success"></i>
+                        <span>Cigarettes</span></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'releve.index' ? 'active' : '' }}"
-                        href="{{ route('releve.index') }}"><i class="fas fa-file-chart-pie"></i><span>Journal
+                        href="{{ route('releve.index') }}"><i class="fas fa-file-chart-pie "></i><span>Journal
                             caisse</span></a>
                 </li>
                 <li class="nav-item">
@@ -44,9 +50,9 @@
                             factures</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'user.caissier' ? 'active' : '' }}"
-                        href="{{ route('user.caissier') }}"><i class="fas fa-users"></i><span>Vos
-                            caissiers</span></a>
+                    <a class="nav-link  {{ Route::currentRouteName() == 'user.caissier' ? 'active' : '' }}"
+                        href="{{ route('user.caissier') }}"><i class="fas fa-users"></i><span>
+                            Caissiers</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'view.add_user' ? 'active' : '' }}"

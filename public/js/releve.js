@@ -62,27 +62,60 @@ setInterval(() => {
             // $("#diff").addClass("bg-danger text-white");
             inp.style.backgroundColor = "red";
         }
-        console.log(diff);
     }
 }, 1200);
 
 $("#add_releve_form").on("submit", (e) => {
-    // e.prevenetDefault();
+    let totalSaisie = parseFloat($("#totalSaisie").val());
+    let totalSaisiePdf = parseFloat($("#totalSaisiePdf").val());
     e.preventDefault();
-    // $(".errors").html("");
+    $("#totalSaisiePdf").removeClass("border-danger");
+    $("#totalSaisie").removeClass("border-danger");
+    if (totalSaisie == 0 || totalSaisiePdf == 0) {
+        if (totalSaisie == 0) {
+            $("#totalSaisie").addClass("border-danger");
+        }
+        if (totalSaisiePdf == 0) {
+            $("#totalSaisiePdf").addClass("border-danger");
+        }
+        Swal.fire(
+            "Erreur !",
+            "Il faut calculer les totaux! <br> Appuyez sur <i class='fas fa-calculator text-primary'></i> afin de les calculer.",
+            "error"
+        );
+    } else {
+        axios
+            .post("/releve", $("#add_releve_form").serialize())
+            .then((res) => {
+                Swal.fire("Operation Réussite !", res.data.message, "success");
+                setTimeout(() => {
+                    window.location.href = "/caissier/releves";
+                }, 600);
+            })
+            .catch((err) => {
+                let errors = err.response.data;
+                console.log(errors);
+                Swal.fire(
+                    "Operation Echouée !",
+                    err.response.data.message,
+                    "error"
+                );
+            });
+    }
+});
+$("#edit_releve_form").on("submit", (e) => {
+    e.preventDefault();
     axios
-        .post("/releve", $("#add_releve_form").serialize())
+        .put(
+            $("#edit_releve_form").attr("action"),
+            $("#edit_releve_form").serialize()
+        )
         .then((res) => {
-            console.log("====================================");
-            console.log(res);
-            console.log("====================================");
-            // console.log(res);
             Swal.fire("Operation Réussite !", res.data.message, "success");
-            // $(".errors").html("");
-            // $("#add_kiosque_form").trigger("reset");
-            // setTimeout(() => {
-            //     window.location.href = "/main";
-            // }, 600);
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 600);
         })
         .catch((err) => {
             // console.error();
@@ -97,7 +130,6 @@ $("#add_releve_form").on("submit", (e) => {
             // $("#errors").html(errors.message);
         });
 });
-
 function DeleteReleve(path) {
     axios
         .delete(path)
@@ -120,4 +152,19 @@ function DeleteReleve(path) {
 
             // $("#errors").html(errors.message);
         });
+}
+
+function checkEcart(id_saisie, id_rapport, name) {
+    let first = $("#" + id_saisie).val();
+    let second = $("#" + id_rapport).val();
+    if (!isNaN(first) && !isNaN(second)) {
+        if (first !== second) {
+            console.log("====================================");
+            console.log(name + " est differnent");
+            console.log("====================================");
+        }
+    }
+}
+function deletRow(id) {
+    $(`#${id}`).remove();
 }

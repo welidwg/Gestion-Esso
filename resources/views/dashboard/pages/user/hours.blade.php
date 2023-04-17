@@ -34,39 +34,83 @@
                                     travail</strong></label>
                         </div>
                     </div>
-                    @foreach ($users as $user)
-                        @php
-                            $duration = 0;
-                            $hours = 0;
-                            $minutes = 0;
-                            $rels = Releve::where('user_id', $user->id)
-                                ->whereMonth('date_systeme', date('m'))
-                                ->get();
-                            foreach ($rels as $r) {
-                                $start = Carbon::parse($r->heure_d);
-                                $end = Carbon::parse($r->heure_f);
-                                $duration += $end->diffInMinutes($start);
-                                $hours = floor($duration / 60);
-                                $minutes = $duration - $hours * 60;
-                            }
-                        @endphp
-                        <div class="row">
-                            <div class="col-md-6">
+                    <div id="container-rows">
+
+
+                        @foreach ($users as $user)
+                            @php
+                                $duration = 0;
+                                $hours = 0;
+                                $minutes = 0;
+                                $rels = Releve::where('user_id', $user->id)
+                                    ->whereMonth('date_systeme', date('m'))
+                                    ->get();
+                                foreach ($rels as $r) {
+                                    $start = Carbon::parse($r->heure_d);
+                                    $end = Carbon::parse($r->heure_f);
+                                    $duration += $end->diffInMinutes($start);
+                                    $hours = floor($duration / 60);
+                                    $minutes = $duration - $hours * 60;
+                                }
+                            @endphp
+                            <div class="row ">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <input class="form-control bg-light text-dark" type="text" required
+                                            id="" placeholder="" name="nom" value="{{ $user->nom }}"
+                                            readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 d-flex">
+                                        <input class="form-control bg-light text-dark inputMoyenne" type="text"
+                                            step="0.01" required id="user_{{ $user->id }}"
+                                            value="{{ $hours . ' heures et ' . $minutes . ' minutes' }}" placeholder=""
+                                            name="user_{{ $user->id }}" />
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <script>
+                        $('#mois').on("change", (e) => {
+                            $("#spinner").fadeIn();
+                            $("#container-rows").html("")
+                            axios.get(`/caissier/${e.target.value}/hours`)
+                                .then(res => {
+                                    $("#spinner").fadeOut();
+
+                                    console.log(res.data)
+                                    res.data.map((item, i) => {
+                                        $("#container-rows").append(`
+                                        <div class="row ">
+                                          <div class="col-md-6">
                                 <div class="mb-3">
                                     <input class="form-control bg-light text-dark" type="text" required id=""
-                                        placeholder="" name="nom" value="{{ $user->nom }}" readonly />
+                                        placeholder="" name="nom" value="${item.nom}" readonly />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3 d-flex">
                                     <input class="form-control bg-light text-dark inputMoyenne" type="text"
                                         step="0.01" required id="user_{{ $user->id }}"
-                                        value="{{ $hours . ' heures et ' . $minutes . ' minutes' }}" placeholder=""
-                                        name="user_{{ $user->id }}" />
+                                        value="${item.heures}" placeholder=""
+                                        />
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                                </div>
+
+                                         `)
+
+                                    })
+                                })
+                                .catch(err => {
+                                    $("#spinner").fadeOut();
+
+                                    console.error(err);
+                                })
+                        })
+                    </script>
 
                 </div>
             </div>

@@ -14,6 +14,9 @@ $("#get_moyenne_form").on("submit", (e) => {
             } else {
                 $(`input[type="number"]`).val(0);
             }
+            console.log("====================================");
+            console.log(res);
+            console.log("====================================");
         })
         .catch((err) => {
             console.error(err);

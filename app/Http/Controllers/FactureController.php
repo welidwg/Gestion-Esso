@@ -45,39 +45,41 @@ class FactureController extends Controller
         //
         try {
             $montant = $request->montant;
+            $tva = 0;
             $compte = Compte::where("id", "!=", null)->first();
+            $check = Facture::where("date_facture", $request->date_facture)->first();
             $facture = new Facture();
             $facture->ref = $request->ref;
             $facture->montant = $request->montant;
             $facture->date_facture = $request->date_facture;
+            if ($check) {
+                return response(json_encode(["type" => "error", "message" => "Vous avez une facture déjà avec cette date !"]), 500);
+            }
+            $data = [];
+            $carbs = Carburant::all();
+            if ($request->has("tva")) {
+                foreach ($request->input("tva") as $tv) {
+                    # code...
+                    $tva += $tv;
+                }
+            }
+            foreach ($request->titre as $titre) {
+                $carb = Carburant::where("titre", $titre)->first();
+                $data = [];
+                $column = $carb->titre;
+                array_push($data, ["prixA" => $request->input("prixA_$carb->id"), "qte" => $request->input("qte_$carb->id"), "pu_htva" => $request->input("prix_u_ht_$carb->id"), "pu_ttc" => $request->input("prix_u_ttc_$carb->id"), "montant" => $request->input("montant_ttc_$carb->id")]);
+                $carb->prixA = $request->input("prix_u_ttc_$carb->id");
+                $carb->save();
+                $facture->$column = json_encode($data);
+            }
             if ($compte) {
                 $compte->montant -= $montant;
+                $compte->tva_achat += $tva;
                 $compte->save();
-            }
-            $carbs = Carburant::all();
-            foreach ($carbs as $carb) {
-                # code...
-                $data = [];
-                $prixA = $carb->prixA;
-                $qte = $carb->qtiteStk;
-                if ($request->has("qte_$carb->titre")) {
-                    $newQte = $request->input("qte_$carb->titre");
-                    $pa = ($request->input("prixA_$carb->id") * 1.2);
-                    $pv = $pa * (1 + $carb->marge_beneficiere);
-                    $vs = ($carb->qtiteStk + $newQte) * $pv;
-                    array_push($data, ["prixAHT" => $request->input("prixA_$carb->id"), "prixATTC" => $pa, "qte" => $newQte]);
-                    // $carb->prixA = $pa;
-                    // $carb->prixV = $pv;
-                    // $carb->qtiteStk += $newQte;
-                    // $carb->valeur_stock = $vs;
-                    // $carb->save();
-                    $title =  $carb->titre;
-                    $facture->$title = json_encode($data);
-                }
             }
             $facture->save();
             // Facture::create($request->all());
-            return response(json_encode(["type" => "success", "message" => "Facture bien ajoutée !", "data" => $request->all()]), 200);
+            return response(json_encode(["type" => "success", "message" => "Facture bien ajoutée !", "data" => $data]), 200);
         } catch (\Throwable $th) {
             return response(json_encode(["type" => "error", "message" => $th->getMessage()]), 500);
         };
@@ -128,5 +130,7 @@ class FactureController extends Controller
     public function destroy(Facture $facture)
     {
         //
+        $facture->delete();
+        return redirect()->to("/facture");
     }
 }

@@ -25,17 +25,14 @@ class Releve extends Model
         "carte_bleuPdf",
         "carte_proPdf",
         "chequePdf",
+        "boutiquePdf",
         "client_comptePdf",
         "totalPdf",
-        "qte_sp98",
-        "qte_sp95",
-        "qte_denergie",
-        "qte_diesel",
-        "qte_gpl",
-        "qte_petrol",
-        "qte_gnr",
         "diff",
         "explication",
+        "vente",
+        "vente_cigarette",
+        "tva",
     ];
 
     public function caissier(): BelongsTo

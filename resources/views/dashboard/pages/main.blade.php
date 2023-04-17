@@ -7,6 +7,9 @@
     use App\Models\Releve;
     use App\Models\Carburant;
     use App\Models\User;
+    use App\Models\Facture;
+    use App\Models\Cigarette;
+    use App\Models\AchatCigarette;
     use Carbon\Carbon;
 @endphp
 @section('content')
@@ -16,7 +19,7 @@
             {{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block"
                 role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
         </div>
-        @php
+        {{-- @php
             $moyennes = [];
             $carbs = Carburant::all();
         @endphp
@@ -50,7 +53,7 @@
                 }
                 
             @endphp
-        @endforeach
+        @endforeach --}}
         <div class="">
             <div class="row ">
                 <div class="col-md-6 col-xl-3 mb-4 ">
@@ -73,7 +76,7 @@
                                         $("#reinitCompte").on("click", () => {
                                             Swal.fire({
                                                 title: "Réinitialiser votre solde",
-                                                input: "number",
+                                                input: "text",
                                                 inputAttributes: {
                                                     autocapitalize: "off",
                                                 },
@@ -93,6 +96,10 @@
                                                                 text: "Votre solde est bien réinitialisé. ",
                                                                 icon: "success",
                                                             });
+                                                            setTimeout(() => {
+                                                                window.location.reload()
+
+                                                            }, 1200);
                                                         })
                                                         .catch(err => {
                                                             console.log(err);
@@ -148,6 +155,64 @@
                                         }
                                     @endphp
                                     <div class="text-dark fw-bold h5 mb-2"><span>{{ $recette }} € </span></div>
+                                    <div class="text-dark  mb-0"></div>
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-danger fw-bold text-xs mb-1"><span>Total TVA achat
+                                            (mois {{ date('m') }})
+                                        </span>
+                                    </div>
+                                    @php
+                                        $tva_achat = 0;
+                                        $facts = Facture::whereMonth('date_facture', date('m'))->get();
+                                        $achats = AchatCigarette::whereMonth('date_achat', date('m'))->get();
+                                        foreach ($facts as $facture) {
+                                            # code...
+                                            $tva_achat += $facture->montant * 0.2;
+                                        }
+                                        foreach ($achats as $achat) {
+                                            # code...
+                                            $tva_achat += $achat->total * 0.2;
+                                        }
+                                    @endphp
+
+                                    <div class="text-dark fw-bold h5 mb-2 "><span>{{ $tva_achat }} € </span></div>
+                                    <div class="text-dark  mb-0"></div>
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Total TVA encaissé
+                                            (mois {{ date('m') }})
+                                        </span>
+                                    </div>
+                                    @php
+                                        $tva = 0;
+                                        $relTva = Releve::whereMonth('date_systeme', date('m'))->get();
+                                        foreach ($relTva as $r) {
+                                            $tva += $r->tva;
+                                        }
+                                    @endphp
+
+                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $tva }} € </span></div>
                                     <div class="text-dark  mb-0"></div>
 
                                 </div>
@@ -220,7 +285,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6 col-xl-6">
+            <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0">Recette par carburant (en € ) </h6>
@@ -247,13 +312,24 @@
                             $total = 0;
                             foreach ($carbs as $carb) {
                                 array_push($carburants, $carb->titre);
-                                $title = 'qte_' . strtolower($carb->titre);
-                                if ($carb->titre == 'D-ENERGIE') {
-                                    $title = 'qte_denergie';
-                                }
+                                // $title = 'qte_' . strtolower($carb->titre);
+                                // if ($carb->titre == 'D-ENERGIE') {
+                                //     $title = 'qte_denergie';
+                                // }
                                 $releves1 = Releve::all();
                                 foreach ($releves1 as $r) {
-                                    $total += $r->$title;
+                                    $ventes = json_decode($r->vente);
+                                    if ($ventes != null) {
+                                        foreach ($ventes as $vente) {
+                                            foreach ($vente as $k => $v) {
+                                                if ($k == $carb->titre) {
+                                                    if ($v->montant != 0) {
+                                                        $total += $v->qte * $carb->prixV;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 array_push($recettes, $total);
                                 $total = 0;
@@ -288,7 +364,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xl-6">
+            <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0">Recette par caissier (en € )</h6>
@@ -350,6 +426,117 @@
                             const myChartt = new Chart(
                                 document.getElementById('myChart2'),
                                 configg
+                            );
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-xl-12 mb-3">
+                <div class="card shadow mb-4" style="display: block;position: relative;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0">Recette par cigarettes (TOP 5 en € )</h6>
+                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
+                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
+                                    here</a>
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="card-body">
+                        <div class="" style="display: block;position: relative;">
+                            <canvas id="myChart3" height="100px"></canvas>
+                        </div>
+                        @php
+                            $cigarettes = [];
+                            $recettes = [];
+                            $cigars = Cigarette::all();
+                            $title = '';
+                            $total = 0;
+                            $finalLabels = [];
+                            $finalRecettes = [];
+                            $labels = [];
+                            $f = [];
+                            // $releves1 = Releve::all();
+                            
+                            foreach ($cigars as $cigar) {
+                                $releves1 = Releve::all();
+                                array_push($cigarettes, $cigar->type);
+                                if ($releves1->count() != 0) {
+                                    foreach ($releves1 as $r) {
+                                        $ventes = json_decode($r->vente_cigarette);
+                                        if ($ventes != null) {
+                                            foreach ($ventes as $vente) {
+                                                foreach ($vente as $k => $v) {
+                                                    if ($k == $cigar->type) {
+                                                        if ($v->qte != 0) {
+                                                            $total += $v->qte * $cigar->prixV;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    array_push($f, [$cigar->type => $total]);
+                            
+                                    array_push($recettes, $total);
+                                    $total = 0;
+                                }
+                            }
+                            if (count($f) != 0) {
+                                foreach ($f as $key => $row) {
+                                    $values[$key] = current($row);
+                                }
+                                array_multisort($values, SORT_DESC, $f);
+                                foreach ($f as $ff) {
+                                    foreach ($ff as $key => $value) {
+                                        array_push($labels, $key);
+                                    }
+                                    # code...
+                                }
+                            }
+                            
+                            rsort($recettes);
+                            if (count($finalRecettes) != 0 && count($finalLabels) != 0) {
+                                for ($i = 0; $i < 5; $i++) {
+                                    array_push($finalRecettes, $f[$i]);
+                                    array_push($finalLabels, $labels[$i]);
+                                }
+                            }
+                            
+                        @endphp
+                        <script type="text/javascript">
+                            var labelsCigars = {!! json_encode($finalLabels) !!};
+                            var dataCigars = {!! json_encode($recettes) !!};
+
+                            const dataa1 = {
+                                labels: labelsCigars,
+                                datasets: [{
+                                    label: 'recette ',
+                                    // backgroundColor: 'rgb(255, 99, 132)',
+                                    // borderColor: 'rgb(255, 99, 132)',
+                                    data: dataCigars,
+                                }]
+                            };
+
+                            const configg1 = {
+                                type: 'bar',
+                                data: dataa1,
+                                options: {
+                                    // scales: {
+                                    //     x: {
+                                    //         display: false
+                                    //     }
+                                    // }
+                                }
+                            };
+
+                            const myChartt1 = new Chart(
+                                document.getElementById('myChart3'),
+                                configg1
                             );
                         </script>
                     </div>

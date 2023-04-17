@@ -33,13 +33,6 @@ class CreateRelevesTable extends Migration
             $table->float("boutiquePdf")->nullable()->default(0);
             $table->float("client_comptePdf")->nullable()->default(0);
             $table->float("totalPdf")->nullable()->default(0);
-            $table->float("qte_sp98")->nullable()->default(0);
-            $table->float("qte_sp95")->nullable()->default(0);
-            $table->float("qte_denergie")->nullable()->default(0);
-            $table->float("qte_diesel")->nullable()->default(0);
-            $table->float("qte_gpl")->nullable()->default(0);
-            $table->float("qte_petrol")->nullable()->default(0);
-            $table->float("qte_gnr")->nullable()->default(0);
             $table->float("diff")->nullable()->default(0);
             $table->longText("explication")->nullable();
             $table->timestamps();

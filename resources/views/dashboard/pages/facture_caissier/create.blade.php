@@ -33,7 +33,7 @@
 
                                             $(".container-rows").append(`
                                         <div class="row" id="row{{ $carb->titre }}" >
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="mb-3">
 
                                         <input class="form-control bg-light text-dark" type="text" required
@@ -41,14 +41,8 @@
                                             readonly />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3 ">
-                                        <input class="form-control text-dark " type="number" step="0.01" required
-                                            id="" value="0" placeholder="" required
-                                            name="prixA_{{ $carb->id }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                            
+                                <div class="col-md-6">
                                     <div class="mb-3 ">
                                         <input class="form-control text-dark " type="number" step="0.01" required
                                             id="" value="0" placeholder="" required name="qte_{{ $carb->titre }}" />
@@ -65,18 +59,13 @@
                             @endforeach
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="mb-">
                                     <label class="form-label" for=""><strong>Carburant</strong></label>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="mb- ">
-                                    <label class="form-label" for=""><strong>Prix d'achat (HT)</strong></label>
 
-                                </div>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class=" ">
                                     <label class="form-label" for=""><strong>Quantité achetée</strong></label>
 
