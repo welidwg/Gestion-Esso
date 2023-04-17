@@ -91,9 +91,7 @@ class ReleveControllerA extends Controller
             $qte = "";
             $prix = "";
             $montant = "";
-
-
-            $check = Releve::where("user_id", $request->user_id)->where("date_systeme", date("Y-d-m", strtotime($request->date_systeme)))->get();
+            $check = Releve::where("user_id", $request->user_id)->whereDate("date_systeme", date("Y-m-d"))->exists();
             // $check2 = Releve::where("date_systeme", $data["date_systeme"])->whereTime("heure_d", "<=", $data["heure_d"])->whereTime("heure_f", ">=", $data["heure_d"])->whereTime("heure_d", "<=", $data["heure_f"])->whereTime("heure_f", "<=", $data["heure_f"])->first();
             $final = [];
             $final_cigars = [];
@@ -101,7 +99,7 @@ class ReleveControllerA extends Controller
 
             $carbs = Carburant::all();
 
-            if ($check->count() == 0) {
+            if (!$check) {
                 // if ($check2) {
 
 
@@ -123,16 +121,18 @@ class ReleveControllerA extends Controller
                     array_push($final, $carb);
                     $this->updateCarburant($v, $data[$qte], $request->input($prix));
                 }
-                foreach ($request->input("types") as $type) {
-                    $cigar = Cigarette::where("type", $type)->first();
-                    $cigars = [];
+                if ($request->has("types")) {
+                    foreach ($request->input("types") as $type) {
+                        $cigar = Cigarette::where("type", $type)->first();
+                        $cigars = [];
 
-                    $qte = "qteC_" . $cigar->id;
-                    $prix = "prixVC_" . $cigar->id;
-                    $montant = "montantC_" . $cigar->id;
-                    $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                    array_push($final_cigars, $cigars);
-                    $this->updateCigarette($type, $request->input($qte));
+                        $qte = "qteC_" . $cigar->id;
+                        $prix = "prixVC_" . $cigar->id;
+                        $montant = "montantC_" . $cigar->id;
+                        $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+                        array_push($final_cigars, $cigars);
+                        $this->updateCigarette($type, $request->input($qte));
+                    }
                 }
                 $compte = Compte::where("id", "!=", null)->first();
                 if ($compte) {
@@ -150,7 +150,7 @@ class ReleveControllerA extends Controller
 
                 // return response(json_encode(["type" => "success", "message" => date("H:i:s", strtotime($data["heure_d"])) . "  " . $check2->heure_d]), 200);
             } else {
-                return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter aujourd'hui !"]), 500);
+                return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter un relevé aujourd'hui !"]), 500);
             }
         } catch (\Throwable $th) {
             return response(json_encode(["type" => "error", "message" => $th->getMessage()]), 500);

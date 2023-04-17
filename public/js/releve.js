@@ -87,7 +87,11 @@ $("#add_releve_form").on("submit", (e) => {
         axios
             .post("/releve", $("#add_releve_form").serialize())
             .then((res) => {
-                Swal.fire("Operation Réussite !", res.data.message, "success");
+                Swal.fire(
+                    "Operation Réussite !",
+                    res.data.message + "",
+                    "success"
+                );
                 setTimeout(() => {
                     window.location.href = "/caissier/releves";
                 }, 600);
