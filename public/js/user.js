@@ -51,7 +51,7 @@ $("#user_auth_form").on("submit", (e) => {
         .catch((err) => {
             // console.error();
             let errors = err.response.data;
-            console.log(errors);
+            console.log(err.response);
             $("#spinner").fadeOut();
 
             $("#errors").html(`<div class="alert alert-danger" role="alert">
@@ -59,8 +59,6 @@ $("#user_auth_form").on("submit", (e) => {
 </div>`);
         });
 });
-
-
 
 $("#edit_user_form").on("submit", (e) => {
     e.preventDefault();
