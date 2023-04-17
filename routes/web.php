@@ -41,6 +41,12 @@ Route::get('/', function () {
     }
     return view('welcome');
 })->name("view.login");
+Route::get('/login', function () {
+    if (Auth::check()) {
+        return redirect()->to("/main");
+    }
+    return view('welcome');
+})->name("view.login2");
 Route::get('/pdf',  [PdfController::class, "index"])->name("view.pdf");
 Route::post("/user/auth", [UserController::class, "auth"])->name("backend.login");
 // Route::get('/user/add', function () {

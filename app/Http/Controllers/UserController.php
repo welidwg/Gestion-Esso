@@ -69,7 +69,7 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->to("/");
+        return redirect()->to("/login");
     }
     public function store(Request $req)
     {
