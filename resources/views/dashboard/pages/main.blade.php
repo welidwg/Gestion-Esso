@@ -500,9 +500,11 @@
                             }
                             
                             rsort($recettes);
-                            if (count($finalRecettes) != 0 && count($finalLabels) != 0) {
-                                for ($i = 0; $i < 5; $i++) {
+                            for ($i = 0; $i < 5; $i++) {
+                                if (isset($f[$i])) {
                                     array_push($finalRecettes, $f[$i]);
+                                }
+                                if (isset($labels[$i])) {
                                     array_push($finalLabels, $labels[$i]);
                                 }
                             }
