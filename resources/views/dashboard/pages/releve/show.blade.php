@@ -247,7 +247,7 @@
                                 <legend class="fw-bold text-dark"><i class="fal fa-file-alt text-primary"></i> Recette du
                                     boutique </legend>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette cigarettes</strong></label><input
                                                 class="form-control bg-light " type="number" readonly required
@@ -255,20 +255,14 @@
                                                 step="0.01" min="0" value="0">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette divers</strong></label><input class="form-control bg-light "
                                                 type="number" required readonly id="recette_divers" placeholder=""
                                                 name="recette_divers" step="0.01" min="0" value="0">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3"><label class="form-label" for=""><strong>
-                                                    Différence</strong></label><input class="form-control bg-light "
-                                                type="number" required readonly id="difference" placeholder=""
-                                                name="difference" step="0.01" min="0" value="0">
-                                        </div>
-                                    </div>
+
 
 
 
@@ -455,8 +449,6 @@
                                 <script>
                                     $("#recette_cigarette").val("{{ $total_cigars }}")
                                     $("#recette_divers").val("{{ $releve->boutiquePdf - $total_cigars }}")
-                                    let tot = {{ $total_cigars }};
-                                    $("#difference").val(tot - $("#recette_cigarette").val())
                                 </script>
                             </fieldset>
                         </div>
