@@ -72,6 +72,7 @@
 
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-3">
                                     <div class="mb-3 ">
                                         <input class="form-control text-dark " type="number" step="0.01" required
@@ -158,10 +159,9 @@
                         let errors = err.response.data;
                         console.log(errors);
                         Swal.fire({
-                            title: "Operation Echouée !",
-                            text: errors.error,
+                            title: errors.error,
+                            html: errors.message,
                             icon: "error",
-                            timer: 3000,
                         });
                     });
             });

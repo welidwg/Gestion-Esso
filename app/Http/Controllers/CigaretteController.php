@@ -106,11 +106,22 @@ class CigaretteController extends Controller
 
         $cigarettes = Cigarette::all();
         $compte = Compte::latest()->first();
+        $solde = $compte->montant;
         $total = 0;
         $date = date("Y-m-d");
         $final = [];
         $achat = [];
+
         if ($request->has("types")) {
+            foreach ($request->input("types") as $type) {
+                $cigar = Cigarette::where("type", $type)->first();
+                $qte = "qte_$cigar->id";
+                $prix_a = "prixA_$cigar->id";
+                $total += $request->$prix_a * $request->$qte;
+            }
+            if ($total > $solde) {
+                return response(["error" => "Solde insuffisant !", "message" => "Votre solde est insuffisant ! <br> <strong>Solde :</strong>  $solde €| <strong>Total commande: </strong> $total €"], 500);
+            }
             foreach ($request->input("types") as $type) {
 
                 # code...
