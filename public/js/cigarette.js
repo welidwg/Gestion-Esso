@@ -40,40 +40,7 @@ function deletRow(id) {
     $(`#${id}`).remove();
 }
 
-$("#add_achat_form").on("submit", (e) => {
-    // let data = new FormData()
-    e.preventDefault();
-    axios
-        .post(
-            $("#add_achat_form").attr("action"),
-            $("#add_achat_form").serialize()
-        )
-        .then((res) => {
-            $(".container-rows").html("");
 
-            Swal.fire({
-                title: "Operation Réussite !",
-                text: res.data.message,
-                icon: "success",
-                timer: 1500,
-            });
-            // $(".errors").html("");
-            $("#add_achat_form").trigger("reset");
-            setTimeout(() => {
-                window.location.href = "/cigarette";
-            }, 1500);
-        })
-        .catch((err) => {
-            let errors = err.response.data;
-            console.log(errors);
-            Swal.fire({
-                title: "Operation Echouée !",
-                text: errors.error,
-                icon: "error",
-                timer: 3000,
-            });
-        });
-});
 $("#edit_prixV_form").on("submit", (e) => {
     // let data = new FormData()
     e.preventDefault();

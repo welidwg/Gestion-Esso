@@ -74,6 +74,12 @@
 
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'cigarette.achat' ? 'active' : '' }}"
+                        href="{{ route('cigarette.achat') }}"><i class="fas fa-smoking"></i><span>Achat
+                            cigarettes</span></a>
+
+                </li>
+                <li class="nav-item">
                     <a class="nav-link   {{ Route::currentRouteName() == 'caissier.releves' ? 'active' : '' }}"
                         href="{{ route('caissier.releves') }}"><i class="fas fa-file"></i><span>Vos
                             relevés</span></a>

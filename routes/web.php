@@ -171,10 +171,10 @@ Route::group(["middleware" => "auth"], function () {
     //cigarettes
 
 
-    Route::get("cigarette/achat", [CigaretteController::class, "achat"])->name("cigarette.achat")->middleware("admin");
+    Route::get("cigarette/achat", [CigaretteController::class, "achat"])->name("cigarette.achat");
     Route::get("cigarette/historique", [CigaretteController::class, "historique"])->name("cigarette.historique")->middleware("admin");
     Route::get("cigarette/{id}/prixv", [CigaretteController::class, "prixV"])->name("cigarette.prixV")->middleware("admin");
-    Route::put("cigarette/achat/create", [CigaretteController::class, "achat_store"])->name("cigarette.achat_store")->middleware("admin");
+    Route::put("cigarette/achat/create", [CigaretteController::class, "achat_store"])->name("cigarette.achat_store");
     Route::put("cigarette/{id}/editprix", [CigaretteController::class, "editPrixV"])->name("cigarette.editPrixV")->middleware("admin");
     Route::resource("cigarette", CigaretteController::class)->middleware("admin");
 

@@ -353,10 +353,10 @@
                                     </div>
                                     <hr>
                                     <div class="d-flex  align-items-center mb-3 ">
-                                        <div class="col-3 "><strong>Type</strong></div>
-                                        <div class="col-3 form-label  m-2"><strong>Quantite vendue</strong></div>
-                                        <div class="col-3 form-label  m-2"><strong>Prix de vente</strong></div>
-                                        <div class="col-3 form-label  m-2"><strong>Montant</strong></div>
+                                        <div class="col-4 "><strong>Type</strong></div>
+                                        <div class="col-4 form-label  m-2"><strong>Quantité vendue</strong></div>
+                                        {{-- <div class="col-3 form-label  m-2"><strong>Prix de vente</strong></div> --}}
+                                        <div class="col-4 form-label  m-2"><strong>Montant</strong></div>
                                     </div>
                                     <div class="container-rows">
 
@@ -377,27 +377,27 @@
                                                 } else {
                                                     $(".container-rows").append(`
                                         <div class="row" id="row_${value}" >
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3">
                                         <input class="form-control bg-light text-dark" type="text" required
                                             id="" placeholder="" required name="type" value="${type}"
                                             readonly />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3 ">
                                         <input class="form-control text-dark " type="number" step="0.01" required
                                             id="qteC_${id}" value="0" placeholder="" required name="qteC_${id}" max="${qte}"/>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3  visually-hidden" >
                                     <div class="mb-3 ">
                                         <input class="form-control text-dark bg-light" type="number" step="0.01" required
-                                            id="prixVC_${id}" value="${pv}" placeholder="" readonly required
+                                            id="prixVC_${id}" value="${pv}" hidden placeholder="" readonly required
                                             name="prixVC_${id}" />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3 d-flex align-items-center">
                                         <input class="form-control bg-light text-dark " type="number" step="0.01" required
                                             id="montantC_${id}" value="0" placeholder="" required readonly

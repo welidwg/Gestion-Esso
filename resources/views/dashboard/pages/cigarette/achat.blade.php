@@ -131,6 +131,46 @@
                 </div>
             </div>
         </div>
+        <script>
+            $("#add_achat_form").on("submit", (e) => {
+                // let data = new FormData()
+                e.preventDefault();
+                axios
+                    .post(
+                        $("#add_achat_form").attr("action"),
+                        $("#add_achat_form").serialize()
+                    )
+                    .then((res) => {
+                        $(".container-rows").html("");
+
+                        Swal.fire({
+                            title: "Operation Réussite !",
+                            text: res.data.message,
+                            icon: "success",
+                            timer: 1500,
+                        });
+                        // $(".errors").html("");
+                        $("#add_achat_form").trigger("reset");
+                        setTimeout(() => {
+                            @if (Auth::user()->role == 1)
+                                // window.location.reload()
+                            @else
+                                window.location.href = "/cigarette";
+                            @endif
+                        }, 1500);
+                    })
+                    .catch((err) => {
+                        let errors = err.response.data;
+                        console.log(errors);
+                        Swal.fire({
+                            title: "Operation Echouée !",
+                            text: errors.error,
+                            icon: "error",
+                            timer: 3000,
+                        });
+                    });
+            });
+        </script>
         <script src="{{ asset('/js/cigarette.js') }}"></script>
     </div>
 @endsection
