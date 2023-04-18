@@ -37,7 +37,7 @@ class CigaretteController extends Controller
     }
     public function historique()
     {
-        return view("dashboard.pages.cigarette.historIQUE", ["cigarettes" => AchatCigarette::orderBy("id", "desc")->get()]);
+        return view("dashboard.pages.cigarette.historique", ["cigarettes" => AchatCigarette::orderBy("id", "desc")->get()]);
     }
 
     /**
