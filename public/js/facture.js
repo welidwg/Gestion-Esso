@@ -210,7 +210,7 @@ $("#date_arrivage").on("change", function () {
     }
 });
 $("#calculetotal").on("click", () => {
-    $("#montant_facture").val(0);
+    montant_total = 0;
     var values = $(".champMontant")
         .map(function () {
             montant_total += parseFloat($(this).val());

@@ -289,8 +289,10 @@ class ReleveControllerA extends Controller
      */
     public function destroy(Releve $releve)
     {
+        $cp = Compte::latest();
+        $cp->montant = $releve->totalPdf;
+        $cp->save();
         $releve->delete();
-
         return redirect()->route('releve.index')
             ->with('success', 'Relevee bien supprimé');
     }
