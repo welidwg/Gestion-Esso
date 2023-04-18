@@ -29,5 +29,5 @@ class Compte extends Model
    *
    * @var array
    */
-  protected $fillable = ['montant', "tva_achat", "tva_encaisse"];
+  protected $fillable = ['montant', "tva_achat", "tva_encaisse", "compte_client"];
 }

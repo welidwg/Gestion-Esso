@@ -53,7 +53,7 @@ class FactureController extends Controller
             $facture->montant = $request->montant;
             $facture->date_facture = $request->date_facture;
             if ($check) {
-                return response(json_encode(["type" => "error", "message" => "Vous avez une facture déjà avec cette date !"]), 500);
+                return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter une facture avec cette date !"]), 500);
             }
             $data = [];
             $carbs = Carburant::all();
@@ -67,14 +67,21 @@ class FactureController extends Controller
                 $carb = Carburant::where("titre", $titre)->first();
                 $data = [];
                 $column = $carb->titre;
-                array_push($data, ["prixA" => $request->input("prixA_$carb->id"), "qte" => $request->input("qte_$carb->id"), "pu_htva" => $request->input("prix_u_ht_$carb->id"), "pu_ttc" => $request->input("prix_u_ttc_$carb->id"), "montant" => $request->input("montant_ttc_$carb->id")]);
-                $carb->prixA = $request->input("prix_u_ttc_$carb->id");
+                if ($request->has("qte_new_$carb->id")) {
+                    $carb->qtiteStk += $request->input("qte_new_$carb->id");
+                    $carb->prixA = $request->input("prix_u_ttc_new_$carb->id");
+                    array_push($data, ["prixA" => $request->input("prixA_new_$carb->id"), "qte" => $request->input("qte_new_$carb->id"), "pu_htva" => $request->input("prix_u_ht_new_$carb->id"), "pu_ttc" => $request->input("prix_u_ttc_new_$carb->id"), "montant" => $request->input("montant_ttc_new_$carb->id")]);
+                }
+                if ($request->has("qte_$carb->id")) {
+                    $carb->prixA = $request->input("prix_u_ttc_$carb->id");
+                    array_push($data, ["prixA" => $request->input("prixA_$carb->id"), "qte" => $request->input("qte_$carb->id"), "pu_htva" => $request->input("prix_u_ht_$carb->id"), "pu_ttc" => $request->input("prix_u_ttc_$carb->id"), "montant" => $request->input("montant_ttc_$carb->id")]);
+                }
                 $carb->save();
                 $facture->$column = json_encode($data);
             }
             if ($compte) {
                 $compte->montant -= $montant;
-                $compte->tva_achat += $tva;
+                // $compte->tva_achat += $tva;
                 $compte->save();
             }
             $facture->save();

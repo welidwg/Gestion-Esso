@@ -45,8 +45,8 @@
                                             title="<div className=''>Date à laquelle le caissier a entré les quantités achetées.</div>">
                                             <i class="far fa-info-circle"></i>
                                         </a>
-                                    </label><input class="form-control" type="date" required id="date_arrivage"
-                                        placeholder="" name="date_arrivage" />
+                                    </label><input class="form-control" type="date" id="date_arrivage" placeholder=""
+                                        name="date_arrivage" />
                                 </div>
                             </div>
                         </div>
@@ -58,8 +58,8 @@
 
                             @foreach ($carburants as $carb)
                                 <div class="form-check col mb-2">
-                                    <input class="form-check-input" type="checkbox" disabled
-                                        name="{{ $carb->titre }}_checked" id="{{ $carb->titre }}_checked">
+                                    <input class="form-check-input" type="checkbox" name="{{ $carb->titre }}_checked"
+                                        id="{{ $carb->titre }}_checked">
                                     <label class="form-check-label" for="{{ $carb->titre }}_checked">
                                         {{ $carb->titre }}
                                     </label>
@@ -69,30 +69,93 @@
                                         if ($('#{{ $carb->titre }}_checked').is(":checked")) {
 
                                             $(".container-rows").append(`
-                                        <div class="row" id="row{{ $carb->titre }}" required >
-                                <div class="col-md-2">
-                                    <div class="mb-3">
-
-                                        <input class="form-control bg-light text-dark" type="text" required
-                                            id="" placeholder="" name="titre" value="{{ $carb->titre }}"
-                                            readonly required />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="mb-3 ">
-                                        <input class="form-control text-dark " type="number" step="0.01" required
-                                            id="" value="0" placeholder="" required
-                                            name="prixA_{{ $carb->id }}" />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="mb-3 ">
-                                        <input class="form-control text-dark " type="number" step="0.01" required
-                                            id="" value="0" placeholder="" name="qte_{{ $carb->titre }}" />
-                                    </div>
-                                </div>
-                            </div>
+                                      <div class="row row{{ $carb->titre }}" id="row{{ $carb->titre }}">
+                                            <div class="col-md-2">
+                                                <div class="mb-3">
+                                                    <input class="form-control bg-light text-dark" type="text" required
+                                                        id="" placeholder="" name="titre[]" value="{{ $carb->titre }}"
+                                                        readonly required />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark "  type="number" step="0.01" required
+                                                        id="prixA_new_{{ $carb->id }}" value="0" placeholder="" required min="1"
+                                                        name="prixA_new_{{ $carb->id }}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark "  type="number" step="0.01" required
+                                                        id="qte_new_{{ $carb->id }}" value="0" name="qte_new_{{ $carb->id }}" />
+                                                </div>
+                                            </div>
+                                             <div class="col-md-2">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark  bg-light" readonly type="number" step="0.01" required
+                                                        id="prix_u_ht_new_{{ $carb->id }}" value="0" placeholder="" required
+                                                        name="prix_u_ht_new_{{ $carb->id }}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark  bg-light" readonly type="number" step="0.01" required
+                                                        id="prix_u_ttc_new_{{ $carb->id }}" value="0" placeholder="" required
+                                                        name="prix_u_ttc_new_{{ $carb->id }}" />
+                                                </div>
+                                            </div>
+                                               <div class="col-md-2">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark champMontant  bg-light" readonly type="number" step="0.01" required
+                                                        id="montant_ttc_new_{{ $carb->id }}" value="0" placeholder="" required
+                                                        name="montant_ttc_new_{{ $carb->id }}" />
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="tva[]" id="tva_new_{{ $carb->id }}" />
+                                        </div>
                                         `)
+                                            $(`#prixA_new_{{ $carb->id }} , #qte_new_{{ $carb->id }}`).on(
+                                                "input", (e) => {
+                                                    let prixA = parseFloat($("#prixA_new_{{ $carb->id }}").val())
+                                                    let qte = parseFloat($("#qte_new_{{ $carb->id }}").val())
+                                                    if (
+                                                        (!isNaN(prixA) && prixA != 0) &&
+                                                        (!isNaN(qte) && qte != 0)
+                                                    ) {
+                                                        $(`#prix_u_ht_new_{{ $carb->id }}`).val(
+                                                            parseFloat(
+                                                                prixA / 1000
+                                                            ).toFixed(2)
+                                                        );
+
+                                                        $(`#prix_u_ttc_new_{{ $carb->id }}`).val(
+                                                            parseFloat(
+                                                                $(`#prix_u_ht_new_{{ $carb->id }}`).val() *
+                                                                1.2
+                                                            ).toFixed(2)
+                                                        );
+
+                                                        const tva = 1.2;
+
+                                                        $(`#montant_ttc_new_{{ $carb->id }}`).val(
+                                                            parseFloat(
+                                                                $(`#qte_new_{{ $carb->id }}`).val() *
+                                                                $(
+                                                                    `#prix_u_ttc_new_{{ $carb->id }}`
+                                                                ).val()
+                                                            ).toFixed(2)
+                                                        );
+                                                        $(`#tva_new_{{ $carb->id }}`).val(
+                                                            parseFloat(
+                                                                $(`#qte_new_{{ $carb->id }}`).val() *
+                                                                $(
+                                                                    `#prix_u_ht_new_{{ $carb->id }}`
+                                                                ).val() *
+                                                                0.2
+                                                            ).toFixed(2)
+                                                        );
+                                                    }
+                                                });
                                         } else {
                                             $("#row{{ $carb->titre }}").remove()
 

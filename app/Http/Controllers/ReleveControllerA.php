@@ -55,10 +55,13 @@ class ReleveControllerA extends Controller
 
         $carb->save();
     }
-    public function updateCigarette($type, $qte)
+    public function updateCigarette($type, $qte, $pv = null)
     {
         $cigar = Cigarette::where("type", $type)->first();
         $cigar->qte -= $qte;
+        if ($pv != null && $pv != 0) {
+            $cigar->prixV = $pv;
+        }
         $cigar->save();
     }
     public function editCarburant($title, $qte)
@@ -117,9 +120,11 @@ class ReleveControllerA extends Controller
                     $qte = "qte_" . $titleLowercase;
                     $prix = "prix_" . $titleLowercase;
                     $montant = "montant_" . $titleLowercase;
-                    $carb = array($v => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                    array_push($final, $carb);
-                    $this->updateCarburant($v, $data[$qte], $request->input($prix));
+                    if ($request->input($montant) != 0) {
+                        $carb = array($v => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+                        array_push($final, $carb);
+                        $this->updateCarburant($v, $data[$qte], $request->input($prix));
+                    }
                 }
                 if ($request->has("types")) {
                     foreach ($request->input("types") as $type) {
@@ -131,16 +136,22 @@ class ReleveControllerA extends Controller
                         $montant = "montantC_" . $cigar->id;
                         $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
                         array_push($final_cigars, $cigars);
-                        $this->updateCigarette($type, $request->input($qte));
+                        $this->updateCigarette($type, $request->input($qte), $request->input($prix));
                     }
                 }
                 $compte = Compte::where("id", "!=", null)->first();
                 if ($compte) {
-                    $compte->montant += $request->totalPdf;
-                    $compte->tva_encaisse += $request->totalPdf * 0.2;
+                    if ($request->client_compte != 0) {
+                        $compte->montant += ($request->totalPdf - $request->client_compte);
+                        $compte->compte_client +=  $request->client_compte;
+                    } else {
+                        $compte->montant += $request->totalPdf;
+                    }
+
+                    // $compte->tva_encaisse += $request->totalPdf * 0.2;
                     $compte->save();
                 } else {
-                    Compte::create(["montant" => $request->totalPdf]);
+                    Compte::create(["montant" => $request->totalPdf, "compte_client" => $request->compte_clientPdf]);
                 }
                 $data["vente"] = json_encode($final);
                 $data["tva"] = $request->totalPdf * 0.2;
@@ -198,16 +209,20 @@ class ReleveControllerA extends Controller
             $data = $request->all();
             $oldTotal = $releve->totalSaisie;
             $oldTotalPdf = $releve->totalPdf;
+            $client_compte = $releve->client_comptePdf;
             $compte = Compte::latest()->first();
             if ($oldTotalPdf != $data["totalPdf"]) {
-                $compte->montant -= $oldTotalPdf;
-                if ($compte->tva_encaisse != 0) {
-                    $compte->tva_encaisse -= $oldTotalPdf * 0.2;
-                }
+                $compte->montant -= ($oldTotalPdf - $client_compte);
+
                 $compte->montant += $data["totalPdf"];
                 $compte->tva_encaisse += $data["totalPdf"] * 0.2;
 
                 $compte->save();
+            }
+
+            if ($client_compte != $data["client_comptePdf"]) {
+                $compte->compte_client -= $client_compte;
+                $compte->compte_client += $data["client_comptePdf"];
             }
 
             $ventes = json_decode($releve->vente);
@@ -290,7 +305,7 @@ class ReleveControllerA extends Controller
     public function destroy(Releve $releve)
     {
         $cp = Compte::where('id', "!=", null)->first();
-        $cp->montant -= $releve->totalPdf;
+        $cp->montant -= ($releve->totalPdf - $releve->client_comptePdf);
         $cp->save();
         $releve->delete();
         return redirect()->route('releve.index')

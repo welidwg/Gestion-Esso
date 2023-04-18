@@ -62,6 +62,8 @@ let montant_total = 0;
 $("#date_arrivage").on("change", function () {
     var dateStr = $(this).val();
     var date = new Date(dateStr);
+    $("input[type=checkbox]").attr("checked", false);
+
     if (isNaN(date.getTime())) {
         // alert("Invalid date format, please enter a valid date.");
         $(".container-rows").html("");
@@ -72,7 +74,6 @@ $("#date_arrivage").on("change", function () {
             .then((res) => {
                 $(".caissier").html("");
                 $(".container-rows").html("");
-                $("input[type=checkbox]").attr("checked", false);
                 res.data.facture.map((fact, index) => {
                     res.data.carburants.map((item, ind) => {
                         if (fact[item.titre] !== 0) {
@@ -151,6 +152,7 @@ $("#date_arrivage").on("change", function () {
                                             <input type="hidden" name="tva[]" id="tva_${
                                                 item.id
                                             }" />
+                                            
                                         </div>`);
 
                             $(`#prixA_${item.id}`).on("input", (e) => {

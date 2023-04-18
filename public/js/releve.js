@@ -158,8 +158,14 @@ function DeleteReleve(path) {
 function checkEcart(id_saisie, id_rapport, name) {
     let first = $("#" + id_saisie).val();
     let second = $("#" + id_rapport).val();
+    $("#" + id_saisie).removeClass("border-danger text-danger");
+
+    $("#" + id_rapport).removeClass("border-danger text-danger");
     if (!isNaN(first) && !isNaN(second)) {
         if (first !== second) {
+            $("#" + id_saisie).addClass("border-danger text-danger ");
+
+            $("#" + id_rapport).addClass("border-danger text-danger");
             console.log("====================================");
             console.log(name + " est differnent");
             console.log("====================================");

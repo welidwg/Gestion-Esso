@@ -351,7 +351,7 @@
                                 @php
                                     
                                     $total = 0;
-                                    
+                                    $total_cigars = 0;
                                 @endphp
 
                                 @if ($releve->vente_cigarette !== null)
@@ -367,7 +367,7 @@
                                         <hr>
                                         @php
                                             $ventes_cigars = json_decode($releve->vente_cigarette);
-                                            $total_cigars = 0;
+                                            
                                         @endphp
                                         @if ($ventes_cigars)
                                             @forelse ($cigarettes as $cigarette)

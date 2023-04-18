@@ -50,32 +50,33 @@
 
                                             $(".container-rows").append(`
                                         <div class="row" id="row_${value}" >
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3">
                                         <input class="form-control bg-light text-dark" type="text" required
                                             id="" placeholder="" required name="type" value="${type}"
                                             readonly />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-4">
                                     <div class="mb-3 ">
                                         <input class="form-control text-dark " type="number" step="0.01" required
                                             id="" value="0" placeholder="" required name="qte_${id}" />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="mb-3 ">
+                                <div class="col-4">
+                                    <div class="mb-3  d-flex align-items-center">
                                         <input class="form-control text-dark " type="number" step="0.01" required
                                             id="" value="0" placeholder="" required
                                             name="prixA_${id}" />
+                                              <a onclick="deletRow('row_${value}')" class="mx-2"><i class="fas fa-times text-danger"></i></a>
+
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="mb-3 d-flex align-items-center">
+                                    <div class="mb-3 ">
                                         <input class="form-control text-dark " type="number" step="0.01" required
-                                            id="" value="${pv}" placeholder="" required
+                                            id="" value="${pv}" placeholder="" required hidden
                                             name="prixV_${id}" />
-                                            <a onclick="deletRow('row_${value}')" class="mx-2"><i class="fas fa-times text-danger"></i></a>
                                     </div>
                                     
                                 </div>
@@ -91,30 +92,24 @@
 
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-4">
                                 <div class="mb-">
                                     <label class="form-label" for=""><strong>Type</strong></label>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-4">
                                 <div class="mb- ">
                                     <label class="form-label" for=""><strong>Quantité achetée </strong></label>
 
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-4">
                                 <div class="mb- ">
                                     <label class="form-label" for=""><strong>Prix unitaire d'achat </strong></label>
 
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="mb- ">
-                                    <label class="form-label" for=""><strong>Prix unitaire de vente
-                                        </strong></label>
 
-                                </div>
-                            </div>
                         </div>
                         <div class="container-rows">
 

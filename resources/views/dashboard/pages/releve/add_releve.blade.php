@@ -284,22 +284,22 @@
                                                     max="{{ $carburant->qtiteStk }}" />
                                             </div>
                                             <div class="col-2 m-2">
-                                                <input class="form-control  bg-light" readonly type="number" required
+                                                <input class="form-control  " type="number" required
                                                     id="montant_{{ $carburant->id }}" name="{{ 'montant_' . $title }}"
                                                     step="0.01" value="0" min="0" />
                                             </div>
                                             <div class="col-2 m-2">
-                                                <input class="form-control" type="number" required
+                                                <input class="form-control bg-light" type="number" required
                                                     id="prix_{{ $carburant->id }}" min="0"
-                                                    name="{{ 'prix_' . $title }}" step="0.01"
-                                                    value="{{ $carburant->prixV }}" />
+                                                    name="{{ 'prix_' . $title }}" step="0.01" {{-- value="{{ $carburant->prixV }}" --}}
+                                                    value="0" readonly />
                                             </div>
                                             <script>
-                                                $("#prix_{{ $carburant->id }} , #qte_{{ $carburant->id }}").on("input", (e) => {
+                                                $("#montant_{{ $carburant->id }} , #qte_{{ $carburant->id }}").on("input", (e) => {
                                                     let qte = $("#qte_{{ $carburant->id }}").val();
-                                                    let prix = $("#prix_{{ $carburant->id }}").val();
-                                                    if (qte != 0 && prix != 0) {
-                                                        $("#montant_{{ $carburant->id }}").val(parseFloat(qte * prix).toFixed(2))
+                                                    let montant = $("#montant_{{ $carburant->id }}").val();
+                                                    if (qte != 0 && montant != 0) {
+                                                        $("#prix_{{ $carburant->id }}").val(parseFloat(montant / qte).toFixed(2))
                                                     }
                                                 })
                                             </script>
@@ -386,9 +386,13 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3 ">
+                                        
                                         <input class="form-control text-dark " type="number" step="0.01" required
                                             id="qteC_${id}" value="0" placeholder="" required name="qteC_${id}" max="${qte}"/>
+
+                                             <small>(Dans le stock : ${qte})</small>
                                     </div>
+                               
                                 </div>
                                 <div class="col-md-3  visually-hidden" >
                                     <div class="mb-3 ">
@@ -399,8 +403,8 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3 d-flex align-items-center">
-                                        <input class="form-control bg-light text-dark " type="number" step="0.01" required
-                                            id="montantC_${id}" value="0" placeholder="" required readonly
+                                        <input class="form-control  text-dark " type="number" step="0.01" required
+                                            id="montantC_${id}" value="0" placeholder="" required 
                                             name="montantC_${id}" />
                                             <a onclick="deletRow('row_${value}')" class="mx-2"><i class="fas fa-times text-danger"></i></a>
                                     </div>
@@ -411,13 +415,26 @@
                             </div>
                                         `)
                                                     let prixVC = $("#prixVC_" + id).val();
+                                                    let montant = $("#montantC_" + id).val();
                                                     $("#qteC_" + id).on("input", (e) => {
 
-                                                        if (e.target.value !== 0 && !isNaN(e.target.value)) {
-                                                            $(`#montantC_${id}`).val(parseFloat(e.target.value * prixVC).toFixed(2))
-                                                        }
+
+                                                        $(`#prixVC_${id}`).val(parseFloat($("#montantC_" + id).val() / e.target.value)
+                                                            .toFixed(2))
+                                                        console.log($(`#prixVC_${id}`).val());
+
+
 
                                                     })
+                                                    $("#montantC_" + id).on("input", (e) => {
+
+                                                        $(`#prixVC_${id}`).val(parseFloat(e.target.value / $("#qteC_" + id).val())
+                                                            .toFixed(2))
+                                                        console.log($(`#prixVC_${id}`).val());
+
+
+                                                    })
+
                                                 }
                                             }
                                         })

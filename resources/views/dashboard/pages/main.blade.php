@@ -55,8 +55,8 @@
             @endphp
         @endforeach --}}
         <div class="">
-            <div class="row ">
-                <div class="col-md-6 col-xl-3 mb-4 ">
+            <div class="row d-flex justify-content-evenly">
+                <div class="col-md-6 col-xl-2 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body">
                             <div class="row align-items-center no-gutters">
@@ -136,7 +136,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-6 col-xl-2 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Client en compte
+                                        </span>
+                                    </div>
+                                    @php
+                                        
+                                        $cp = Compte::first();
+                                    @endphp
+                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $cp ? $cp->compte_client : '0' }} €
+                                        </span>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-2 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -163,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-6 col-xl-2 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -175,15 +198,11 @@
                                     @php
                                         $tva_achat = 0;
                                         $facts = Facture::whereMonth('date_facture', date('m'))->get();
-                                        $achats = AchatCigarette::whereMonth('date_achat', date('m'))->get();
                                         foreach ($facts as $facture) {
                                             # code...
                                             $tva_achat += $facture->montant * 0.2;
                                         }
-                                        foreach ($achats as $achat) {
-                                            # code...
-                                            $tva_achat += $achat->total * 0.2;
-                                        }
+                                        
                                     @endphp
 
                                     <div class="text-dark fw-bold h5 mb-2 "><span>{{ $tva_achat }} € </span></div>
@@ -195,7 +214,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-6 col-xl-2 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
