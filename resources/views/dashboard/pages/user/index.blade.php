@@ -60,7 +60,7 @@
                                   <script>
                                       $("#delete_user{{ $user->id }}").on('click', () => {
                                           Swal.fire({
-                                              title: 'Vous ête sûr ?',
+                                              title: 'Vous êtes sûr ?',
                                               text: "",
                                               icon: 'warning',
                                               html: "<p>Lorsque vous supprimez un utilisateur , toutes <strong>les relevés</strong> ajoutées par lui seront <span class='text-danger'>supprimées déffinitivement!</span></p>",

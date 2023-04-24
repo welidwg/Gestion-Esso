@@ -53,6 +53,7 @@ class CigaretteController extends Controller
         if ($check) {
             return response(["error" => "Ce type est déjà existant!"], 500);
         }
+        
         if (strpos($request->type, ',') !== false && strpos($request->type, '.') !== false) {
             return response(["error" => "Le type ne doit pas contenir des virgules et des points."], 500);
         }
