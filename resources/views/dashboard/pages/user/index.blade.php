@@ -57,13 +57,14 @@
                                           </form>
                                       </div>
                                   </td>
+
                                   <script>
                                       $("#delete_user{{ $user->id }}").on('click', () => {
                                           Swal.fire({
                                               title: 'Vous êtes sûr ?',
                                               text: "",
                                               icon: 'warning',
-                                              html: "<p>Lorsque vous supprimez un utilisateur , toutes <strong>les relevés</strong> ajoutées par lui seront <span class='text-danger'>supprimées déffinitivement!</span></p>",
+                                              html: "<p>Lorsque vous supprimez un utilisateur , toutes <strong>les relevés</strong> ajoutés par eux seront <span class='text-danger'>supprimés définitivement!</span></p>",
                                               showCancelButton: true,
                                               confirmButtonColor: '#d33',
                                               cancelButtonColor: '#3085d6',
