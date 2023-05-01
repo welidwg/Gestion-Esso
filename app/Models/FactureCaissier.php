@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class FactureCaissier extends Model
 {
     use HasFactory;
+    
 
     public function caissier():BelongsTo
     {

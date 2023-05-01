@@ -446,9 +446,12 @@
 
                                     </div>
                                 @endif
+                                @php
+                                    $rec_divers = $releve->boutiquePdf == 0 ? 0 : $releve->boutiquePdf - $total_cigars;
+                                @endphp
                                 <script>
                                     $("#recette_cigarette").val("{{ $total_cigars }}")
-                                    $("#recette_divers").val("{{ $releve->boutiquePdf - $total_cigars }}")
+                                    $("#recette_divers").val("{{ $rec_divers }}")
                                 </script>
                             </fieldset>
                         </div>
