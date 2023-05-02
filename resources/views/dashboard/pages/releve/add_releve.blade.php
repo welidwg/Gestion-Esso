@@ -280,8 +280,7 @@
                                             <div class="col-2 m-2">
                                                 <input class="form-control" type="number" required
                                                     id="qte_{{ $carburant->id }}" name="{{ 'qte_' . $title }}"
-                                                    min="0" step="0.01" value="0"
-                                                    max="{{ $carburant->qtiteStk }}" />
+                                                    step="0.01" value="0" />
                                             </div>
                                             <div class="col-2 m-2">
                                                 <input class="form-control  " type="number" required
@@ -388,7 +387,7 @@
                                     <div class="mb-3 ">
                                         
                                         <input class="form-control text-dark " type="number" step="0.01" required
-                                            id="qteC_${id}" value="0" placeholder="" required name="qteC_${id}" max="${qte}"/>
+                                            id="qteC_${id}" value="0" placeholder="" required name="qteC_${id}" />
 
                                              <small>(Dans le stock : ${qte})</small>
                                     </div>
