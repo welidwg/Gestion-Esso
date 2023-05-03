@@ -191,8 +191,8 @@
 
                                                               $("#container{{ $id }}").html("")
                                                               $("#container{{ $id }}").append(`
-                                                              <h5><strong>Recette :</strong> <span>${res.data.rec} €</span></h5>
-                                          <h5><strong>Quantité vendue :</strong>  <span>${res.data.qte} Litres</span></h5>
+                                                              <h5><strong>Recette :</strong> <span>${parseFloat(res.data.rec).toFixed(2)} €</span></h5>
+                                          <h5><strong>Quantité vendue :</strong>  <span>${parseFloat(res.data.qte).toFixed(2)} Litres</span></h5>
                                                               `)
                                                           })
                                                           .catch(err => {
