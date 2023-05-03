@@ -19,7 +19,11 @@ class CigaretteController extends Controller
         return view("dashboard.pages.cigarette.index", ["cigarettes" => Cigarette::orderBy("id", "desc")->get()]);
         //
     }
-
+    public function stats()
+    {
+        return view("dashboard.pages.cigarette.stats", ["cigarettes" => Cigarette::orderBy("id", "desc")->get()]);
+        //
+    }
     /**
      * Show the form for creating a new resource.
      *
