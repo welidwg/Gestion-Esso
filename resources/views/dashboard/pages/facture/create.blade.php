@@ -25,7 +25,7 @@
                                             id="calculetotal"><i class="fas fa-calculator text-primary"
                                                 style="cursor: pointer"></i></a></label><input class="form-control bg-light"
                                         type="number" step="0.01" value="0"
-                                        max="{{ $montant != null ? $montant : 0 }}" min="1" required
+                                        required
                                         id="montant_facture" readonly placeholder="" name="montant" />
                                 </div>
                             </div>

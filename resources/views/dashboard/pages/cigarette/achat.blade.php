@@ -12,43 +12,53 @@
                     <form class="" method="POST" action="{{ route('cigarette.achat_store') }}" id="add_achat_form">
                         @csrf
                         @method('PUT')
-                        <div class="mb-">
-                            <label class="form-label" for=""><strong>Sélectionnez les cigarettees achtetées
-                                </strong></label>
-                        </div>
-                        <div class="row d-flex justify-content-between mb-3 p-3">
-                            <div class="form-check col mb-2">
-                                <select name="" class="form-select" id="type_selected">
-                                    <option value="">---</option>
-                                    @foreach ($cigarettes as $item)
-                                        <option value="{{ str_replace(' ', '', $item->type) }}"
-                                            data-pv="{{ $item->prixV }}" data-type="{{ $item->type }}"
-                                            data-id="{{ $item->id }}">
-                                            {{ $item->type }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <script>
-                                    $(function() {
-                                        $('select').select2();
-                                    });
-                                </script>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label class="form-label" for=""><strong>Choisissez le date d'achat
+                                        </strong></label>
+                                </div>
+                                <input class="form-control  text-dark" type="date" required id="" placeholder=""
+                                    name="date_achat" value="" />
                             </div>
-                            <script>
-                                $("#type_selected").on("change", (e) => {
-                                    // console.log(e.target.value);
-                                    let value = e.target.value;
-                                    let pv = $('#type_selected option:selected').data('pv');;
-                                    let type = $('#type_selected option:selected').data('type');
-                                    let id = $('#type_selected option:selected').data('id');
-                                    if (value != "") {
-                                        if ($(".container-rows").find(`#row_${value}`).length > 0) {
-                                            $(`#row_${value}`).remove()
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label class="form-label" for=""><strong>Sélectionnez les cigarettees achtetées
+                                        </strong></label>
+                                </div>
+                                <div class="row d-flex justify-content-between">
+                                    <div class="form-check col ">
+                                        <select name="" class="form-select" id="type_selected">
+                                            <option value="">---</option>
+                                            @foreach ($cigarettes as $item)
+                                                <option value="{{ str_replace(' ', '', $item->type) }}"
+                                                    data-pv="{{ $item->prixV }}" data-type="{{ $item->type }}"
+                                                    data-id="{{ $item->id }}">
+                                                    {{ $item->type }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <script>
+                                            $(function() {
+                                                // $('select').select2();
+                                            });
+                                        </script>
+                                    </div>
+                                    <script>
+                                        $("#type_selected").on("change", (e) => {
+                                            // console.log(e.target.value);
+                                            let value = e.target.value;
+                                            let pv = $('#type_selected option:selected').data('pv');;
+                                            let type = $('#type_selected option:selected').data('type');
+                                            let id = $('#type_selected option:selected').data('id');
+                                            if (value != "") {
+                                                if ($(".container-rows").find(`#row_${value}`).length > 0) {
+                                                    $(`#row_${value}`).remove()
 
-                                        } else {
+                                                } else {
 
 
-                                            $(".container-rows").append(`
+                                                    $(".container-rows").append(`
                                         <div class="row" id="row_${value}" >
                                 <div class="col-4">
                                     <div class="mb-3">
@@ -67,7 +77,7 @@
                                     <div class="mb-3  d-flex align-items-center">
                                         <input class="form-control text-dark " type="number" step="0.01" required
                                             id="" value="0" placeholder="" required
-                                            name="prixA_${id}" />
+                                            name="Total_${id}" />
                                               <a onclick="deletRow('row_${value}')" class="mx-2"><i class="fas fa-times text-danger"></i></a>
 
                                     </div>
@@ -85,12 +95,14 @@
                              
                             </div>
                                         `)
-                                        }
-                                    }
-                                })
-                            </script>
+                                                }
+                                            }
+                                        })
+                                    </script>
 
 
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-4">
@@ -106,7 +118,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="mb- ">
-                                    <label class="form-label" for=""><strong>Prix unitaire d'achat </strong></label>
+                                    <label class="form-label" for=""><strong>Montant total </strong></label>
 
                                 </div>
                             </div>

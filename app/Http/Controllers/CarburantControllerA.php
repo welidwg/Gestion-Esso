@@ -284,4 +284,28 @@ class CarburantControllerA extends Controller
         }
         return json_encode(count($moyennes));
     }
+    public function ventes(Request $req, $id)
+    {
+        $month = date("m", strtotime($req->date));
+        $year = date("Y", strtotime($req->date));
+        $rels = Releve::whereMonth('date_systeme', $month)
+            ->whereYear('date_systeme', $year)
+            ->get();
+
+        $carburant = Carburant::find($id);
+        $rec = 0;
+        $qte = 0;
+        foreach ($rels as $rel) {
+            $ventes = json_decode($rel->vente);
+            foreach ($ventes as $vente) {
+                foreach ($vente as $key => $value) {
+                    if ($key == $carburant->titre) {
+                        $rec += $value->montant;
+                        $qte += $value->qte;
+                    }
+                }
+            }
+        }
+        return json_encode(["qte" => $qte, "rec" => $rec]);
+    }
 }

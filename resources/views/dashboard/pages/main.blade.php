@@ -307,7 +307,7 @@
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Recette par carburant (en € ) </h6>
+                        <h6 class="text-primary fw-bold m-0">Recette par carburant en € (mois {{ date('m/Y') }}) </h6>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
                                     class="fas fa-ellipsis-v text-gray-400"></i></button>
@@ -335,7 +335,9 @@
                                 // if ($carb->titre == 'D-ENERGIE') {
                                 //     $title = 'qte_denergie';
                                 // }
-                                $releves1 = Releve::all();
+                                $releves1 = Releve::whereMonth('date_systeme', date('m'))
+                                    ->whereYear('date_systeme', date('Y'))
+                                    ->get();
                                 foreach ($releves1 as $r) {
                                     $ventes = json_decode($r->vente);
                                     if ($ventes != null) {

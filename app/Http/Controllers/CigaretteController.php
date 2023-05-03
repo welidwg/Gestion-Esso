@@ -53,7 +53,7 @@ class CigaretteController extends Controller
         if ($check) {
             return response(["error" => "Ce type est déjà existant!"], 500);
         }
-        
+
         if (strpos($request->type, ',') !== false && strpos($request->type, '.') !== false) {
             return response(["error" => "Le type ne doit pas contenir des virgules et des points."], 500);
         }
@@ -109,7 +109,7 @@ class CigaretteController extends Controller
         $compte = Compte::latest()->first();
         $solde = $compte->montant;
         $total = 0;
-        $date = date("Y-m-d");
+        $date = $request->date_achat;
         $final = [];
         $achat = [];
 
@@ -117,27 +117,17 @@ class CigaretteController extends Controller
             foreach ($request->input("types") as $type) {
                 $cigar = Cigarette::where("type", $type)->first();
                 $qte = "qte_$cigar->id";
-                $prix_a = "prixA_$cigar->id";
-                $total += $request->$prix_a * $request->$qte;
-            }
-            if ($total > $solde) {
-                return response(["error" => "Solde insuffisant !", "message" => "Votre solde est insuffisant ! <br> <strong>Solde :</strong>  $solde €| <strong>Total commande: </strong> $total €"], 500);
-            }
-            foreach ($request->input("types") as $type) {
-
-                # code...
-                $cigar = Cigarette::where("type", $type)->first();
-                $qte = "qte_$cigar->id";
-                $prix_v = "prixV_$cigar->id";
-                $prix_a = "prixA_$cigar->id";
-                $cigar->qte += $request->$qte;
-                $cigar->prixA = $request->$prix_a;
-                $cigar->prixV = $request->$prix_a + 1;
-                $total += $request->$prix_a * $request->$qte;
-                array_push($achat, [$type => ["qte" => $request->$qte, "prixA" => $request->$prix_a]]);
+                $tot = "Total_$cigar->id";
+                $total = $request->$tot;
+                $quantity = $request->$qte;
+                $prix_a = $total / $quantity;
+                $prix_v = $prix_a + 1;
+                array_push($achat, [$type => ["qte" => $quantity, "total" => $total, "prixA" => $prix_a]]);
+                $cigar->qte += $quantity;
+                $cigar->prixA = $prix_a;
+                $cigar->prixV = $prix_v;
                 $cigar->save();
             }
-            // array_push($final, $achat);
             $achatCigars = new AchatCigarette();
             $achatCigars->date_achat = $date;
             $achatCigars->total = $total;
@@ -146,6 +136,25 @@ class CigaretteController extends Controller
             $compte->tva_achat += $total * 0.2;
             $compte->save();
             $achatCigars->save();
+            // if ($total > $solde) {
+            //     return response(["error" => "Solde insuffisant !", "message" => "Votre solde est insuffisant ! <br> <strong>Solde :</strong>  $solde €| <strong>Total commande: </strong> $total €"], 500);
+            // }
+            // foreach ($request->input("types") as $type) {
+
+            //     # code...
+            //     $cigar = Cigarette::where("type", $type)->first();
+            //     $qte = "qte_$cigar->id";
+            //     $prix_v = "prixV_$cigar->id";
+            //     $prix_a = "prixA_$cigar->id";
+            //     $cigar->qte += $request->$qte;
+            //     $cigar->prixA = $request->$prix_a;
+            //     $cigar->prixV = $request->$prix_a + 1;
+            //     $total += $request->$prix_a * $request->$qte;
+            //     array_push($achat, [$type => ["qte" => $request->$qte, "prixA" => $request->$prix_a]]);
+            //     $cigar->save();
+            // }
+            // array_push($final, $achat);
+
             return response(["success" => "Type du Cigarette bien ajouté ! "], 201);
         } else {
             return response(["message" => "Erreur ! "], 500);

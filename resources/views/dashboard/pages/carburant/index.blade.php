@@ -2,6 +2,9 @@
   @section('title')
       Carburants
   @endsection
+  @php
+      use App\Models\Releve;
+  @endphp
   @section('content')
       <div class="card shadow">
           <div class="card-header py-2 d-flex  justify-content-between align-items-center ">
@@ -99,13 +102,16 @@
                               <th>Quantite de jauge</th>
                               <th>Seuil absolu</th>
                               <th>Seuil calculé</th>
-
                               <th>Valeur de stock</th>
+                              <th>Action</th>
                               {{-- <th>Action</th> --}}
                           </tr>
                       </thead>
                       <tbody>
                           @foreach ($carburants as $carburant)
+                              @php
+                                  $id = $carburant->id;
+                              @endphp
                               <tr>
                                   <td>{{ $carburant->titre }}</td>
                                   <td>{{ $carburant->prixA . ' €' }}</td>
@@ -122,12 +128,90 @@
                                   <td>{{ $carburant->seuilA }}</td>
                                   <td>{{ $carburant->seuil }}</td>
                                   <td>{{ $carburant->valeur_stock . '€' }}</td>
+                                  <td><a class="btn btn-sm bg-gradient-success text-light rounded-5"
+                                          href="#offcanvasExample{{ $carburant->id }}" data-bs-toggle="offcanvas">Recette /
+                                          mois</a></td>
                                   {{-- <td>
                                       <div class="d-flex flex-row justify-content-start align-items-center">
                                           <a href=""><i class="fas fa-trash text-danger"></i></a>
                                       </div>
                                   </td> --}}
                               </tr>
+
+                              <div class="offcanvas offcanvas-start text-dark" tabindex="-1"
+                                  id="offcanvasExample{{ $carburant->id }}" aria-labelledby="offcanvasExampleLabel">
+                                  <div class="offcanvas-header">
+                                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Données par mois :
+                                          <strong>{{ $carburant->titre }}</strong>
+                                      </h5>
+                                      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                          aria-label="Close"></button>
+                                  </div>
+                                  <div class="offcanvas-body">
+                                      <div>
+                                          @php
+                                              $rels = Releve::whereMonth('date_systeme', date('m'))
+                                                  ->whereYear('date_systeme', date('Y'))
+                                                  ->get();
+                                              $rec = 0;
+                                              $qte = 0;
+                                              foreach ($rels as $rel) {
+                                                  $ventes = json_decode($rel->vente);
+                                                  foreach ($ventes as $vente) {
+                                                      foreach ($vente as $key => $value) {
+                                                          if ($key == $carburant->titre) {
+                                                              $rec += $value->montant;
+                                                              $qte += $value->qte;
+                                                          }
+                                                      }
+                                                  }
+                                              }
+                                          @endphp
+                                          <div class="mb-3">
+                                              <label class="form-label" for=""><strong>Choisissez le
+                                                      mois</strong>
+                                              </label>
+                                              <div id="spinner{{ $id }}"
+                                                  class="spinner-border mx-2 spinner-border-sm text-success" role="status"
+                                                  style="display: none">
+                                                  <span class="sr-only">Loading...</span>
+                                              </div>
+                                              <input class="form-control  text-dark" type="month" required
+                                                  id="mois{{ $id }}" placeholder="" name="date1"
+                                                  value="{{ date('Y-m') }}" />
+                                              <script>
+                                                  $("#mois{{ $id }}").change((e) => {
+                                                      $("#spinner{{ $id }}").fadeIn();
+                                                      axios.get("{{ route('carburant.ventes', $id) }}", {
+                                                              params: {
+                                                                  date: e.target.value
+                                                              }
+                                                          })
+                                                          .then(res => {
+
+                                                              $("#container{{ $id }}").html("")
+                                                              $("#container{{ $id }}").append(`
+                                                              <h5><strong>Recette :</strong> <span>${res.data.rec} €</span></h5>
+                                          <h5><strong>Quantité vendue :</strong>  <span>${res.data.qte} Litres</span></h5>
+                                                              `)
+                                                          })
+                                                          .catch(err => {
+                                                              console.error(err);
+                                                          })
+                                                      $("#spinner{{ $id }}").fadeOut();
+                                                  })
+                                              </script>
+                                          </div>
+                                      </div>
+                                      <div class="row d-flex flex-row text-dark" id="container{{ $id }}">
+                                          <h5><strong>Recette :</strong> <span>{{ $rec }} €</span></h5>
+                                          <h5><strong>Quantité vendue :</strong> <span>{{ $qte }} Litres</span>
+                                          </h5>
+
+                                      </div>
+
+                                  </div>
+                              </div>
                           @endforeach
 
 
