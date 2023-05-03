@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveSoldeController;
 use App\Http\Controllers\CarburantController;
 use App\Http\Controllers\CarburantControllerA;
 use App\Http\Controllers\CigaretteController;
@@ -178,6 +179,10 @@ Route::group(["middleware" => "auth"], function () {
     Route::put("cigarette/achat/create", [CigaretteController::class, "achat_store"])->name("cigarette.achat_store");
     Route::put("cigarette/{id}/editprix", [CigaretteController::class, "editPrixV"])->name("cigarette.editPrixV")->middleware("admin");
     Route::resource("cigarette", CigaretteController::class)->middleware("admin");
+
+
+    //archive solde
+    Route::resource("archive/solde", ArchiveSoldeController::class)->middleware("admin");
 
 
 

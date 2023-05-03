@@ -304,6 +304,16 @@ class ReleveControllerA extends Controller
      */
     public function destroy(Releve $releve)
     {
+
+        foreach (json_decode($releve->vente) as $vente) {
+            foreach ($vente as $key => $value) {
+                # code...
+                $carb = Carburant::where("titre", $key)->first();
+                $carb->qtiteStk += $value->qte;
+                $carb->save();
+            }
+            # code...
+        }
         $cp = Compte::where('id', "!=", null)->first();
         $cp->montant -= ($releve->totalPdf - $releve->client_comptePdf);
         $cp->save();
