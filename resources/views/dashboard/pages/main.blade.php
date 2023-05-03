@@ -307,6 +307,241 @@
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0">Statistiques carburants (mois {{ date('m/Y') }}) </h6>
+                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
+                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
+                                    here</a>
+                            </div>
+                        </div> --}}
+                    </div>
+
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Carburant</th>
+                                    <th scope="col">Vente</th>
+                                    <th scope="col">Achat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $carbs = Carburant::all();
+                                    
+                                @endphp
+                                @foreach ($carbs as $carb)
+                                    @php
+                                        $total_vente_euro = 0;
+                                        $total_vente_qte = 0;
+                                        $total_achat_euro = 0;
+                                        $total_achat_qte = 0;
+                                        $test = [];
+                                        $title = $carb->titre;
+                                        
+                                        $relevesStat1 = Releve::whereMonth('date_systeme', date('m'))
+                                            ->whereYear('date_systeme', date('Y'))
+                                            ->get();
+                                        
+                                        $factureStat = Facture::whereMonth('date_facture', date('m'))
+                                            ->whereYear('date_facture', date('Y'))
+                                            ->get();
+                                        foreach ($relevesStat1 as $r) {
+                                            $ventes = json_decode($r->vente);
+                                            if ($ventes != null) {
+                                                foreach ($ventes as $vente) {
+                                                    foreach ($vente as $k => $v) {
+                                                        if ($k == $carb->titre) {
+                                                            if ($v->montant != 0) {
+                                                                $total_vente_euro += $v->montant;
+                                                                $total_vente_qte += $v->qte;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        foreach ($factureStat as $fact) {
+                                            if ($fact->$title != null) {
+                                                $achats = json_decode($fact->$title);
+                                                foreach ($achats as $achat) {
+                                                    foreach ($achat as $k => $v) {
+                                                        if ($k == 'qte') {
+                                                            $total_achat_qte += $v;
+                                                        }
+                                                        if ($k == 'montant') {
+                                                            $total_achat_euro += $v;
+                                                        }
+                                                    }
+                                                    # code...
+                                                }
+                                            }
+                                        
+                                            # code...
+                                        }
+                                        
+                                    @endphp
+                                    <tr>
+                                        <td scope="row">{{ $title }}</td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="text-dark">
+                                                    <span class="">
+                                                        {{ $total_vente_qte }} Litres
+                                                    </span>
+                                                    /
+                                                    <span class="text-primary">
+                                                        {{ $total_vente_euro }} €
+                                                    </span>
+                                                </span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="text-dark">
+                                                    <span class="">
+                                                        {{ $total_achat_qte }} Litres
+                                                    </span>
+                                                    /
+                                                    <span class="text-primary">
+                                                        {{ $total_achat_euro }} €
+                                                    </span>
+                                                </span>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-6 mb-3">
+                <div class="card shadow mb-4 h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0">Statistiques cigarettes (mois {{ date('m/Y') }}) </h6>
+                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
+                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
+                                    here</a>
+                            </div>
+                        </div> --}}
+                    </div>
+
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Vente</th>
+                                    <th scope="col">Achat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $cigars = Cigarette::all();
+                                    
+                                @endphp
+                                @foreach ($cigars as $cigarette)
+                                    @php
+                                        $total_vente_euro = 0;
+                                        $total_vente_qte = 0;
+                                        $total_achat_euro = 0;
+                                        $total_achat_qte = 0;
+                                        $test = [];
+                                        $title = $cigarette->type;
+                                        
+                                        $relevesStat2 = Releve::whereMonth('date_systeme', date('m'))
+                                            ->whereYear('date_systeme', date('Y'))
+                                            ->get();
+                                        
+                                        $achatStat = AchatCigarette::whereMonth('date_achat', date('m'))
+                                            ->whereYear('date_achat', date('Y'))
+                                            ->get();
+                                        foreach ($relevesStat2 as $r) {
+                                            $ventes = json_decode($r->vente_cigarette);
+                                            if ($ventes != null) {
+                                                foreach ($ventes as $vente) {
+                                                    foreach ($vente as $k => $v) {
+                                                        if ($k == $title) {
+                                                            $total_vente_euro += $v->montant;
+                                                            $total_vente_qte += $v->qte;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        foreach ($achatStat as $achat) {
+                                            $achats = json_decode($achat->achat);
+                                            foreach ($achats as $ach) {
+                                                foreach ($ach as $key => $value) {
+                                                    if ($key == $title) {
+                                                        $total_achat_euro += $achat->total;
+                                                        $total_achat_qte += $value->qte;
+                                                    }
+                                                }
+                                            }
+                                        
+                                            # code...
+                                        }
+                                        
+                                    @endphp
+                                    <tr>
+                                        <td scope="row">{{ $title }}</td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="text-dark">
+                                                    <span class="">
+                                                        {{ $total_vente_qte }} Packets
+                                                    </span>
+                                                    /
+                                                    <span class="text-primary">
+                                                        {{ $total_vente_euro }} €
+                                                    </span>
+                                                </span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="text-dark">
+                                                    <span class="">
+                                                        {{ $total_achat_qte }} Packets
+                                                    </span>
+                                                    /
+                                                    <span class="text-primary">
+                                                        {{ $total_achat_euro }} €
+                                                    </span>
+                                                </span>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-6 mb-3">
+                <div class="card shadow mb-4 h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0">Recette par carburant en € (mois {{ date('m/Y') }}) </h6>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
