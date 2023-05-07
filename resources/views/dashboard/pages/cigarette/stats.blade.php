@@ -68,7 +68,7 @@
                                           foreach ($ventes as $vente) {
                                               foreach ($vente as $k => $v) {
                                                   if ($k == $title) {
-                                                      $total_vente_euro += $v->prix * $v->qte;
+                                                      $total_vente_euro += $v->montant;
                                                       $total_vente_qte += $v->qte;
                                                   }
                                               }
