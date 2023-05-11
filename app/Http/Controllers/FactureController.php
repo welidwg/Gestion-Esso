@@ -17,7 +17,7 @@ class FactureController extends Controller
     public function index()
     {
         //
-        return view("dashboard.pages.facture.index", ["factures" => Facture::all()]);
+        return view("dashboard.pages.facture.index", ["factures" => Facture::orderBy("date_facture", "desc")->get()]);
     }
 
     /**
