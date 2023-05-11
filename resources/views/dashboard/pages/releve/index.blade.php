@@ -24,8 +24,8 @@
           </div>
           <div class="card-body">
 
-              <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                  <table class="table my-0" id="table_index_releve">
+              <div class="table-responsive table mt-2 border-0" role="grid" aria-describedby="">
+                  <table class="table my-0 " id="table_index_releve">
                       <thead>
                           <tr>
                               <th>Id</th>
@@ -40,11 +40,23 @@
                               <th>Action</th>
                           </tr>
                       </thead>
-                      <tbody>
+                      <tbody class="">
+                          @php
+                              $prevDate = $releves->first()->date_systeme;
+                          @endphp
                           @foreach ($releves as $releve)
+                              @php
+                                  $currentDate = $releve->date_systeme;
+                                  
+                              @endphp
                               <tr
                                   @if ($releve->diff != '0') style='background-color:rgba(255,0,0,0.3)' @else style='background-color:rgba(0,255,0,0.3)' @endif>
-                                  <td>{{ $releve->id }}</td>
+                                  <td
+                                      @if ($prevDate != $currentDate) class="border-top-check" @php
+                                                                        $prevDate = $releve->date_systeme;
+
+                                  @endphp @endif>
+                                      {{ $releve->id }}</td>
                                   <td>{{ $releve->date_systeme }}</td>
                                   <td>{{ $releve->heure_d }}</td>
                                   <td>{{ $releve->heure_f }}</td>

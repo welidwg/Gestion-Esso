@@ -16,6 +16,9 @@ th,
 table {
     color: black !important;
 }
+.border-top-check {
+    border-top: 3px solid black !important;
+}
 #backdrop {
     position: absolute;
     top: 0;
@@ -33,6 +36,6 @@ table {
     color: red;
 }
 .row-flex {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
