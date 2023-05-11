@@ -124,7 +124,7 @@ class CigaretteController extends Controller
                 $tot = "Total_$cigar->id";
                 $total = $request->$tot;
                 $quantity = $request->$qte;
-                $prix_a = $total / $quantity;
+                $prix_a = round($total / $quantity, 2);
                 $prix_v = $prix_a + 1;
                 array_push($achat, [$type => ["qte" => $quantity, "total" => $total, "prixA" => $prix_a]]);
                 $cigar->qte += $quantity;
