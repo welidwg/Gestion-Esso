@@ -29,9 +29,9 @@
                         href="{{ route('carburant.index') }}"><i class="fas fa-box-full"></i><span>Carburants</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-success {{ Route::currentRouteName() == 'cigarette.index' ? 'active' : '' }}"
+                    <a class="nav-link {{ Route::currentRouteName() == 'cigarette.index' ? 'active' : '' }}"
                         href="{{ route('cigarette.index') }}">
-                        <i class="fas fa-smoking text-success"></i>
+                        <i class="fas fa-smoking "></i>
                         <span>Cigarettes</span></a>
                 </li>
                 <li class="nav-item">
