@@ -78,33 +78,89 @@ $("#add_releve_form").on("submit", (e) => {
         if (totalSaisiePdf == 0) {
             $("#totalSaisiePdf").addClass("border-danger");
         }
+
         Swal.fire(
             "Erreur !",
             "Il faut calculer les totaux! <br> Appuyez sur <i class='fas fa-calculator text-primary'></i> afin de les calculer.",
             "error"
         );
+        // Swal.fire("Erreur !", divElement, "error");
     } else {
-        axios
-            .post("/releve", $("#add_releve_form").serialize())
-            .then((res) => {
-                Swal.fire(
-                    "Operation Réussite !",
-                    res.data.message + "",
-                    "success"
-                );
-                setTimeout(() => {
-                    window.location.href = "/caissier/releves";
-                }, 600);
-            })
-            .catch((err) => {
-                let errors = err.response.data;
-                console.log(errors);
-                Swal.fire(
-                    "Operation Echouée !",
-                    err.response.data.message,
-                    "error"
-                );
+        const divElement = document.createElement("div");
+        const titleCarb = document.createElement("h5");
+
+        const titleCigars = document.createElement("h5");
+
+        if (carbs.length !== 0) {
+            titleCarb.innerHTML = "Carburants";
+            divElement.appendChild(titleCarb);
+            carbs.forEach((element) => {
+                let qte = $(`input[name="qte_${element.title}"]`).val();
+                let montant = $(`input[name="montant_${element.title}"]`).val();
+
+                //   console.log(
+                //       element.title +
+                //           " => " +
+                //           $(`input[name="qte_${element.title}"]`).val() +
+                //           " : " +
+                //           $(`input[name="montant_${element.title}"]`).val()
+                // );
+                if (qte != 0) {
+                    let childElement = document.createElement("p");
+                    childElement.innerHTML = `<span class="fw-bold">${element.title} <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
+                    divElement.appendChild(childElement);
+                }
             });
+        }
+
+        if (cigars.length !== 0) {
+            titleCigars.innerHTML = "Cigarettes";
+            divElement.appendChild(titleCigars);
+            cigars.forEach((element) => {
+                let qte = $(`input[name="qteC_${element.id}"]`).val();
+                let montant = $(`input[name="montantC_${element.id}"]`).val();
+
+                let childElement = document.createElement("p");
+                childElement.innerHTML = `<span class="fw-bold">${element.type} <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
+                divElement.appendChild(childElement);
+            });
+        }
+
+        Swal.fire({
+            title: "Vous confirmez ces valeurs ?",
+            text: "",
+            icon: "warning",
+            html: divElement,
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Confirmer",
+            cancelButtonText: "Annuler",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios
+                    .post("/releve", $("#add_releve_form").serialize())
+                    .then((res) => {
+                        Swal.fire(
+                            "Operation Réussite !",
+                            res.data.message + "",
+                            "success"
+                        );
+                        setTimeout(() => {
+                            window.location.href = "/caissier/releves";
+                        }, 600);
+                    })
+                    .catch((err) => {
+                        let errors = err.response.data;
+                        console.log(errors);
+                        Swal.fire(
+                            "Operation Echouée !",
+                            err.response.data.message,
+                            "error"
+                        );
+                    });
+            }
+        });
     }
 });
 $("#edit_releve_form").on("submit", (e) => {

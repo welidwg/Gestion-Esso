@@ -269,7 +269,18 @@
                                         <div class="col-2 form-label  m-2"><strong>Prix de vente</strong></div>
                                     </div>
                                     <hr>
+                                    <script>
+                                        let carbs = [];
+                                        let carbs_ids = [];
+                                    </script>
                                     @forelse ($carburants as $carburant)
+                                        <script>
+                                            carbs.push({
+                                                id: "{{ $carburant->id }}",
+                                                title: "{{ strtolower($carburant->titre) }}"
+                                            });
+                                            carbs_ids.push("{{ $carburant->id }}")
+                                        </script>
                                         @php
                                             $title = strtolower($carburant->titre);
                                         @endphp
@@ -334,6 +345,9 @@
 
                                     <hr>
                                     <div class="form-check  mb-2">
+                                        <script>
+                                            let cigars = [];
+                                        </script>
                                         <select name="" class="form-select my-select" id="type_selected">
                                             <option value="">Sélectionnez le type du cigarette vendue</option>
                                             @foreach ($cigarettes as $item)
@@ -370,10 +384,15 @@
 
                                             let type = $('#type_selected option:selected').data('type');
                                             if (value != "") {
+
                                                 if ($(".container-rows").find(`#row_${value}`).length > 0) {
                                                     $(`#row_${value}`).remove()
 
                                                 } else {
+                                                    cigars.push({
+                                                        id: id,
+                                                        type: type
+                                                    });
                                                     $(".container-rows").append(`
                                         <div class="row" id="row_${value}" >
                                 <div class="col-4">
@@ -436,12 +455,16 @@
 
                                                 }
                                             }
+                                            console.log('====================================');
+                                            console.log(cigars);
+                                            console.log('====================================');
                                         })
                                     </script>
 
 
                                 </div>
                             </fieldset>
+
                         </div>
                         <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit">Terminer la
                                 journée</button>
