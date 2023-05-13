@@ -310,7 +310,7 @@
                         <h6 class="text-primary fw-bold m-0">Statistiques carburants (mois {{ date('m/Y') }})
 
                         </h6>
-                        <a class="btn  bg-gradient-light rounded-4 text-primary"
+                        <a class="btn  bg-gradient-light border-0 rounded-4  fw-bold shadow-sm text-primary "
                             href="/carburant/stats?date={{ date('Y-m') }}">Plus</a>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
@@ -434,7 +434,7 @@
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0 ">Statistiques cigarettes (mois {{ date('m/Y') }}) </h6>
-                        <a class="btn  bg-gradient-light rounded-4 text-primary"
+                        <a class="btn  bg-gradient-light border-0 rounded-4  fw-bold shadow-sm text-primary "
                             href="/cigarette/stats?date={{ date('Y-m') }}">Plus</a>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i

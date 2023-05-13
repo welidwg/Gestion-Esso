@@ -50,7 +50,7 @@
                                   
                               @endphp
                               <tr
-                                  @if ($releve->diff != '0') style='background-color:rgba(255,0,0,0.3)' @else style='background-color:rgba(0,255,0,0.3)' @endif>
+                                  @if ($releve->diff != '0') style='background-color:rgba(255,0,0,0.2)' @else style='background-color:rgba(0,255,0,0.2)' @endif>
                                   <td
                                       @if ($prevDate != $currentDate) class="border-top-check" @php
                                                                         $prevDate = $releve->date_systeme;
@@ -58,8 +58,8 @@
                                   @endphp @endif>
                                       {{ $releve->id }}</td>
                                   <td>{{ $releve->date_systeme }}</td>
-                                  <td>{{ $releve->heure_d }}</td>
-                                  <td>{{ $releve->heure_f }}</td>
+                                  <td>{{ date('H:i', strtotime($releve->heure_d)) }}</td>
+                                  <td>{{ date('H:i', strtotime($releve->heure_f)) }}</td>
                                   <td>{{ $releve->caissier->nom }}</td>
 
                                   <td>
@@ -76,16 +76,17 @@
                                   <td>{{ $releve->totalPdf }}</td>
                                   <td>{{ $releve->diff }}</td>
                                   <td>
-                                      <div class="d-flex flex-row justify-content-evenly align-items-center">
-                                          <form action="{{ route('releve.destroy', $releve->id) }}" method="POST">
+                                      <div class="">
+                                          <form action="{{ route('releve.destroy', $releve->id) }}" method="POST"
+                                              class="d-flex flex-row justify-content-start align-items-center">
                                               @method('DELETE')
                                               @csrf
                                               <a href="{{ route('releve.show', $releve->id) }}"><i
-                                                      class="fas fa-eye text-info"></i></a>
+                                                      class="fas fa-eye text-primary"></i></a>
                                               <button type="submit" class="btn bg-transparent border-none"
                                                   id="delete_releve{{ $releve->id }}"
                                                   onclick="return confirm('Vois etes sur ?')"><i
-                                                      class="fas fa-trash text-danger"></i></button>
+                                                      class="fas fa-times text-danger"></i></button>
                                           </form>
                                       </div>
                                   </td>

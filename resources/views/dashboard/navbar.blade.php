@@ -19,16 +19,18 @@
         <ul class="navbar-nav flex-nowrap ms-auto">
 
             <li class="nav-item dropdown no-arrow">
-                <div class="nav-item dropdown no-arrow">
+                <div class="nav-item dropdown no-arrow ">
                     @if (Auth::check())
-                        <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown"
-                            href="#">
-                            <span class="d-none d-lg-inline me-2 text-gray-600  fw-bold "><i class="fal fa-user "></i>
+                        <a class="dropdown-toggle nav-link text-primary " aria-expanded="false"
+                            data-bs-toggle="dropdown" href="#">
+                            <span class="d-none d-lg-inline me-2 text-primary-600  fw-bold "><i
+                                    class="fal fa-user "></i>
                                 {{ Auth::check() ? Auth::user()->nom : '' }}
                                 <i class="far fa-grip-lines-vertical"></i>
                                 {{ Auth::user()->role == 0 ? 'Administrateur' : 'Caissier' }}
                             </span>
-                            <span class=" d-inline d-lg-none me-2 text-gray-600  fw-bold "><i class="fal fa-user "></i>
+                            <span class=" d-inline d-lg-none me-2 text-primary-600  fw-bold "><i
+                                    class="fal fa-user "></i>
                                 {{ Auth::check() ? Auth::user()->nom : '' }}
 
                             </span>
