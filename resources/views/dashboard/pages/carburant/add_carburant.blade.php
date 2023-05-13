@@ -30,7 +30,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for=""><strong>Marge
                                             bénéficiere</strong></label><input class="form-control" type="number"
-                                        step="0.01" required id="marge_beneficiere" placeholder=""
+                                        step="0.01" id="marge_beneficiere" placeholder="" value="0"
                                         name="marge_beneficiere" />
                                 </div>
                             </div>
@@ -40,8 +40,8 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for=""><strong>Prix du vente</strong></label><input
-                                        class="form-control bg-light" type="number" step="0.01" required id="prixV"
-                                        placeholder="" name="prixV" readonly />
+                                        class="form-control " type="number" step="0.01" required id="prixV"
+                                        placeholder="" name="prixV" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -62,13 +62,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for=""><strong>Seuil</strong></label><input
-                                        class="form-control" type="number" step="0.01" required id=""
-                                        placeholder="" name="seuil" />
-                                </div>
-                            </div>
+
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for=""><strong>Seuil absolu</strong></label><input
