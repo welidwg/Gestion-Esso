@@ -71,14 +71,18 @@ $("#add_releve_form").on("submit", (e) => {
     e.preventDefault();
     $("#totalSaisiePdf").removeClass("border-danger");
     $("#totalSaisie").removeClass("border-danger");
-    if (totalSaisie == 0 || totalSaisiePdf == 0) {
+    if (
+        totalSaisie == 0 ||
+        totalSaisiePdf == 0 ||
+        isNaN(totalSaisie) ||
+        isNaN(totalSaisiePdf)
+    ) {
         if (totalSaisie == 0) {
             $("#totalSaisie").addClass("border-danger");
         }
         if (totalSaisiePdf == 0) {
             $("#totalSaisiePdf").addClass("border-danger");
         }
-
         Swal.fire(
             "Erreur !",
             "Il faut calculer les totaux! <br> Appuyez sur <i class='fas fa-calculator text-primary'></i> afin de les calculer.",
