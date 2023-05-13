@@ -164,6 +164,8 @@ $("#add_releve_form").on("submit", (e) => {
                         );
                         $("#submitBtnReleve").attr("disabled", false);
                     });
+            } else {
+                $("#submitBtnReleve").attr("disabled", false);
             }
         });
     }
