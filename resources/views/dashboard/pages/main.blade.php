@@ -694,7 +694,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-xl-12 mb-3">
+            <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4" style="display: block;position: relative;">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary fw-bold m-0">Recette par cigarettes (TOP 5 en € )</h6>
