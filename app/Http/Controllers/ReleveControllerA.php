@@ -99,9 +99,7 @@ class ReleveControllerA extends Controller
             $final = [];
             $final_cigars = [];
             $check2 = Releve::orderBy('id', 'desc')->first();
-
             $carbs = Carburant::all();
-
             if (!$check) {
                 // if ($check2) {
 

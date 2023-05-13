@@ -466,7 +466,7 @@
                             </fieldset>
 
                         </div>
-                        <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit">Terminer la
+                        <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit" id="submitBtnReleve">Terminer la
                                 journée</button>
 
                         </div>

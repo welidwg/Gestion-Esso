@@ -9,8 +9,7 @@ $("#generateTotalSaisie").on("click", (e) => {
         total += parseFloat(inputs[i].value);
     }
 
-    totalInput.value = total;
-    console.log(total);
+    totalInput.value = parseFloat(total).toFixed(2);
 });
 $("#generateTotalSaisiePdf").on("click", (e) => {
     var totalInput = document.getElementById("totalSaisiePdf");
@@ -20,8 +19,7 @@ $("#generateTotalSaisiePdf").on("click", (e) => {
         total += parseFloat(inputs[i].value);
     }
 
-    totalInput.value = total;
-    console.log(total);
+    totalInput.value = parseFloat(total).toFixed(2);
 });
 // Get all the input fields
 // var incrementInputs = document.querySelectorAll(".inputMontantCalcule");
@@ -50,7 +48,7 @@ setInterval(() => {
     $("#diff").css("background-color", "limegreen !important");
 
     if (total1 !== 0 && total2 !== 0) {
-        let diff = total1 - total2;
+        let diff = parseFloat(total1 - total2).toFixed(2);
         inp.style.color = "white";
 
         $("#diff").val(diff);
@@ -66,6 +64,7 @@ setInterval(() => {
 }, 1200);
 
 $("#add_releve_form").on("submit", (e) => {
+    $("#submitBtnReleve").attr("disabled", true);
     let totalSaisie = parseFloat($("#totalSaisie").val());
     let totalSaisiePdf = parseFloat($("#totalSaisiePdf").val());
     e.preventDefault();
@@ -88,6 +87,7 @@ $("#add_releve_form").on("submit", (e) => {
             "Il faut calculer les totaux! <br> Appuyez sur <i class='fas fa-calculator text-primary'></i> afin de les calculer.",
             "error"
         );
+        $("#submitBtnReleve").attr("disabled", false);
         // Swal.fire("Erreur !", divElement, "error");
     } else {
         const divElement = document.createElement("div");
@@ -162,6 +162,7 @@ $("#add_releve_form").on("submit", (e) => {
                             err.response.data.message,
                             "error"
                         );
+                        $("#submitBtnReleve").attr("disabled", false);
                     });
             }
         });

@@ -587,7 +587,7 @@
                                             foreach ($vente as $k => $v) {
                                                 if ($k == $carb->titre) {
                                                     if ($v->montant != 0) {
-                                                        $total += $v->qte * $carb->prixV;
+                                                        $total += $v->montant;
                                                     }
                                                 }
                                             }
