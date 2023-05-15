@@ -736,7 +736,7 @@
                                                 foreach ($vente as $k => $v) {
                                                     if ($k == $cigar->type) {
                                                         if ($v->qte != 0) {
-                                                            $total += $v->qte * $cigar->prixV;
+                                                            $total += $v->montant;
                                                         }
                                                     }
                                                 }
