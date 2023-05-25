@@ -16,14 +16,14 @@ class CarburantControllerA extends Controller
      */
     public function index()
     {
-        //
-        $all = Carburant::all();
-        return view("dashboard.pages.carburant.index", ["carburants" => $all]);
+        $carburants = Carburant::all();
+        return view("dashboard.pages.carburant.index", compact('carburants'));
     }
     public function stats()
     {
         $all = Carburant::all();
-        return view("dashboard.pages.carburant.stats", ["carburants" => $all]);    }
+        return view("dashboard.pages.carburant.stats", ["carburants" => $all]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -312,5 +312,4 @@ class CarburantControllerA extends Controller
         }
         return json_encode(["qte" => $qte, "rec" => $rec]);
     }
-   
 }

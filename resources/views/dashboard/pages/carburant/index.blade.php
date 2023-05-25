@@ -118,7 +118,7 @@
                                   <td>{{ $carburant->prixV . ' €' }}</td>
                                   <td>{{ $carburant->marge_beneficiere * 100 . ' %' }}</td>
                                   <td>
-                                      @if ($carburant->qtiteStk <= $carburant->seuilA + 30)
+                                      @if ($carburant->qtiteStk <= $carburant->seuil)
                                           <span class="badge bg-danger">{{ $carburant->qtiteStk }}</span>
                                       @else
                                           {{ $carburant->qtiteStk }}

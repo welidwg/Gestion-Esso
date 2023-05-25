@@ -19,6 +19,12 @@
 
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link   {{ Route::currentRouteName() == 'commande.index' ? 'active' : '' }}"
+                        href="/commande"> <i class="fal fa-clipboard-list-check"></i><span>Commande</span></a>
+
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link   {{ Route::currentRouteName() == 'stats' ? 'active' : '' }}"
                         href="/stats/moyenne"><i class="fas fa-tachometer-alt"></i><span>Moyenne de
                             consommation</span></a>

@@ -4,6 +4,7 @@ use App\Http\Controllers\ArchiveSoldeController;
 use App\Http\Controllers\CarburantController;
 use App\Http\Controllers\CarburantControllerA;
 use App\Http\Controllers\CigaretteController;
+use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CompteController;
 use App\Http\Controllers\FactureCaissierController;
 use App\Http\Controllers\FactureController;
@@ -184,6 +185,8 @@ Route::group(["middleware" => "auth"], function () {
 
     Route::resource("cigarette", CigaretteController::class)->middleware("admin");
 
+    //commande
+    Route::resource("commande", CommandeController::class)->middleware("admin");
 
     //archive solde
     Route::resource("archive/solde", ArchiveSoldeController::class)->middleware("admin");
