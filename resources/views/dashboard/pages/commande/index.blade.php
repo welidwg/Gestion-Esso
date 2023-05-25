@@ -30,7 +30,7 @@
                           <tr>
                               <th></th>
                               @foreach ($carburants as $carb)
-                                  <th>{{ $carb->titre }}</th>
+                                  <th style="font-size: 16px">{{ $carb->titre }}</th>
                               @endforeach
                           </tr>
                       </thead>
@@ -38,7 +38,7 @@
                           <tr>
                               <td class="fw-bold">Stock actuel</td>
                               @foreach ($carburants as $carb)
-                                  <td><span class="badge text-bg-primary"
+                                  <td><span class="badge {{ $carb->qtiteStk <= 0 ? 'text-bg-danger' : 'text-bg-primary' }}"
                                           style="font-size: 16px">{{ $carb->qtiteStk }}</span></td>
                               @endforeach
                           </tr>
@@ -71,14 +71,14 @@
                                   @php
                                       
                                       $week = $moyennes[$carb->titre] * 7;
-                                      $qte = $week - $carb->qtiteStk;
+                                      $qte = round($week - $carb->qtiteStk, 2);
                                   @endphp
                                   @if ($qte > 0)
                                       <td class=""> <span class="badge text-bg-danger " style="font-size: 16px">
                                               {{ round($qte, 2) }}</span>
                                       </td>
                                   @else
-                                      -
+                                      <td>-</td>
                                   @endif
                               @endforeach
                           </tr>
