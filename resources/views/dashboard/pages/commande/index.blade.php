@@ -36,14 +36,14 @@
                       </thead>
                       <tbody class="">
                           <tr>
-                              <td class="fw-bold">Stock actuel</td>
+                              <td class="fw-bold">Stock actuel (litres)</td>
                               @foreach ($carburants as $carb)
-                                  <td><span class="badge {{ $carb->qtiteStk <= 0 ? 'text-bg-danger' : 'text-bg-primary' }}"
+                                  <td><span class="badge {{ $carb->qtiteStk <= 0 ? 'text-bg-warning' : 'text-bg-primary' }}"
                                           style="font-size: 16px">{{ $carb->qtiteStk }}</span></td>
                               @endforeach
                           </tr>
                           <tr>
-                              <td class="fw-bold">Moyenne de consommation par jour</td>
+                              <td class="fw-bold">Moyenne de consommation par jour (litres)</td>
                               @foreach ($carburants as $carb)
                                   @if ($moyennes[$carb->titre] != 0)
                                       <td class=""> <span class="badge text-light bg-info"
@@ -55,7 +55,7 @@
                               @endforeach
                           </tr>
                           <tr>
-                              <td class="fw-bold " style="font-size: 16px">Stock nécessaire pour une semaine</td>
+                              <td class="fw-bold " style="font-size: 16px">Stock nécessaire pour une semaine (litres)</td>
                               @foreach ($carburants as $carb)
                                   @php
                                       
@@ -66,7 +66,7 @@
                               @endforeach
                           </tr>
                           <tr>
-                              <td class="fw-bold" style="font-size: 16px">Quantité manquante </td>
+                              <td class="fw-bold" style="font-size: 16px">Quantité manquante (litres)</td>
                               @foreach ($carburants as $carb)
                                   @php
                                       
