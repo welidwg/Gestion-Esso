@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{{ asset('assets/fa/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
-
     <link rel="stylesheet" href="{{ asset('/assets/login.css') }}" />
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}" /> --}}
 
 </head>
 {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -23,6 +23,7 @@
             <div class="p">
 
                 <form class="user bg-gradient-light p-4 rounded-0 shadow" id="user_auth_form">
+                    @csrf
                     <div class="text-center">
                         <h4 class="text-dark  fw-bolder mb-4">Connectez-vous</h4>
                     </div>
