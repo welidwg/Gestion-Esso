@@ -117,19 +117,27 @@ $("#add_releve_form").on("submit", (e) => {
             });
         }
 
-        if (cigars.length !== 0) {
+        // if (cigars.length !== 0) {
+        //     // titleCigars.innerHTML = "Cigarettes";
+        //     // divElement.appendChild(titleCigars);
+        //     // cigars.forEach((element) => {
+        //     //     let qte = $(`input[name="qteC_${element.id}"]`).val();
+        //     //     let montant = $(`input[name="montantC_${element.id}"]`).val();
+        //     //     let childElement = document.createElement("p");
+        //     //     childElement.innerHTML = `<span class="fw-bold">${element.type} <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
+        //     //     divElement.appendChild(childElement);
+        //     // });
+        // }
+        let qteC = parseFloat($("#qteC").val());
+        if (!isNaN(qteC) && qteC != 0) {
             titleCigars.innerHTML = "Cigarettes";
             divElement.appendChild(titleCigars);
-            cigars.forEach((element) => {
-                let qte = $(`input[name="qteC_${element.id}"]`).val();
-                let montant = $(`input[name="montantC_${element.id}"]`).val();
-
-                let childElement = document.createElement("p");
-                childElement.innerHTML = `<span class="fw-bold">${element.type} <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
-                divElement.appendChild(childElement);
-            });
+            let qte = $(`input[name="qteC"]`).val();
+            let montant = $(`input[name="montantC"]`).val();
+            let childElement = document.createElement("p");
+            childElement.innerHTML = `<span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
+            divElement.appendChild(childElement);
         }
-
         Swal.fire({
             title: "Vous confirmez ces valeurs ?",
             text: "",
@@ -229,9 +237,6 @@ function checkEcart(id_saisie, id_rapport, name) {
             $("#" + id_saisie).addClass("border-danger text-danger ");
 
             $("#" + id_rapport).addClass("border-danger text-danger");
-            console.log("====================================");
-            console.log(name + " est differnent");
-            console.log("====================================");
         }
     }
 }

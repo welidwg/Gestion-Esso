@@ -39,9 +39,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Date
-                                        </strong></label><input class="form-control bg-light" type="text" required
-                                        value="{{ date('d/m/Y') }}" readonly id="date_systeme" placeholder=""
-                                        name="date_systeme"></div>
+                                        </strong></label><input class="form-control " type="date" required
+                                        value="{{ date('Y-m-d') }}" id="date_systeme" placeholder="" name="date_systeme">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Nom du caissier
@@ -309,27 +309,14 @@
                                                     let qte = $("#qte_{{ $carburant->id }}").val();
                                                     let montant = $("#montant_{{ $carburant->id }}").val();
                                                     if (qte != 0 && montant != 0) {
-                                                        $("#prix_{{ $carburant->id }}").val(parseFloat(montant / qte).toFixed(2))
+                                                        $("#prix_{{ $carburant->id }}").val(parseFloat(montant / qte).toFixed(3))
                                                     }
                                                 })
                                             </script>
                                             <input type="hidden" name="titles[]" value="{{ $carburant->titre }}">
 
                                         </div>
-                                        {{-- <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label" for="">
-                                                    <strong>
-                                                        {{ $carburant->titre }}</strong>
-                                                </label>
-                                              
-                                                <input class="form-control" type="number" required
-                                                    id="{{ $carburant->titre }}" placeholder=""
-                                                    name="{{ $title == 'd-energie' ? 'qte_denergie' : 'qte_' . $title }}"
-                                                    step="0.01" value="0" max="{{ $carburant->qtiteStk }}" />
-                                                <input type="hidden" name="titles[]" value="{{ $carburant->titre }}">
-                                            </div>
-                                        </div> --}}
+
                                     @empty
                                     @endforelse
 
@@ -339,12 +326,11 @@
                         </div>
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold ">-Les cigarettes Vendues
+                                <legend class="fw-bold mb-3 ">-Les cigarettes Vendues
                                 </legend>
                                 <div class="row">
 
-                                    <hr>
-                                    <div class="form-check  mb-2">
+                                    {{-- <div class="form-check  mb-2">
                                         <script>
                                             let cigars = [];
                                         </script>
@@ -363,108 +349,93 @@
                                                 $('select').select2();
                                             });
                                         </script>
+                                    </div> --}}
+
+                                    <div class="d-flex  align-items-center mb-3 ">
+                                        {{-- <div class="col-4 "><strong>Type</strong></div> --}}
+                                        <div class="col-6 form-label  m-2"><strong>Quantité vendue</strong></div>
+                                        {{-- <div class="col-3 form-label  m-2"><strong>Prix de vente</strong></div> --}}
+                                        <div class="col-6 form-label  m-2"><strong>Montant</strong></div>
                                     </div>
                                     <hr>
-                                    <div class="d-flex  align-items-center mb-3 ">
-                                        <div class="col-4 "><strong>Type</strong></div>
-                                        <div class="col-4 form-label  m-2"><strong>Quantité vendue</strong></div>
-                                        {{-- <div class="col-3 form-label  m-2"><strong>Prix de vente</strong></div> --}}
-                                        <div class="col-4 form-label  m-2"><strong>Montant</strong></div>
-                                    </div>
+
                                     <div class="container-rows">
+                                        <div class="row" id="">
 
+                                            <div class="col-6">
+                                                <div class="mb-3 ">
+
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="qteC" value="0" placeholder="" required
+                                                        name="qteC" />
+
+                                                    {{-- <small>(Dans le stock : ${qte})</small> --}}
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-3  visually-hidden">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark bg-light" type="number"
+                                                        step="0.01" required id="prixVC" hidden placeholder=""
+                                                        readonly required name="prixVC" />
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="mb-3 d-flex align-items-center">
+                                                    <input class="form-control  text-dark " type="number" step="0.01"
+                                                        required id="montantC" value="0" placeholder="" required
+                                                        name="montantC" />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <script>
+                                            let prixVC = $("#prixVC").val();
+                                            let montant = $("#montantC").val();
+                                            $("#qteC").on("input", (e) => {
+
+                                                $(`#prixVC`).val(parseFloat($("#montantC").val() / e.target.value)
+                                                    .toFixed(3))
+
+                                            })
+                                            $("#montantC").on("input", (e) => {
+
+                                                $(`#prixVC`).val(parseFloat(e.target.value / $("#qteC").val())
+                                                    .toFixed(3))
+
+                                            })
+                                        </script>
                                     </div>
-                                    <script>
-                                        $("#type_selected").on("change", (e) => {
-                                            // console.log(e.target.value);
-                                            let value = e.target.value;
-                                            let pv = $('#type_selected option:selected').data('pv');
-                                            let qte = $('#type_selected option:selected').data('qte');
-                                            let id = $('#type_selected option:selected').data('id');
-
-                                            let type = $('#type_selected option:selected').data('type');
-                                            if (value != "") {
-
-                                                if ($(".container-rows").find(`#row_${value}`).length > 0) {
-                                                    $(`#row_${value}`).remove()
-
-                                                } else {
-                                                    cigars.push({
-                                                        id: id,
-                                                        type: type
-                                                    });
-                                                    $(".container-rows").append(`
-                                        <div class="row" id="row_${value}" >
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <input class="form-control bg-light text-dark" type="text" required
-                                            id="" placeholder="" required name="type" value="${type}"
-                                            readonly />
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3 ">
-                                        
-                                        <input class="form-control text-dark " type="number" step="0.01" required
-                                            id="qteC_${id}" value="0" placeholder="" required name="qteC_${id}" />
-
-                                             <small>(Dans le stock : ${qte})</small>
-                                    </div>
-                               
-                                </div>
-                                <div class="col-md-3  visually-hidden" >
-                                    <div class="mb-3 ">
-                                        <input class="form-control text-dark bg-light" type="number" step="0.01" required
-                                            id="prixVC_${id}" value="${pv}" hidden placeholder="" readonly required
-                                            name="prixVC_${id}" />
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3 d-flex align-items-center">
-                                        <input class="form-control  text-dark " type="number" step="0.01" required
-                                            id="montantC_${id}" value="0" placeholder="" required 
-                                            name="montantC_${id}" />
-                                            <a onclick="deletRow('row_${value}')" class="mx-2"><i class="fas fa-times text-danger"></i></a>
-                                    </div>
-                                    
-                                </div>
-                                <input type="hidden" name="types[]" value="${type}">
-                             
-                            </div>
-                                        `)
-                                                    let prixVC = $("#prixVC_" + id).val();
-                                                    let montant = $("#montantC_" + id).val();
-                                                    $("#qteC_" + id).on("input", (e) => {
-
-
-                                                        $(`#prixVC_${id}`).val(parseFloat($("#montantC_" + id).val() / e.target.value)
-                                                            .toFixed(2))
-                                                        console.log($(`#prixVC_${id}`).val());
-
-
-
-                                                    })
-                                                    $("#montantC_" + id).on("input", (e) => {
-
-                                                        $(`#prixVC_${id}`).val(parseFloat(e.target.value / $("#qteC_" + id).val())
-                                                            .toFixed(2))
-                                                        console.log($(`#prixVC_${id}`).val());
-
-
-                                                    })
-
-                                                }
-                                            }
-                                            console.log('====================================');
-                                            console.log(cigars);
-                                            console.log('====================================');
-                                        })
-                                    </script>
-
-
                                 </div>
                             </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class="border p-2 mx-auto mb-3">
+                                <legend class="fw-bold mb-3 ">-Recette divers
+                                </legend>
+                                <div class="row">
 
+
+
+
+
+
+                                    <div class="container-rows">
+                                        <div class="col-6 form-label p-2  "><strong>Montant</strong></div>
+
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="divers" value="0" placeholder="" required
+                                                        name="divers" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </div>
                         <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit"
                                 id="submitBtnReleve">Terminer la

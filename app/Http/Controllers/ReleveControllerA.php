@@ -124,19 +124,33 @@ class ReleveControllerA extends Controller
                         $this->updateCarburant($v, $data[$qte], $request->input($prix));
                     }
                 }
-                if ($request->has("types")) {
-                    foreach ($request->input("types") as $type) {
-                        $cigar = Cigarette::where("type", $type)->first();
-                        $cigars = [];
+                // if ($request->has("types")) {
+                //     foreach ($request->input("types") as $type) {
+                //         $cigar = Cigarette::where("type", $type)->first();
+                //         $cigars = [];
 
-                        $qte = "qteC_" . $cigar->id;
-                        $prix = "prixVC_" . $cigar->id;
-                        $montant = "montantC_" . $cigar->id;
-                        $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                        array_push($final_cigars, $cigars);
-                        $this->updateCigarette($type, $request->input($qte), $request->input($prix));
-                    }
+                //         $qte = "qteC_" . $cigar->id;
+                //         $prix = "prixVC_" . $cigar->id;
+                //         $montant = "montantC_" . $cigar->id;
+                //         $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+                //         array_push($final_cigars, $cigars);
+                //         $this->updateCigarette($type, $request->input($qte), $request->input($prix));
+                //     }
+                // }
+                $cigar = Cigarette::latest()->first();
+                $cigars = [];
+                $type = $cigar->type;
+                $qte = "qteC";
+                $prix = "prixVC";
+                $montant = "montantC";
+                if ($request->input($qte) != 0) {
+                    $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+                    array_push($final_cigars, $cigars);
+                    $this->updateCigarette($type, $request->input($qte), $request->input($prix));
                 }
+
+                $divers= $request->input("divers");
+
                 $compte = Compte::where("id", "!=", null)->first();
                 if ($compte) {
                     if ($request->client_compte != 0) {

@@ -55,8 +55,8 @@
             @endphp
         @endforeach --}}
         <div class="">
-            <div class="row d-flex justify-content-evenly">
-                <div class="col-md-6 col-xl-2 mb-4 ">
+            <div class="row d-flex justify-content-start">
+                <div class="col-md-6 col-xl-3 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body">
                             <div class="row align-items-center no-gutters">
@@ -136,12 +136,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-2 mb-4 ">
-                    <div class="card shadow border-start-primary py-2 h-100">
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary  py-2 h-100">
                         <div class="card-body">
                             <div class="row align-items-center no-gutters">
-                                <div class="col me-2">
-                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Client en compte
+                                <div class="col me-2 d-flex flex-column justify-content-between h-100">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Client en compte
                                         </span>
                                     </div>
                                     @php
@@ -159,39 +159,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-2 mb-4 ">
+                <div class="col-md-6 col-xl-3 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
                                 <div class="col me-2">
-                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Recette
-                                            d'aujourd'hui
-                                        </span>
-                                    </div>
-                                    @php
-                                        $recette = 0;
-                                        
-                                        $releves = Releve::where('date_systeme', date('Y-m-d'))->get();
-                                        foreach ($releves as $rel) {
-                                            $recette += $rel->totalPdf;
-                                            # code...
-                                        }
-                                    @endphp
-                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $recette }} € </span></div>
-                                    <div class="text-dark  mb-0"></div>
-
-                                </div>
-                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-2 mb-4 ">
-                    <div class="card shadow border-start-primary py-2 h-100">
-                        <div class="card-body h-100">
-                            <div class="row align-items-center no-gutters">
-                                <div class="col me-2">
-                                    <div class="text-uppercase text-danger fw-bold text-xs mb-1"><span>Total TVA achat
+                                    <div class="text-uppercase text-danger fw-bold text-xs mb-3"><span>Total TVA achat
                                             (mois {{ date('m') }})
                                         </span>
                                     </div>
@@ -214,12 +187,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-2 mb-4 ">
+                <div class="col-md-6 col-xl-3 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
                                 <div class="col me-2">
-                                    <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Total TVA encaissé
+                                    <div class="text-uppercase text-success fw-bold text-xs mb-3"><span>Total TVA encaissé
                                             (mois {{ date('m') }})
                                         </span>
                                     </div>
@@ -240,6 +213,89 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
+                                            d'aujourd'hui
+                                        </span>
+                                    </div>
+                                    @php
+                                        $recette = 0;
+                                        $rec_carburants = 0;
+                                        $rec_boutique = 0;
+                                        $releves = Releve::where('date_systeme', date('Y-m-d'))->get();
+                                        foreach ($releves as $rel) {
+                                            $rec_boutique += $rel->divers;
+                                            $ventes = json_decode($rel->vente);
+                                            $ventes_cigarettes = json_decode($rel->vente_cigarette);
+                                            foreach ($ventes as $vente) {
+                                                foreach ($vente as $key => $value) {
+                                                    $rec_carburants += $value->montant;
+                                                }
+                                                # code...
+                                            }
+                                            foreach ($ventes_cigarettes as $vente) {
+                                                foreach ($vente as $key => $value) {
+                                                    $rec_boutique += $value->montant;
+                                                }
+                                                # code...
+                                            }
+                                            $recette += $rec_boutique + $rec_carburants;
+                                            # code...
+                                        }
+                                    @endphp
+                                    <div class="text-dark fw-bold  h5 mb-2"><span> {{ $recette }} € </span></div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
+                                            carburant
+                                        </span>
+                                    </div>
+
+                                    <div class="text-dark  fw-bold  h5 mb-2"><span> {{ $rec_carburants }} € </span>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
+                                            boutique
+                                        </span>
+                                    </div>
+
+                                    <div class="text-dark   fw-bold  h5 mb-2"><span> {{ $rec_boutique }} € </span>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @php
                     // $start = Carbon::parse('10:30:00');
                     

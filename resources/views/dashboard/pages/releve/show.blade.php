@@ -259,7 +259,8 @@
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette divers</strong></label><input class="form-control bg-light "
                                                 type="number" required readonly id="recette_divers" placeholder=""
-                                                name="recette_divers" step="0.01" min="0" value="0">
+                                                name="recette_divers" step="0.01" min="0"
+                                                value="{{ $releve->divers }}">
                                         </div>
                                     </div>
 
@@ -339,7 +340,7 @@
                             </fieldset>
                         </div>
                         <div class="row">
-                            <fieldset class="border p-2 mx-auto mb-3">
+                            <fieldset class="border  mx-auto mb-3">
                                 <legend class="fw-bold ">-Les cigarettes Vendues
                                 </legend>
                                 @php
@@ -351,79 +352,85 @@
                                 @if ($releve->vente_cigarette !== null)
 
 
-                                    <div class="row">
-                                        <div class="d-flex justify-content-evenly align-items-center mb-3 ">
-                                            <div class="col-2 "><strong>Type</strong></div>
-                                            <div class="col-2 form-label  m-2"><strong>Quantité vendue</strong></div>
-                                            <div class="col-2 form-label  m-2"><strong>Montant</strong></div>
-                                            <div class="col-2 form-label  m-2"><strong>Prix de vente</strong></div>
+                                    <div class="row p-2">
+                                        <div class="d-flex justify-content-center align-items-center mb-3 ">
+                                            {{-- <div class="col-2 "><strong>Type</strong></div> --}}
+                                            <div class="col-4 form-label  "><strong>Quantité vendue</strong></div>
+                                            <div class="col-4 form-label  "><strong>Montant</strong></div>
+                                            <div class="col-4 form-label  "><strong>Prix de vente</strong></div>
                                         </div>
                                         <hr>
                                         @php
                                             $ventes_cigars = json_decode($releve->vente_cigarette);
                                             
                                         @endphp
-                                        @if ($ventes_cigars)
-                                            @forelse ($cigarettes as $cigarette)
-                                                @forelse ($ventes_cigars as $vente)
-                                                    @php
-                                                        $title = $cigarette->type;
-                                                        $id = $cigarette->id;
-                                                    @endphp
-                                                    @foreach ($vente as $k => $v)
-                                                        @if ($k == $title)
-                                                            @php
-                                                                $total_cigars += $v->montant;
-                                                            @endphp
-                                                            <div class="d-flex justify-content-evenly align-items-center">
-                                                                <div class="col-2 mb-3">
+                                        <div class="p-3">
+
+
+                                            @if ($ventes_cigars)
+                                                @forelse ($cigarettes as $cigarette)
+                                                    @forelse ($ventes_cigars as $vente)
+                                                        @php
+                                                            $title = $cigarette->type;
+                                                            $id = $cigarette->id;
+                                                        @endphp
+                                                        @foreach ($vente as $k => $v)
+                                                            @if ($k == $title)
+                                                                @php
+                                                                    $total_cigars += $v->montant;
+                                                                @endphp
+                                                                <div
+                                                                    class="d-flex justify-content-center align-items-center">
+                                                                    {{-- <div class="col-2 mb-3">
                                                                     <strong> {{ $k }}</strong>
-                                                                </div>
-                                                                <div class="col-2 m-2">
-                                                                    <input class="form-control bg-light" readonly
-                                                                        type="number" required
-                                                                        id="qteC_{{ $cigarette->id }}" placeholder=""
-                                                                        name="{{ 'qteC_' . $id }}" min="0"
-                                                                        step="0.01" value="{{ $v->qte }}"
-                                                                        max="{{ $cigarette->qte }}" />
-                                                                </div>
+                                                                </div> --}}
+                                                                    <div class="col-4 m-2">
+                                                                        <input class="form-control bg-light" readonly
+                                                                            type="number" required
+                                                                            id="qteC_{{ $cigarette->id }}" placeholder=""
+                                                                            name="{{ 'qteC_' . $id }}" min="0"
+                                                                            step="0.01" value="{{ $v->qte }}"
+                                                                            max="{{ $cigarette->qte }}" />
+                                                                    </div>
 
-                                                                <div class="col-2 m-2">
-                                                                    <input class="form-control bg-light" type="number"
-                                                                        required id="montantC_{{ $cigarette->id }}"
-                                                                        placeholder="" name="{{ 'montantC_' . $id }}"
-                                                                        step="0.01" value="{{ $v->montant }}"
-                                                                        readonly min="0" />
+                                                                    <div class="col-4 m-2">
+                                                                        <input class="form-control bg-light"
+                                                                            type="number" required
+                                                                            id="montantC_{{ $cigarette->id }}"
+                                                                            placeholder="" name="{{ 'montantC_' . $id }}"
+                                                                            step="0.01" value="{{ $v->montant }}"
+                                                                            readonly min="0" />
+                                                                    </div>
+                                                                    <div class="col-4 m-2">
+                                                                        <input class="form-control bg-light"
+                                                                            type="number" required
+                                                                            id="prixC_{{ $cigarette->id }}" readonly
+                                                                            placeholder="" name="{{ 'prixC_' . $id }}"
+                                                                            step="0.01" min="0"
+                                                                            value="{{ $v->prix }}" />
+                                                                    </div>
+                                                                    <input type="hidden" name="types[]"
+                                                                        value="{{ $cigarette->type }}">
+                                                                    <script>
+                                                                        $("#qteC_{{ $cigarette->id }}").on("input", (e) => {
+                                                                            console.log('====================================');
+                                                                            console.log(e.target.value);
+                                                                            console.log('====================================');
+                                                                            if (!isNaN(e.target.value)) {
+                                                                                let pv = $("#prixC_{{ $cigarette->id }}").val();
+                                                                                $("#montantC_{{ $cigarette->id }}").val(parseFloat(pv * e.target.value).toFixed(2))
+                                                                            }
+                                                                        })
+                                                                    </script>
                                                                 </div>
-                                                                <div class="col-2 m-2">
-                                                                    <input class="form-control bg-light" type="number"
-                                                                        required id="prixC_{{ $cigarette->id }}" readonly
-                                                                        placeholder="" name="{{ 'prixC_' . $id }}"
-                                                                        step="0.01" min="0"
-                                                                        value="{{ $v->prix }}" />
-                                                                </div>
-                                                                <input type="hidden" name="types[]"
-                                                                    value="{{ $cigarette->type }}">
-                                                                <script>
-                                                                    $("#qteC_{{ $cigarette->id }}").on("input", (e) => {
-                                                                        console.log('====================================');
-                                                                        console.log(e.target.value);
-                                                                        console.log('====================================');
-                                                                        if (!isNaN(e.target.value)) {
-                                                                            let pv = $("#prixC_{{ $cigarette->id }}").val();
-                                                                            $("#montantC_{{ $cigarette->id }}").val(parseFloat(pv * e.target.value).toFixed(2))
-                                                                        }
-                                                                    })
-                                                                </script>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
+                                                            @endif
+                                                        @endforeach
 
-                                                @empty
-                                                @endforelse
+                                                    @empty
+                                                    @endforelse
 
 
-                                                {{-- <div class="col-md-2">
+                                                    {{-- <div class="col-md-2">
                                             <div class="mb-3">
                                                 <label class="form-label" for="">
                                                     <strong>
@@ -437,12 +444,12 @@
                                                 <input type="hidden" name="titles[]" value="{{ $carburant->titre }}">
                                             </div>
                                         </div> --}}
-                                            @empty
-                                            @endforelse
-                                            {{-- {{ $total }} --}}
-                                            <script></script>
-                                        @endif
-
+                                                @empty
+                                                @endforelse
+                                                {{-- {{ $total }} --}}
+                                                <script></script>
+                                            @endif
+                                        </div>
 
                                     </div>
                                 @endif
@@ -451,7 +458,7 @@
                                 @endphp
                                 <script>
                                     $("#recette_cigarette").val("{{ $total_cigars }}")
-                                    $("#recette_divers").val("{{ $rec_divers }}")
+                                    // $("#recette_divers").val("{{ $rec_divers }}")
                                 </script>
                             </fieldset>
                         </div>
