@@ -243,7 +243,7 @@
                                                 }
                                                 # code...
                                             }
-                                            $recette += $rel->totalPdf;
+                                            $recette += $rec_boutique + $rec_carburants;
                                             # code...
                                         }
                                     @endphp
