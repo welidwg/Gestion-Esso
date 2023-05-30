@@ -237,15 +237,16 @@
                                                 }
                                                 # code...
                                             }
-                                            foreach ($ventes_cigarettes as $vente) {
-                                                foreach ($vente as $key => $value) {
+                                            foreach ($ventes_cigarettes as $vente1) {
+                                                foreach ($vente1 as $key => $value) {
                                                     $rec_boutique += $value->montant;
                                                 }
                                                 # code...
                                             }
-                                            $recette += $rec_carburants;
                                             # code...
                                         }
+                                        $recette = $rec_boutique + $rec_carburants;
+                                        
                                     @endphp
                                     <div class="text-dark fw-bold  h5 mb-2"><span> {{ $recette }} € </span></div>
                                 </div>
