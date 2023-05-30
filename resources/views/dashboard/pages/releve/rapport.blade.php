@@ -100,36 +100,34 @@
                     "order": [],
                     dom: 'Bfrtip',
                     "pageLength": 31,
-                    buttons: [
-                        {
-                            extend: "pdf",
-                            className: "btn-primary",
-                            title: "test",
-                            customize: function(doc) {
-                                // Get the table node in the PDF document
-                                var table = doc.content[1].table.body;
+                    buttons: [{
+                        extend: "pdf",
+                        className: "btn-primary",
+                        title: "Rapport du mois {{ $monthM }}",
+                        customize: function(doc) {
+                            // Get the table node in the PDF document
+                            var table = doc.content[1].table.body;
 
-                                // Iterate over each row in the table
-                                table.forEach(function(row, rowIndex) {
-                                    // Iterate over each cell in the row
-                                    row.forEach(function(cell, cellIndex) {
-                                        // Get the background color of the corresponding cell in the HTML table
-                                        var bgColor = $('#table_rapport tr:eq(' +
-                                            rowIndex +
-                                            ') td:eq(' + cellIndex + ')').css(
-                                            'background-color');
+                            // Iterate over each row in the table
+                            table.forEach(function(row, rowIndex) {
+                                // Iterate over each cell in the row
+                                row.forEach(function(cell, cellIndex) {
+                                    // Get the background color of the corresponding cell in the HTML table
+                                    var bgColor = $('#table_rapport tr:eq(' +
+                                        rowIndex +
+                                        ') td:eq(' + cellIndex + ')').css(
+                                        'background-color');
 
-                                        // Apply the background color to the PDF cell
-                                        if (bgColor == "rgba(255, 0, 0, 0.1)") {
-                                            cell.fillColor = "#ffc6c4";
-                                            cell.textColor = "white";
-                                        }
+                                    // Apply the background color to the PDF cell
+                                    if (bgColor == "rgba(255, 0, 0, 0.1)") {
+                                        cell.fillColor = "#ffc6c4";
+                                        cell.textColor = "white";
+                                    }
 
-                                    });
                                 });
-                            }
+                            });
                         }
-                    ]
+                    }]
                 });
             });
         </script>
