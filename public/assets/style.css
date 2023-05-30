@@ -47,3 +47,10 @@ table {
     display: flex;
     flex-wrap: wrap;
 }
+.dt-buttons .dt-button {
+    border-radius: 2px;
+    color: white;
+    background-color: RGBA(28, 200, 138, 1) !important;
+    border-radius: 8px;
+    font-weight: bolder;
+}

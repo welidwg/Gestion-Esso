@@ -11,7 +11,33 @@
               <p class="text-primary m-0 fw-bold"> Journal caisse
 
               </p>
+              <a class="btn shadow-sm rounded-4 mx-3" href="#" id="rapportMensuel"><i class="fas fa-file"></i>
+                  Rapport mensuel</a>
+              <script>
+                  $("#rapportMensuel").on("click", (e) => {
+                      Swal.fire({
+                          title: "Choisissez le mois",
+                          html: `
+    <input
+      type="month"
+      value=""
+      step=""
+      class="swal2-input"
+      id="monthOfRapport">`,
+                          showCancelButton: true,
+                          confirmButtonText: "Générer",
+                          cancelButtonText: "Annuler",
+                      }).then((result) => {
+                          if (result.isConfirmed) {
+                              let date = $("#monthOfRapport").val();
+                              window.location.href = `/rapport?date=${date}`;
 
+                          } else {
+                              console.log("err");
+                          }
+                      });
+                  })
+              </script>
               {{-- <a class="btn shadow-sm rounded-4 mx-3" href="{{ route('carburant.create') }}"><i class="fas fa-plus"></i>
                   Nouveau
                   produit</a>

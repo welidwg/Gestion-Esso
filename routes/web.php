@@ -191,6 +191,10 @@ Route::group(["middleware" => "auth"], function () {
     //archive solde
     Route::resource("archive/solde", ArchiveSoldeController::class)->middleware("admin");
 
+    //rapport
+    Route::get("/rapport", function () {
+        return view("dashboard.pages.releve.rapport");
+    })->name("rapport")->middleware("admin");
 
 
 
