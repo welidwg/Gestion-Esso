@@ -33,21 +33,21 @@
                         </div>
                     </form>
                     <div class="row ">
-                        <div class="col-md-6"><label class="form-label" for=""><strong>Carburant</strong></label>
+                        <div class="col-6 "><label class="form-label" for=""><strong>Carburant</strong></label>
                         </div>
-                        <div class="col-md-6"><label class="form-label" for=""><strong>Moyenne</strong></label>
+                        <div class="col-6"><label class="form-label" for=""><strong>Moyenne</strong></label>
                         </div>
                     </div>
                     @foreach ($carburants as $carb)
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <div class="mb-3">
 
                                     <input class="form-control bg-light text-dark" type="text" required id=""
                                         placeholder="" name="titre" value="{{ $carb->titre }}" readonly />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <div class="mb-3 d-flex">
                                     <input class="form-control bg-light text-dark inputMoyenne" type="number"
                                         step="0.01" required id="{{ $carb->titre }}" value="0" placeholder=""

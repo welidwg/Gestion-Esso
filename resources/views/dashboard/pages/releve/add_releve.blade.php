@@ -24,7 +24,7 @@
                                     $min_h = date('H:i', strtotime($releve->heure_f));
                                 }
                             @endphp
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
                                             début</strong></label>
                                     <input class="form-control" type="time" min="{{ $min_h }}" required
@@ -32,18 +32,18 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
                                             fin</strong></label><input class="form-control" type="time" required
                                         id="heure_f" placeholder="" name="heure_f"></div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Date
                                         </strong></label><input class="form-control " type="date" required
                                         value="{{ date('Y-m-d') }}" id="date_systeme" placeholder="" name="date_systeme">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Nom du caissier
                                         </strong></label><input class="form-control bg-light" type="text" required
                                         value="{{ Auth::user()->nom }}" readonly id="nom" placeholder=""
@@ -66,7 +66,7 @@
                                     calculée
                                 </legend>
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Espèce</strong></label><input class="form-control inputMontantCalcule"
                                                 type="number" required id="espece" placeholder="" name="espece"
@@ -74,7 +74,7 @@
                                                 oninput="checkEcart('espece','especePdf','Espece')">
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Bleu</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -85,7 +85,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Pro</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -95,7 +95,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Chèque</strong></label><input class="form-control inputMontantCalcule"
                                                 type="number" required id="cheque" placeholder="" name="cheque"
@@ -105,7 +105,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Boutique</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -116,7 +116,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -149,7 +149,7 @@
                                     montants calculée à
                                     partie du rapport </legend>
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Espèce</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -158,7 +158,7 @@
                                                 oninput="checkEcart('espece','especePdf','Espece')">
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Bleu</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -169,7 +169,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Pro</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -180,7 +180,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Chèque</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -191,7 +191,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Boutique</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -202,7 +202,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -213,7 +213,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 ">
+                                    <div class="col-md-2  ">
                                         <div class="mb-3"><label class="form-label text-dark fw-bold"
                                                 for="first_name"><strong>
                                                     Total</strong> <a style="cursor: pointer;" id="generateTotalSaisiePdf"
@@ -263,10 +263,10 @@
                                 </legend>
                                 <div class="row">
                                     <div class="d-flex justify-content-evenly align-items-center mb-3 ">
-                                        <div class="col-2 "><strong>Carburant</strong></div>
-                                        <div class="col-2 form-label  m-2"><strong>Quantite vendue</strong></div>
-                                        <div class="col-2 form-label  m-2"><strong>Montant</strong></div>
-                                        <div class="col-2 form-label  m-2"><strong>Prix de vente</strong></div>
+                                        <div class="col-3 text-size-md "><strong>Carburant</strong></div>
+                                        <div class="col-3 form-label text-size-md "><strong>Quantite vendue</strong></div>
+                                        <div class="col-3 form-label text-size-md "><strong>Montant</strong></div>
+                                        <div class="col-3 form-label  text-size-md"><strong>Prix de vente</strong></div>
                                     </div>
                                     <hr>
                                     <script>
@@ -284,22 +284,22 @@
                                         @php
                                             $title = strtolower($carburant->titre);
                                         @endphp
-                                        <div class="d-flex justify-content-evenly align-items-center">
+                                        <div class="d-flex justify-content-evenly align-items-center text-size-md">
                                             <div class="col-2 mb-3">
                                                 <strong> {{ $carburant->titre }}</strong>
                                             </div>
-                                            <div class="col-2 m-2">
-                                                <input class="form-control" type="number" required
+                                            <div class="col-3 mb-3">
+                                                <input class="form-control text-size-md" type="number" required
                                                     id="qte_{{ $carburant->id }}" name="{{ 'qte_' . $title }}"
                                                     step="0.01" value="0" />
                                             </div>
-                                            <div class="col-2 m-2">
-                                                <input class="form-control  " type="number" required
+                                            <div class="col-3 mb-3">
+                                                <input class="form-control text-size-md  " type="number" required
                                                     id="montant_{{ $carburant->id }}" name="{{ 'montant_' . $title }}"
                                                     step="0.01" value="0" min="0" />
                                             </div>
-                                            <div class="col-2 m-2">
-                                                <input class="form-control bg-light" type="number" required
+                                            <div class="col-3 mb-3">
+                                                <input class="form-control bg-light text-size-md" type="number" required
                                                     id="prix_{{ $carburant->id }}" min="0"
                                                     name="{{ 'prix_' . $title }}" step="0.01" {{-- value="{{ $carburant->prixV }}" --}}
                                                     value="0" readonly />

@@ -23,10 +23,6 @@ class StatController extends Controller
                     $ventes = json_decode($rel->vente);
                     foreach ($carbs as $carburant) {
                         $total = 0;
-                        // $title = 'qte_' . strtolower($carburant->titre);
-                        // if ($carburant->titre == 'D-ENERGIE') {
-                        //     $title = 'qte_denergie';
-                        // }
                         if ($ventes != null) {
                             foreach ($ventes as $vente) {
                                 foreach ($vente as $k => $v) {
@@ -44,18 +40,7 @@ class StatController extends Controller
                                 }
                             }
                         }
-                        // if ($rel->$title != 0.0) {
-                        //     $total += $rel->$title;
-                        //     // echo $rel->$title . ' ';
-                        //     if (isset($moyennes[$carburant->titre])) {
-                        //         $moyennes[$carburant->titre] += $total;
-                        //         // array_merge($moyennes, [$carburant->titre => $total]);
-                        //     } else {
-                        //         $moyennes["$carburant->titre"] = $total;
-                        //     }
-                        // }
                     }
-
                     $total = 0;
                 }
             }

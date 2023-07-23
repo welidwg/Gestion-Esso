@@ -56,12 +56,12 @@
                           <tr>
                               <th>Id</th>
                               <th>Date</th>
-                              <th>Heure debut</th>
-                              <th>Heure fin</th>
+                              <th class="d-none d-md-table-cell">Heure debut</th>
+                              <th class="d-none d-md-table-cell">Heure fin</th>
                               <th>Caissier</th>
                               <th>Total heures</th>
-                              <th>Total Saisie</th>
-                              <th>Total Rapport</th>
+                              <th class="d-none d-md-table-cell">Total Saisie</th>
+                              <th class="d-none d-md-table-cell">Total Rapport</th>
                               <th>Différence</th>
                               <th>Action</th>
                           </tr>
@@ -84,8 +84,8 @@
                                   @endphp @endif>
                                       {{ $releve->id }}</td>
                                   <td>{{ $releve->date_systeme }}</td>
-                                  <td>{{ date('H:i', strtotime($releve->heure_d)) }}</td>
-                                  <td>{{ date('H:i', strtotime($releve->heure_f)) }}</td>
+                                  <td class="d-none d-md-table-cell">{{ date('H:i', strtotime($releve->heure_d)) }}</td>
+                                  <td class="d-none d-md-table-cell">{{ date('H:i', strtotime($releve->heure_f)) }}</td>
                                   <td>{{ $releve->caissier->nom }}</td>
 
                                   <td>
@@ -98,8 +98,8 @@
                                       @endphp
                                       {{ $hours . ' heures et ' . $minutes . ' mins' }}
                                   </td>
-                                  <td>{{ $releve->totalSaisie }}</td>
-                                  <td>{{ $releve->totalPdf }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $releve->totalSaisie }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $releve->totalPdf }}</td>
                                   <td>{{ $releve->diff }}</td>
                                   <td>
                                       <div class="">

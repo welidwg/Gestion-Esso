@@ -53,7 +53,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 @include('dashboard/navbar')
-                <div class="container-fluid">
+                <div class="p-2 p-md-3">
                     @section('content')
                     @show
                 </div>

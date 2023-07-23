@@ -12,31 +12,30 @@
                     <form class="" method="POST" action="{{ route('facture.store') }}" id="add_facture_form">
                         @csrf
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <div class="mb-3">
                                     <label class="form-label" for=""><strong>Référence</strong></label>
-                                    <input class="form-control" type="text" required id="" placeholder=""
-                                        name="ref" />
+                                    <input class="form-control text-size-md" type="text" required id=""
+                                        placeholder="" name="ref" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <div class="mb-3">
                                     <label class="form-label" for=""><strong>Montant total</strong> <a
                                             id="calculetotal"><i class="fas fa-calculator text-primary"
                                                 style="cursor: pointer"></i></a></label><input class="form-control bg-light"
-                                        type="number" step="0.01" value="0"
-                                        required
-                                        id="montant_facture" readonly placeholder="" name="montant" />
+                                        type="number" step="0.01" value="0" required id="montant_facture" readonly
+                                        placeholder="" name="montant" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 ">
                                 <div class="mb-3">
                                     <label class="form-label" for=""><strong>Date du facture</strong></label><input
-                                        class="form-control" type="date" required id="date_facture" placeholder=""
+                                        class="form-control " type="date" required id="date_facture" placeholder=""
                                         name="date_facture" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 ">
                                 <div class="mb-3">
                                     <label class="form-label text-primary fw-bold" for=""><strong>Date d'arrivage du
                                             camion</strong>
@@ -60,7 +59,7 @@
                                 <div class="form-check col mb-2">
                                     <input class="form-check-input" type="checkbox" name="{{ $carb->titre }}_checked"
                                         id="{{ $carb->titre }}_checked">
-                                    <label class="form-check-label" for="{{ $carb->titre }}_checked">
+                                    <label class="form-check-label text-size-md" for="{{ $carb->titre }}_checked">
                                         {{ $carb->titre }}
                                     </label>
                                 </div>
@@ -70,41 +69,49 @@
 
                                             $(".container-rows").append(`
                                       <div class="row row{{ $carb->titre }}" id="row{{ $carb->titre }}">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 col-6">
+                                                <label class='text-size-md d-block d-md-none'>Carburant</label>
                                                 <div class="mb-3">
                                                     <input class="form-control bg-light text-dark" type="text" required
                                                         id="" placeholder="" name="titre[]" value="{{ $carb->titre }}"
                                                         readonly required />
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 col-6">
+                                         <label class='text-size-md d-block d-md-none' style="white-space:nowrap">Prix d'achat (HT) / 1000 L</label>
+
                                                 <div class="mb-3 ">
                                                     <input class="form-control text-dark "  type="number" step="0.01" required
                                                         id="prixA_new_{{ $carb->id }}" value="0" placeholder="" required min="1"
                                                         name="prixA_new_{{ $carb->id }}" />
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 col-6">
+                                             <label class='text-size-md d-block d-md-none' style="white-space:nowrap">Quantité achetée</label>
+
                                                 <div class="mb-3 ">
                                                     <input class="form-control text-dark "  type="number" step="0.01" required
                                                         id="qte_new_{{ $carb->id }}" value="0" name="qte_new_{{ $carb->id }}" />
                                                 </div>
                                             </div>
-                                             <div class="col-md-2">
+                                             <div class="col-md-2 col-6">
+                                                <label class='text-size-md d-block d-md-none' style="white-space:nowrap">Prix unitaire H.T</label>
                                                 <div class="mb-3 ">
                                                     <input class="form-control text-dark  bg-light" readonly type="number" step="0.01" required
                                                         id="prix_u_ht_new_{{ $carb->id }}" value="0" placeholder="" required
                                                         name="prix_u_ht_new_{{ $carb->id }}" />
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 col-6">
+                                                <label class='text-size-md d-block d-md-none' style="white-space:nowrap">Prix unitaire TTC</label>
                                                 <div class="mb-3 ">
                                                     <input class="form-control text-dark  bg-light" readonly type="number" step="0.01" required
                                                         id="prix_u_ttc_new_{{ $carb->id }}" value="0" placeholder="" required
                                                         name="prix_u_ttc_new_{{ $carb->id }}" />
                                                 </div>
                                             </div>
-                                               <div class="col-md-2">
+                                               <div class="col-md-2 col-6">
+                                                <label class='text-size-md d-block d-md-none' style="white-space:nowrap">Montant TTC</label>
                                                 <div class="mb-3 ">
                                                     <input class="form-control text-dark champMontant  bg-light" readonly type="number" step="0.01" required
                                                         id="montant_ttc_new_{{ $carb->id }}" value="0" placeholder="" required
@@ -112,6 +119,8 @@
                                                 </div>
                                             </div>
                                             <input type="hidden" name="tva[]" id="tva_new_{{ $carb->id }}" />
+                                                                                <hr class="d-block d-md-none" style="border: 2px solid black">
+
                                         </div>
                                         `)
                                             $(`#prixA_new_{{ $carb->id }} , #qte_new_{{ $carb->id }}`).on(
@@ -164,7 +173,7 @@
                                 </script>
                             @endforeach
                         </div>
-                        <div class="row">
+                        <div class="row d-none d-md-flex">
                             <div class="col-md-2">
                                 <div class="mb-">
                                     <label class="form-label" for=""><strong>Carburant</strong></label>

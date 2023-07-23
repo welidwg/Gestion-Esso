@@ -7,8 +7,8 @@
   @endphp
   @section('content')
       <div class="card shadow">
-          <div class="card-header py-2 d-flex  justify-content-between align-items-center ">
-              <span class="text-primary m-0 fw-bold d-flex  ">Carburants
+          <div class="card-header py-2 d-flex flex-column flex-md-row justify-content-between align-items-center ">
+              <div class="text-primary m-0 fw-bold d-flex  ">Carburants
                   <div class="dropdown no-arrow  ">
                       <button class="btn  btn-sm dropdown-toggle mx-3 float-end" aria-expanded="false"
                           data-bs-toggle="dropdown" type="button">
@@ -41,8 +41,8 @@
                           {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
                       </div>
                   </div>
-              </span>
-              <button class="btn shadow-sm rounded-4    mx-md-4" id="maj"><i class="far fa-cog"></i>
+              </div>
+              <button class="btn shadow-sm rounded-4 " id="maj"><i class="far fa-cog"></i>
                   Mise à jour du seuil calculé par semaine</button>
               <script>
                   $("#maj").on("click", () => {
@@ -95,14 +95,14 @@
                       <thead>
                           <tr>
                               <th>Titre</th>
-                              <th>Prix d'achat</th>
-                              <th>Prix de vente</th>
-                              <th>Marge</th>
+                              <th class="d-none d-md-table-cell">Prix d'achat</th>
+                              <th class="d-none d-md-table-cell">Prix de vente</th>
+                              <th class="d-none d-md-table-cell">Marge</th>
                               <th>Quantite de stock</th>
-                              <th>Quantite de jauge</th>
-                              <th>Seuil absolu</th>
-                              <th>Seuil calculé</th>
-                              <th>Valeur de stock</th>
+                              <th class="d-none d-md-table-cell">Quantite de jauge</th>
+                              <th class="d-none d-md-table-cell">Seuil absolu</th>
+                              <th class="d-none d-md-table-cell">Seuil calculé</th>
+                              <th class="d-none d-md-table-cell">Valeur de stock</th>
                               <th>Action</th>
                               {{-- <th>Action</th> --}}
                           </tr>
@@ -114,9 +114,9 @@
                               @endphp
                               <tr>
                                   <td>{{ $carburant->titre }}</td>
-                                  <td>{{ $carburant->prixA . ' €' }}</td>
-                                  <td>{{ $carburant->prixV . ' €' }}</td>
-                                  <td>{{ $carburant->marge_beneficiere * 100 . ' %' }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $carburant->prixA . ' €' }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $carburant->prixV . ' €' }}</td>
+                                  <td class="d-none d-md-table-cell"> {{ $carburant->marge_beneficiere * 100 . ' %' }}</td>
                                   <td>
                                       @if ($carburant->qtiteStk <= $carburant->seuil)
                                           <span class="badge bg-danger">{{ $carburant->qtiteStk }}</span>
@@ -124,28 +124,86 @@
                                           {{ $carburant->qtiteStk }}
                                       @endif
                                   </td>
-                                  <td>{{ $carburant->qtiteJg }}</td>
-                                  <td>{{ $carburant->seuilA }}</td>
-                                  <td>{{ $carburant->seuil }}</td>
-                                  <td>{{ $carburant->valeur_stock . '€' }}</td>
-                                  <td><a class="btn btn-sm bg-gradient-success text-light rounded-5"
+                                  <td class="d-none d-md-table-cell">{{ $carburant->qtiteJg }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $carburant->seuilA }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $carburant->seuil }}</td>
+                                  <td class="d-none d-md-table-cell">{{ $carburant->valeur_stock . '€' }}</td>
+                                  <td><a class="btn btn-sm bg-gradient-success text-light rounded-5 d-none d-md-block"
                                           href="#offcanvasExample{{ $carburant->id }}" data-bs-toggle="offcanvas">Recette /
-                                          mois</a></td>
+                                          mois</a>
+                                      <a class="btn btn-sm bg-gradient-primary text-light rounded-5 d-block d-md-none"
+                                          href="#detailsCarburant{{ $carburant->id }}"
+                                          data-bs-toggle="offcanvas">Détails</a>
+                                  </td>
                                   {{-- <td>
                                       <div class="d-flex flex-row justify-content-start align-items-center">
                                           <a href=""><i class="fas fa-trash text-danger"></i></a>
                                       </div>
                                   </td> --}}
                               </tr>
-
                               <div class="offcanvas offcanvas-start text-dark" tabindex="-1"
-                                  id="offcanvasExample{{ $carburant->id }}" aria-labelledby="offcanvasExampleLabel">
+                                  id="detailsCarburant{{ $carburant->id }}" aria-labelledby="detailsCarburant">
                                   <div class="offcanvas-header">
-                                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Données par mois :
+                                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Détails du :
                                           <strong>{{ $carburant->titre }}</strong>
                                       </h5>
                                       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                                           aria-label="Close"></button>
+                                  </div>
+                                  <div class="offcanvas-body">
+                                      <div class="d-flex flex-column align-items-start w-100">
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Quantité stock :</span>
+                                              {{ $carburant->qtiteStk . ' Litres' }}
+                                          </div>
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Jauge :</span> {{ $carburant->qtiteJg . ' Litres' }}
+                                          </div>
+
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Prix d'achat :</span> {{ $carburant->prixA . ' €' }}
+                                          </div>
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Prix de vente :</span> {{ $carburant->prixV . ' €' }}
+                                          </div>
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Marge :</span>
+                                              {{ $carburant->marge_beneficiere * 100 . ' %' }}
+                                          </div>
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Seuil absolue :</span>
+                                              {{ $carburant->seuilA . ' Litres' }}
+                                          </div>
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Seuil calculé :</span>
+                                              {{ $carburant->seuil . ' Litres' }}
+                                          </div>
+                                          <div class="mb-2">
+                                              <span class="fw-bold">Valeur du stock :</span>
+                                              {{ $carburant->valeur_stock . ' €' }}
+                                          </div>
+                                          <div class="mb-2 mt-3 mx-auto">
+                                              <a class="btn btn-sm bg-gradient-success text-light rounded-5"
+                                                  href="#offcanvasExample{{ $carburant->id }}"
+                                                  data-bs-toggle="offcanvas">Recette /
+                                                  mois</a>
+                                          </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="offcanvas offcanvas-start text-dark" tabindex="-1"
+                                  id="offcanvasExample{{ $carburant->id }}" aria-labelledby="offcanvasExampleLabel">
+                                  <div class="offcanvas-header">
+                                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Recette par mois :
+                                          <strong>{{ $carburant->titre }}</strong>
+                                      </h5>
+                                      <button type="button" class="btn-close text-reset d-none d-md-block"
+                                          data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                      <button type="button" class="btn-close text-reset d-block d-md-none"
+                                          href="#detailsCarburant{{ $carburant->id }}"
+                                          data-bs-toggle="offcanvas"></button>
                                   </div>
                                   <div class="offcanvas-body">
                                       <div>
@@ -172,8 +230,8 @@
                                                       mois</strong>
                                               </label>
                                               <div id="spinner{{ $id }}"
-                                                  class="spinner-border mx-2 spinner-border-sm text-success" role="status"
-                                                  style="display: none">
+                                                  class="spinner-border mx-2 spinner-border-sm text-success"
+                                                  role="status" style="display: none">
                                                   <span class="sr-only">Loading...</span>
                                               </div>
                                               <input class="form-control  text-dark" type="month" required

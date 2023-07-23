@@ -54,3 +54,22 @@ table {
     border-radius: 8px;
     font-weight: bolder;
 }
+@media (max-width: 767.98px) {
+    /* Mobile devices */
+    .text-size-md {
+        font-size: 13px; /* Small font size for mobile */
+    }
+    .badge {
+        font-size: 13px;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Desktop devices */
+    .text-size-md {
+        font-size: 16px; /* Larger font size for desktop */
+    }
+    .badge {
+        font-size: 17px;
+    }
+}

@@ -14,11 +14,11 @@
           <div class="card-body">
 
               <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                  <table class="table my-0" id="table_index_cigars">
+                  <table class="table my-0" id="table_index_cigars" style="table-layout: fixed;width: 100%">
                       <thead>
                           <tr>
                               <th>Date d'achat</th>
-                              <th>Total (€) </th>
+                              {{-- <th>Total (€) </th> --}}
                               <th>Achat </th>
 
                           </tr>
@@ -30,11 +30,11 @@
                               @endphp
                               <tr>
                                   <td>{{ $cigar->date_achat }}</td>
-                                  <td>{{ $cigar->total }}</td>
+                                  {{-- <td>{{ $cigar->total }}</td> --}}
                                   <td>
                                       @foreach ($achat as $item)
                                           @foreach ($item as $k => $v)
-                                              <div class="accordion w-50" id="acc{{ $cigar->id }}">
+                                              <div class="accordion  w-100 w-md-50" id="acc{{ $cigar->id }}">
                                                   <div class="accordion-item">
                                                       <h2 class="accordion-header" id="headingOne">
                                                           <button class="accordion-button collapsed" type="button"
@@ -47,12 +47,21 @@
                                                       <div id="collapse{{ $cigar->id }}"
                                                           class="accordion-collapse collapse " aria-labelledby=""
                                                           data-bs-parent="#acc{{ $cigar->id }}">
-                                                          <div class="accordion-body">
-                                                              <div class="d-flex">
-                                                                  <div class="col-md-6">Quantité : {{ $v->qte }}</div>
-                                                                  <div class="col-md-6">prix achat : {{ $v->prixA }} €
+                                                          <div class="accordion-body w-100">
+                                                              <div class="row">
+                                                                  <div class="col"><span class="fw-bold">Quantité
+                                                                          :</span> <br class="d-md-none">
+                                                                      {{ $v->qte }}
                                                                   </div>
-
+                                                                  <div class="col"><span class="fw-bold">Prix
+                                                                          achat:</span>
+                                                                      <br class="d-md-none">{{ round($v->prixA, 2) }}
+                                                                      €
+                                                                  </div>
+                                                                  <div class="col"><span class="fw-bold">Total :</span>
+                                                                      <br class="d-md-none">
+                                                                      {{ $cigar->total }} €
+                                                                  </div>
                                                               </div>
                                                           </div>
                                                       </div>

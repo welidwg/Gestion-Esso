@@ -28,9 +28,10 @@
                     </div>
 
                     <div class="row mb-1 mt-3">
-                        <div class="col-md-6"><label class="form-label" for=""><strong>Caissier</strong></label>
+                        <div class="col-6"><label class="form-label text-size-md"
+                                for=""><strong>Caissier</strong></label>
                         </div>
-                        <div class="col-md-6"><label class="form-label" for=""><strong>Heures du
+                        <div class="col-6"><label class="form-label text-size-md" for=""><strong>Heures du
                                     travail</strong></label>
                         </div>
                     </div>
@@ -54,17 +55,17 @@
                                 }
                             @endphp
                             <div class="row ">
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <div class="mb-3">
-                                        <input class="form-control bg-light text-dark" type="text" required
+                                        <input class="form-control bg-light text-dark text-size-md" type="text" required
                                             id="" placeholder="" name="nom" value="{{ $user->nom }}"
                                             readonly />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <div class="mb-3 d-flex">
-                                        <input class="form-control bg-light text-dark inputMoyenne" type="text"
-                                            step="0.01" required id="user_{{ $user->id }}"
+                                        <input class="form-control bg-light text-dark inputMoyenne text-size-md"
+                                            type="text" step="0.01" required id="user_{{ $user->id }}"
                                             value="{{ $hours . ' heures et ' . $minutes . ' minutes' }}" placeholder=""
                                             name="user_{{ $user->id }}" />
                                     </div>
@@ -84,15 +85,15 @@
                                     res.data.map((item, i) => {
                                         $("#container-rows").append(`
                                         <div class="row ">
-                                          <div class="col-md-6">
+                                          <div class="col-6">
                                 <div class="mb-3">
-                                    <input class="form-control bg-light text-dark" type="text" required id=""
+                                    <input class="form-control bg-light text-size-md text-dark" type="text" required id=""
                                         placeholder="" name="nom" value="${item.nom}" readonly />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <div class="mb-3 d-flex">
-                                    <input class="form-control bg-light text-dark inputMoyenne" type="text"
+                                    <input class="form-control bg-light text-size-md text-dark inputMoyenne" type="text"
                                         step="0.01" required id="user_{{ $user->id }}"
                                         value="${item.heures}" placeholder=""
                                         />

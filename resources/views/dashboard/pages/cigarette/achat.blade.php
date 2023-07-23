@@ -13,7 +13,7 @@
                         @csrf
                         @method('PUT')
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="">
                                     <label class="form-label" for=""><strong>Choisissez le date d'achat
                                         </strong></label>
@@ -21,7 +21,7 @@
                                 <input class="form-control  text-dark" type="date" required id="" placeholder=""
                                     name="date_achat" value="" />
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="">
                                     <label class="form-label" for=""><strong>Sélectionnez les cigarettees achtetées
                                         </strong></label>
@@ -62,20 +62,20 @@
                                         <div class="row" id="row_${value}" >
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <input class="form-control bg-light text-dark" type="text" required
+                                        <input class="form-control bg-light text-dark text-size-md" type="text" required
                                             id="" placeholder="" required name="type" value="${type}"
                                             readonly />
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3 ">
-                                        <input class="form-control text-dark " type="number" step="0.01" required
+                                        <input class="form-control text-dark text-size-md" type="number" step="0.01" required
                                             id="" value="0" placeholder="" required name="qte_${id}" />
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3  d-flex align-items-center">
-                                        <input class="form-control text-dark " type="number" step="0.01" required
+                                        <input class="form-control text-dark text-size-md " type="number" step="0.01" required
                                             id="" value="0" placeholder="" required
                                             name="Total_${id}" />
                                               <a onclick="deletRow('row_${value}')" class="mx-2"><i class="fas fa-times text-danger"></i></a>

@@ -5,8 +5,10 @@
         </button>
 
         <div class="text-dark fw-bold d-flex align-items-center justify-content-start ">
-            <span class="mx-1"><i class="far fa-calendar"></i> {{ date('d/m/Y ') }}</span>
-            <span class="mx-1"><i class="far fa-clock"></i><span id="time"></span></span>
+            <span class="mx-1 text-size-md d-flex align-items-center "><i class="far fa-calendar"></i>
+                <span>{{ date('d/m/Y ') }}</span></span>
+            <span class="mx-1 text-size-md d-flex align-items-center"><i class="far fa-clock"></i><span
+                    id="time"></span></span>
             <script>
                 $("#time").html(moment().format(' H:mm:ss '))
 

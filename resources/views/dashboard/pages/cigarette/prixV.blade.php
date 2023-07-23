@@ -14,23 +14,23 @@
                         @csrf
                         @method('PUT')
                         <div class="row">
-                            <div class="col-md-3"><label class="form-label" for=""><strong>Type</strong></label>
+                            <div class="col-6"><label class="form-label" for=""><strong>Type</strong></label>
                             </div>
-                            <div class="col-md-8"><label class="form-label" for=""><strong>Prix de
+                            <div class="col-6"><label class="form-label" for=""><strong>Prix de
                                         vente</strong></label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-6">
                                 <div class="mb-3">
 
                                     <input class="form-control bg-light text-dark" type="text" required id=""
                                         placeholder="" name="titre" value="{{ $cigarette->type }}" readonly />
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-6">
                                 <div class="mb-3 d-flex">
-                                    <input class="form-control text-dark w-75" type="number" step="0.01" required
+                                    <input class="form-control text-dark" type="number" step="0.01" required
                                         id="" value="{{ $cigarette->prixV }}" placeholder="" name="prixV" />
                                 </div>
                             </div>

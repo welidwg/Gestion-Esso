@@ -14,27 +14,27 @@
                         @csrf
                         @method('PUT')
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
                                             début</strong></label><input class="form-control bg-light" type="time"
                                         required id="heure_d" placeholder="" value='{{ $releve->heure_d }}' readonly
                                         name="heure_d"></div>
 
                             </div>
-                            <div class="col-md-3">
+                            <div class=" col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
                                             fin</strong></label><input class="form-control bg-light" type="time" required
                                         value="{{ $releve->heure_f }}" id="heure_f" readonly placeholder=""
                                         name="heure_f"></div>
                             </div>
-                            <div class="col-md-3">
+                            <div class=" col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Date
                                         </strong></label><input readonly class="form-control bg-light" type="text"
                                         required value="{{ date('d/m/Y', strtotime($releve->date_systeme)) }}"
                                         @if (Auth::user()->role == 0) readonly @endif id="date_systeme" placeholder=""
                                         name="date_systeme"></div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Caissier
                                         </strong></label><input readonly class="form-control bg-light" type="text"
                                         required value="{{ $releve->caissier->nom }}"
@@ -57,16 +57,16 @@
                                 <legend class="fw-bold text-dark"><i class="fal fa-user text-success"></i> Les montants
                                     calculée </legend>
                                 <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                    <div class=" col-6 col-md-2">
+                                        <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Espèce</strong></label><input class="form-control inputMontantCalcule"
                                                 type="number" onload="F()" required id="espece" placeholder=""
                                                 name="espece" step="0.01" min="0" value="{{ $releve->espece }}">
                                         </div>
 
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                    <div class=" col-6 col-md-2">
+                                        <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Carte Bleu</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
                                                 step="0.01" id="carte_bleu" placeholder="" name="carte_bleu"
@@ -75,15 +75,15 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                    <div class=" col-6 col-md-2">
+                                        <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Carte Pro</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
                                                 id="carte_pro" placeholder="" name="carte_pro" step="0.01" min="0"
                                                 value="{{ $releve->carte_pro }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class=" col-6 col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Chèque</strong></label><input class="form-control inputMontantCalcule"
                                                 type="number" required id="cheque" placeholder="" name="cheque"
@@ -92,7 +92,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-6 col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Boutique</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -102,7 +102,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class=" col-6 col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -112,7 +112,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 ">
+                                    <div class=" col-6 col-md-2 ">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Total</strong> </label> <a href="#!" id="generateTotalSaisie"
                                                 class="text-dark"><i class="fas fa-calculator"></i></a><input
@@ -131,7 +131,7 @@
                                 <legend class="fw-bold text-dark"><i class="fal fa-file-alt text-primary"></i> Les
                                     montants calculée à partie du rapport </legend>
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-6 col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Espèce</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -139,7 +139,7 @@
                                                 min="0" value="{{ $releve->especePdf }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Bleu</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -150,7 +150,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Pro</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -160,7 +160,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Chèque</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -170,7 +170,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Boutique</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -180,7 +180,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -190,7 +190,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 ">
+                                    <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Total</strong> <a href="#!" id="generateTotalSaisiePdf"
                                                     class="text-dark"><i class="fas fa-calculator"></i></a> </label><input
@@ -247,7 +247,7 @@
                                 <legend class="fw-bold text-dark"><i class="fal fa-file-alt text-primary"></i> Recette du
                                     boutique </legend>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class=" col-6">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette cigarettes</strong></label><input
                                                 class="form-control bg-light " type="number" readonly required
@@ -255,7 +255,7 @@
                                                 step="0.01" min="0" value="0">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-6">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette divers</strong></label><input class="form-control bg-light "
                                                 type="number" required readonly id="recette_divers" placeholder=""
@@ -277,10 +277,10 @@
                                 </legend>
                                 <div class="row">
                                     <div class="d-flex justify-content-evenly align-items-center mb-3 ">
-                                        <div class="col-2 "><strong>Carburant</strong></div>
-                                        <div class="col-2 form-label  m-2"><strong>Quantité vendue</strong></div>
-                                        <div class="col-2 form-label  m-2"><strong>Montant</strong></div>
-                                        <div class="col-2 form-label  m-2"><strong>Prix de vente</strong></div>
+                                        <div class="col-3 "><strong></strong></div>
+                                        <div class="col-3 form-label   "><strong>Quantité vendue</strong></div>
+                                        <div class="col-3 form-label  "><strong>Montant</strong></div>
+                                        <div class="col-3 form-label   "><strong>Prix de vente</strong></div>
                                     </div>
                                     <hr>
                                     @php
@@ -302,27 +302,30 @@
                                             @foreach ($vente as $k => $v)
                                                 @if ($k == $carburant->titre)
                                                     <div class="d-flex justify-content-evenly align-items-center">
-                                                        <div class="col-2 mb-3">
+                                                        <div class="col-2 mb-2 text-size-md">
                                                             <strong> {{ $k }}</strong>
                                                         </div>
-                                                        <div class="col-2 m-2">
-                                                            <input class="form-control bg-light" type="number" required
-                                                                readonly id="qte_{{ $carburant->id }}" placeholder=""
+                                                        <div class="col-3 mb-2">
+                                                            <input class="form-control bg-light text-size-md"
+                                                                type="number" required readonly
+                                                                id="qte_{{ $carburant->id }}" placeholder=""
                                                                 name="{{ 'qte_' . $title }}" min="0"
                                                                 step="0.01" value="{{ $v->qte }}"
                                                                 max="{{ $carburant->qtiteStk }}" />
                                                         </div>
-                                                        <div class="col-2 m-2">
-                                                            <input class="form-control bg-light" type="number" required
-                                                                id="montant_{{ $carburant->id }}" placeholder=""
-                                                                name="{{ 'montant_' . $title }}" step="0.01" readonly
-                                                                value="{{ $v->montant }}" min="0" />
+                                                        <div class="col-3 mb-2">
+                                                            <input class="form-control bg-light text-size-md"
+                                                                type="number" required id="montant_{{ $carburant->id }}"
+                                                                placeholder="" name="{{ 'montant_' . $title }}"
+                                                                step="0.01" readonly value="{{ $v->montant }}"
+                                                                min="0" />
                                                         </div>
-                                                        <div class="col-2 m-2">
-                                                            <input class="form-control bg-light" type="number" required
-                                                                id="prix_{{ $carburant->id }}" placeholder="" readonly
-                                                                name="{{ 'prix_' . $title }}" step="0.01"
-                                                                min="0" value="{{ $v->prix }}" />
+                                                        <div class="col-3 mb-2">
+                                                            <input class="form-control bg-light text-size-md"
+                                                                type="number" required id="prix_{{ $carburant->id }}"
+                                                                placeholder="" readonly name="{{ 'prix_' . $title }}"
+                                                                step="0.01" min="0"
+                                                                value="{{ $v->prix }}" />
                                                         </div>
                                                         <input type="hidden" name="titles[]"
                                                             value="{{ $carburant->titre }}">
@@ -384,17 +387,18 @@
                                                                     {{-- <div class="col-2 mb-3">
                                                                     <strong> {{ $k }}</strong>
                                                                 </div> --}}
-                                                                    <div class="col-4 m-2">
-                                                                        <input class="form-control bg-light" readonly
-                                                                            type="number" required
+                                                                    <div class="col-4 m-2 text-size-md">
+                                                                        <input class="form-control bg-light text-size-md"
+                                                                            readonly type="number" required
                                                                             id="qteC_{{ $cigarette->id }}" placeholder=""
                                                                             name="{{ 'qteC_' . $id }}" min="0"
                                                                             step="0.01" value="{{ $v->qte }}"
                                                                             max="{{ $cigarette->qte }}" />
                                                                     </div>
 
-                                                                    <div class="col-4 m-2">
-                                                                        <input class="form-control bg-light"
+                                                                    <div class="col-4 ">
+                                                                        <input
+                                                                            class="form-control bg-light m-2 text-size-md"
                                                                             type="number" required
                                                                             id="montantC_{{ $cigarette->id }}"
                                                                             placeholder="" name="{{ 'montantC_' . $id }}"
@@ -402,7 +406,8 @@
                                                                             readonly min="0" />
                                                                     </div>
                                                                     <div class="col-4 m-2">
-                                                                        <input class="form-control bg-light"
+                                                                        <input
+                                                                            class="form-control bg-light m-2 text-size-md"
                                                                             type="number" required
                                                                             id="prixC_{{ $cigarette->id }}" readonly
                                                                             placeholder="" name="{{ 'prixC_' . $id }}"
