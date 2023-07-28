@@ -6,7 +6,7 @@
       use Carbon\Carbon;
   @endphp
   @section('content')
-      <div class="card shadow">
+      <div class="card shadow text-size-md">
           <div class="card-header py-3 d-flex align-items-center justify-content-start">
               <p class="text-primary m-0 fw-bold"> Commande
 

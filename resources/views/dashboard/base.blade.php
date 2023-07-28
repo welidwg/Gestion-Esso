@@ -51,7 +51,7 @@
     <div id="wrapper">
         @include('dashboard/sidebar')
         <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
+            <div id="content" class="text-size-md">
                 @include('dashboard/navbar')
                 <div class="p-2 p-md-3">
                     @section('content')
@@ -73,10 +73,10 @@
 
 <script>
     $.extend(true, $.fn.dataTable.defaults, {
+        "order": [],
 
         "language": {
             "search": "Rechercher:",
-
             "paginate": {
                 "first": "Premier",
                 "last": "Dernier",
@@ -93,7 +93,7 @@
         },
 
     });
-    $("input").addClass("shadow-none");
+    $("input").addClass("shadow-none text-size-md");
 </script>
 
 </html>

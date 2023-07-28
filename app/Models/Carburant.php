@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -43,4 +44,11 @@ class Carburant extends Model
      * @var array
      */
     protected $fillable = ['titre', 'prixA', 'prixV', 'qtiteStk', 'qtiteJg', 'seuil', 'seuilA', 'marge_beneficiere', 'valeur_stock'];
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('priority', 'ASC');
+        });
+    }
 }

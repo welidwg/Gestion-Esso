@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3 d-flex">
-                                        <input class="form-control bg-light text-dark inputMoyenne text-size-md"
+                                        <input class="form-control bg-light text-dark inputMoyenne text-size-md" readonly
                                             type="text" step="0.01" required id="user_{{ $user->id }}"
                                             value="{{ $hours . ' heures et ' . $minutes . ' minutes' }}" placeholder=""
                                             name="user_{{ $user->id }}" />
@@ -94,7 +94,7 @@
                             <div class="col-6">
                                 <div class="mb-3 d-flex">
                                     <input class="form-control bg-light text-size-md text-dark inputMoyenne" type="text"
-                                        step="0.01" required id="user_{{ $user->id }}"
+                                        step="0.01" readonly required id="user_{{ $user->id }}"
                                         value="${item.heures}" placeholder=""
                                         />
                                 </div>

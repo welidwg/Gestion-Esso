@@ -12,7 +12,26 @@
     use App\Models\AchatCigarette;
     use Carbon\Carbon;
 @endphp
+
 @section('content')
+    <script>
+        function getRandomColor(alpha) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function conditionColor(value) {
+            if (value < 0) {
+                return 'red';
+            } else if (value == 0) {
+                return 'blue';
+            } else {
+                return 'limegreen';
+            }
+        }
+    </script>
     @if (Auth::user()->role == 0)
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
             <h3 class="text-dark mb-0">Tableau de bord</h3>
@@ -54,9 +73,9 @@
                 
             @endphp
         @endforeach --}}
-        <div class="">
-            <div class="row d-flex justify-content-start">
-                <div class="col-md-6 col-xl-3 mb-4 ">
+        <div class="text-size-md">
+            <div class="row d-flex justify-content-start text-size-md">
+                {{-- <div class="col-md-6 col-xl-3 mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body">
                             <div class="row align-items-center no-gutters">
@@ -135,12 +154,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                </div> --}}
+                <div class="col-md-4  mb-4  ">
                     <div class="card shadow border-start-primary  py-2 h-100">
                         <div class="card-body">
-                            <div class="row align-items-center no-gutters">
-                                <div class="col me-2 d-flex flex-column justify-content-between h-100">
+                            <div class="row align-items-center no-gutters ">
+                                <div class="col me-2 d-flex flex-column justify-content-between h-100 text-size-md">
                                     <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Client en compte
                                         </span>
                                     </div>
@@ -148,7 +167,8 @@
                                         
                                         $cp = Compte::first();
                                     @endphp
-                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $cp ? $cp->compte_client : '0' }} €
+                                    <div class="text-dark text-size-md fw-bold h5 mb-2">
+                                        <span>{{ $cp ? $cp->compte_client : '0' }} €
                                         </span>
                                     </div>
 
@@ -159,7 +179,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -178,7 +198,8 @@
                                         
                                     @endphp
 
-                                    <div class="text-dark fw-bold h5 mb-2 "><span>{{ $tva_achat }} € </span></div>
+                                    <div class="text-dark fw-bold text-size-md mb-2 "><span>{{ $tva_achat }} € </span>
+                                    </div>
                                     <div class="text-dark  mb-0"></div>
 
                                 </div>
@@ -187,7 +208,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -204,7 +225,8 @@
                                         }
                                     @endphp
 
-                                    <div class="text-dark fw-bold h5 mb-2"><span>{{ $tva }} € </span></div>
+                                    <div class="text-dark fw-bold text-size-md mb-2"><span>{{ $tva }} € </span>
+                                    </div>
                                     <div class="text-dark  mb-0"></div>
 
                                 </div>
@@ -213,7 +235,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -248,7 +270,7 @@
                                         $recette = $rec_boutique + $rec_carburants;
                                         
                                     @endphp
-                                    <div class="text-dark fw-bold  h5 mb-2"><span> {{ $recette }} € </span></div>
+                                    <div class="text-dark fw-bold   mb-2"><span> {{ $recette }} € </span></div>
                                 </div>
                                 <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
 
@@ -256,7 +278,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -266,7 +288,7 @@
                                         </span>
                                     </div>
 
-                                    <div class="text-dark  fw-bold  h5 mb-2"><span> {{ $rec_carburants }} € </span>
+                                    <div class="text-dark  fw-bold   mb-2"><span> {{ $rec_carburants }} € </span>
                                     </div>
 
 
@@ -276,7 +298,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3 mb-4 ">
+                <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -286,7 +308,7 @@
                                         </span>
                                     </div>
 
-                                    <div class="text-dark   fw-bold  h5 mb-2"><span> {{ $rec_boutique }} € </span>
+                                    <div class="text-dark   fw-bold   mb-2"><span> {{ $rec_boutique }} € </span>
                                     </div>
 
 
@@ -360,14 +382,14 @@
         </div> --}}
             </div>
         </div>
-        <div class="row">
+        <div class="row text-size-md">
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Statistiques carburants (mois {{ date('m/Y') }})
+                        <h6 class="text-primary fw-bold m-0 text-size-md">Statistiques carburants (mois {{ date('m/Y') }})
 
                         </h6>
-                        <a class="btn  bg-gradient-light border-0 rounded-4  fw-bold shadow-sm text-primary "
+                        <a class="btn  bg-gradient-light border-0 rounded-4  text-size-md fw-bold shadow-sm text-primary "
                             href="/carburant/stats?date={{ date('Y-m') }}">Plus</a>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
@@ -488,10 +510,143 @@
                 </div>
             </div>
             <div class="col-lg-6 col-xl-6 mb-3">
-                <div class="card shadow mb-4 h-100">
+                <div class="card shadow mb-4 h-100 text-size-md">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0 ">Statistiques cigarettes (mois {{ date('m/Y') }}) </h6>
-                        <a class="btn  bg-gradient-light border-0 rounded-4  fw-bold shadow-sm text-primary "
+                        <h6 class="text-primary fw-bold m-0 text-size-md">Marges bénéficières du carburant en € (mois
+                            {{ date('m/Y') }})
+
+                        </h6>
+                        <a class="btn  bg-gradient-light border-0 rounded-4 text-size-md  fw-bold shadow-sm text-primary "
+                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a>
+                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
+                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
+                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
+                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
+                                    here</a>
+                            </div>
+                        </div> --}}
+                    </div>
+
+                    <div class="card-body">
+                        @php
+                            $carbs = Carburant::all();
+                            $titles = [];
+                            $marges = [];
+                            foreach ($carbs as $carb) {
+                                $total_vente_euro = 0;
+                                $total_vente_qte = 0;
+                                $total_achat_euro = 0;
+                                $total_achat_qte = 0;
+                                $test = [];
+                                $title = $carb->titre;
+                                array_push($titles, $title);
+                            
+                                $relevesStat1 = Releve::whereMonth('date_systeme', date('m'))
+                                    ->whereYear('date_systeme', date('Y'))
+                                    ->get();
+                            
+                                $factureStat = Facture::whereMonth('date_facture', date('m'))
+                                    ->whereYear('date_facture', date('Y'))
+                                    ->get();
+                                foreach ($relevesStat1 as $r) {
+                                    $ventes = json_decode($r->vente);
+                                    if ($ventes != null) {
+                                        foreach ($ventes as $vente) {
+                                            foreach ($vente as $k => $v) {
+                                                if ($k == $carb->titre) {
+                                                    if ($v->montant != 0) {
+                                                        $total_vente_euro += $v->montant;
+                                                        $total_vente_qte += $v->qte;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            
+                                foreach ($factureStat as $fact) {
+                                    if ($fact->$title != null) {
+                                        $achats = json_decode($fact->$title);
+                                        foreach ($achats as $achat) {
+                                            foreach ($achat as $k => $v) {
+                                                if ($k == 'qte') {
+                                                    $total_achat_qte += $v;
+                                                }
+                                                if ($k == 'montant') {
+                                                    $total_achat_euro += $v;
+                                                }
+                                            }
+                                            # code...
+                                        }
+                                    }
+                            
+                                    # code...
+                                }
+                                $mrg = $total_vente_euro - $total_achat_euro;
+                                array_push($marges, $mrg);
+                            }
+                            
+                        @endphp
+
+                        <div class="chart-area text-size-md">
+                            <canvas height="auto" id="chart_marge_carb"></canvas>
+                        </div>
+                        <script type="text/javascript">
+                            var labels = {!! json_encode($titles) !!};
+                            var marges = {!! json_encode($marges) !!};
+                            var backgroundColors = marges.map(marge => conditionColor(marge));
+
+                            const data = {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'marge ',
+                                    backgroundColor: backgroundColors,
+                                    data: marges,
+                                }]
+                            };
+
+                            const config = {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        },
+                                    },
+                                    // scales: {
+                                    //     x: {
+                                    //         ticks: {
+                                    //             font: {
+                                    //                 size: 11,
+                                    //             }
+                                    //         }
+                                    //     }
+                                    // }
+
+
+                                }
+                            };
+
+                            new Chart(
+                                document.getElementById('chart_marge_carb'),
+                                config
+                            );
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-6 mb-3">
+                <div class="card shadow mb-4 h-100 text-size-md">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0  text-size-md">Statistiques cigarettes en € (mois
+                            {{ date('m/Y') }}) </h6>
+                        <a class="btn  bg-gradient-light border-0 rounded-4 text-size-md  fw-bold shadow-sm text-primary "
                             href="/cigarette/stats?date={{ date('Y-m') }}">Plus</a>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
@@ -606,7 +761,114 @@
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Recette par carburant en € (mois {{ date('m/Y') }}) </h6>
+                        <h6 class="text-primary fw-bold m-0 text-size-md">Marges bénéficières du cigarettes en € (mois
+                            {{ date('m/Y') }})
+
+                        </h6>
+                        <a class="btn  bg-gradient-light border-0 rounded-4  text-size-md fw-bold shadow-sm text-primary "
+                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a>
+
+                    </div>
+
+                    <div class="card-body">
+                        @php
+                            $cigars = Cigarette::all();
+                            $titles = [];
+                            $marges = [];
+                            foreach ($cigars as $cigarette) {
+                                $total_vente_euro = 0;
+                                $total_vente_qte = 0;
+                                $total_achat_euro = 0;
+                                $total_achat_qte = 0;
+                                $title = $cigarette->type;
+                                array_push($titles, $title);
+                            
+                                $relevesStat2 = Releve::whereMonth('date_systeme', date('m'))
+                                    ->whereYear('date_systeme', date('Y'))
+                                    ->get();
+                            
+                                $achatStat = AchatCigarette::whereMonth('date_achat', date('m'))
+                                    ->whereYear('date_achat', date('Y'))
+                                    ->get();
+                                foreach ($relevesStat2 as $r) {
+                                    $ventes = json_decode($r->vente_cigarette);
+                                    if ($ventes != null) {
+                                        foreach ($ventes as $vente) {
+                                            foreach ($vente as $k => $v) {
+                                                if ($k == $title) {
+                                                    $total_vente_euro += $v->montant;
+                                                    $total_vente_qte += $v->qte;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            
+                                foreach ($achatStat as $achat) {
+                                    $achats = json_decode($achat->achat);
+                                    foreach ($achats as $ach) {
+                                        foreach ($ach as $key => $value) {
+                                            if ($key == $title) {
+                                                $total_achat_euro += $achat->total;
+                                                $total_achat_qte += $value->qte;
+                                            }
+                                        }
+                                    }
+                            
+                                    # code...
+                                }
+                                $mrg = $total_vente_euro - $total_achat_euro;
+                                array_push($marges, $mrg);
+                            }
+                            
+                        @endphp
+
+                        <div class="chart-area text-size-md">
+                            <canvas height="auto" id="chart_marge_cigars"></canvas>
+                        </div>
+                        <script type="text/javascript">
+                            var labels = {!! json_encode($titles) !!};
+                            var marges = {!! json_encode($marges) !!};
+                            var backgroundColors = marges.map(marge => conditionColor(marge));
+
+                            const data_marge_cigar = {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'marge ',
+                                    backgroundColor: backgroundColors,
+                                    data: marges,
+                                }]
+                            };
+
+                            const config_marge_cigar = {
+                                type: 'bar',
+                                data: data_marge_cigar,
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        },
+                                    }
+
+
+                                }
+                            };
+
+                            new Chart(
+                                document.getElementById('chart_marge_cigars'),
+                                config_marge_cigar
+                            );
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-6 mb-3">
+                <div class="card shadow mb-4 h-100 text-size-md">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary fw-bold m-0 text-size-md">Recette par carburant en € (mois
+                            {{ date('m/Y') }}) </h6>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
                                     class="fas fa-ellipsis-v text-gray-400"></i></button>
@@ -658,27 +920,35 @@
                         <script type="text/javascript">
                             var labels = {!! json_encode($carburants) !!};
                             var users = {!! json_encode($recettes) !!};
-                            console.log(users);
+                            const backs = labels.map(label => getRandomColor(0.8))
 
-                            const data = {
+                            const data_carb = {
                                 labels: labels,
                                 datasets: [{
                                     label: 'recette ',
-                                    // backgroundColor: 'rgb(255, 99, 132)',
+                                    backgroundColor: backs,
                                     // borderColor: 'rgb(255, 99, 132)',
                                     data: users,
                                 }]
                             };
 
-                            const config = {
+                            const config_carb = {
                                 type: 'bar',
-                                data: data,
-                                options: {}
+                                data: data_carb,
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        },
+                                    }
+                                }
                             };
 
-                            const myChart = new Chart(
+                            new Chart(
                                 document.getElementById('myChart'),
-                                config
+                                config_carb
                             );
                         </script>
                     </div>
@@ -687,7 +957,7 @@
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Recette par caissier (en € )</h6>
+                        <h6 class="text-primary fw-bold m-0 text-size-md">Recette d'aujourd'hui (en € )</h6>
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
                                     class="fas fa-ellipsis-v text-gray-400"></i></button>
@@ -700,38 +970,35 @@
                         </div> --}}
                     </div>
                     <div class="card-body">
-                        <div class="chart-area">
+                        <div class="chart-area text-size-md">
                             <canvas height="auto" id="myChart2"></canvas>
                         </div>
                         @php
-                            $users = [];
                             $recettes = [];
-                            $usrs = User::where('role', 1)->get();
-                            $total = 0;
-                            foreach ($usrs as $user) {
-                                array_push($users, $user->nom);
-                                $rel1 = Releve::where('user_id', $user->id)->get();
-                                foreach ($rel1 as $r1) {
-                                    # code...
-                                    $total += $r1->totalPdf;
-                                }
-                                array_push($recettes, $total);
-                                $total = 0;
+                            $rels = Releve::whereDate('created_at', date('Y-m-d'))->get();
                             
+                            $total = 0;
+                            $i = 0;
+                            
+                            foreach ($rels as $r1) {
                                 # code...
+                                $total = $r1->totalPdf;
+                                array_push($recettes, $total);
                             }
+                            
+                            # code...
                             
                         @endphp
                         <script type="text/javascript">
-                            var labelss = {!! json_encode($users) !!};
+                            var labelss = ["1ère période", "2ème période", "3ème période"];
                             var userss = {!! json_encode($recettes) !!};
-                            console.log(users);
+                            var backgroundColors = labels.map(label => getRandomColor(0.8));
 
                             const dataa = {
                                 labels: labelss,
                                 datasets: [{
                                     label: 'recette ',
-                                    // backgroundColor: 'rgb(255, 99, 132)',
+                                    backgroundColor: backgroundColors,
                                     // borderColor: 'rgb(255, 99, 132)',
                                     data: userss,
                                 }]
@@ -740,10 +1007,18 @@
                             const configg = {
                                 type: 'bar',
                                 data: dataa,
-                                options: {}
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        },
+                                    }
+                                }
                             };
 
-                            const myChartt = new Chart(
+                            new Chart(
                                 document.getElementById('myChart2'),
                                 configg
                             );
@@ -751,149 +1026,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xl-6 mb-3">
-                <div class="card shadow mb-4" style="display: block;position: relative;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Recette par cigarettes (TOP 5 en € )</h6>
-                        {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
-                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
-                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
-                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
-                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
-                                    here</a>
-                            </div>
-                        </div> --}}
-                    </div>
-                    <div class="card-body">
-                        <div class="" style="display: block;position: relative;">
-                            <canvas id="myChart3" height="100px"></canvas>
-                        </div>
-                        @php
-                            $cigarettes = [];
-                            $recettes = [];
-                            $cigars = Cigarette::all();
-                            $title = '';
-                            $total = 0;
-                            $finalLabels = [];
-                            $finalRecettes = [];
-                            $labels = [];
-                            $f = [];
-                            // $releves1 = Releve::all();
-                            
-                            foreach ($cigars as $cigar) {
-                                $releves1 = Releve::all();
-                                array_push($cigarettes, $cigar->type);
-                                if ($releves1->count() != 0) {
-                                    foreach ($releves1 as $r) {
-                                        $ventes = json_decode($r->vente_cigarette);
-                                        if ($ventes != null) {
-                                            foreach ($ventes as $vente) {
-                                                foreach ($vente as $k => $v) {
-                                                    if ($k == $cigar->type) {
-                                                        if ($v->qte != 0) {
-                                                            $total += $v->montant;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    array_push($f, [$cigar->type => $total]);
-                            
-                                    array_push($recettes, $total);
-                                    $total = 0;
-                                }
-                            }
-                            if (count($f) != 0) {
-                                foreach ($f as $key => $row) {
-                                    $values[$key] = current($row);
-                                }
-                                array_multisort($values, SORT_DESC, $f);
-                                foreach ($f as $ff) {
-                                    foreach ($ff as $key => $value) {
-                                        array_push($labels, $key);
-                                    }
-                                    # code...
-                                }
-                            }
-                            
-                            rsort($recettes);
-                            for ($i = 0; $i < 5; $i++) {
-                                if (isset($f[$i])) {
-                                    array_push($finalRecettes, $f[$i]);
-                                }
-                                if (isset($labels[$i])) {
-                                    array_push($finalLabels, $labels[$i]);
-                                }
-                            }
-                            
-                        @endphp
-                        <script type="text/javascript">
-                            var labelsCigars = {!! json_encode($finalLabels) !!};
-                            var dataCigars = {!! json_encode($recettes) !!};
 
-                            const dataa1 = {
-                                labels: labelsCigars,
-                                datasets: [{
-                                    label: 'recette ',
-                                    // backgroundColor: 'rgb(255, 99, 132)',
-                                    // borderColor: 'rgb(255, 99, 132)',
-                                    data: dataCigars,
-                                }]
-                            };
 
-                            const configg1 = {
-                                type: 'bar',
-                                data: dataa1,
-                                options: {
-                                    // scales: {
-                                    //     x: {
-                                    //         display: false
-                                    //     }
-                                    // }
-                                }
-                            };
-
-                            const myChartt1 = new Chart(
-                                document.getElementById('myChart3'),
-                                configg1
-                            );
-                        </script>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="col-lg-5 col-xl-4">
-                <div class="card shadow mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0">Consommation moyenne par jour ( {{ date('m/Y') }})</h6>
-                        <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
-                                aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
-                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
-                            <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item"
-                                    href="#"> Action</a><a class="dropdown-item" href="#"> Another action</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"> Something else
-                                    here</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-
-                        <div class="row d-flex justify-content-center ">
-                            @foreach ($carbs as $carb)
-                                <div class="col-md-6 m-2">{{ $carb->titre }}</div>
-                                <div class="col-md-3 text-center">
-                                    <div class="badge bg-success w-100 ">
-                                        {{ count($moyennes) > 0 ? $moyennes[$carb->titre] / $dates->count() : 0 }}
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     @else
         {{-- <div class="d-sm-flex justify-content-between align-items-center mb-4">
