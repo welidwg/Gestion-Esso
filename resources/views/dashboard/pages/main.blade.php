@@ -516,8 +516,8 @@
                             {{ date('m/Y') }})
 
                         </h6>
-                        <a class="btn  bg-gradient-light border-0 rounded-4 text-size-md  fw-bold shadow-sm text-primary "
-                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a>
+                        {{-- <a class="btn  bg-gradient-light border-0 rounded-4 text-size-md  fw-bold shadow-sm text-primary "
+                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a> --}}
                         {{-- <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle"
                                 aria-expanded="false" data-bs-toggle="dropdown" type="button"><i
                                     class="fas fa-ellipsis-v text-gray-400"></i></button>
@@ -765,8 +765,8 @@
                             {{ date('m/Y') }})
 
                         </h6>
-                        <a class="btn  bg-gradient-light border-0 rounded-4  text-size-md fw-bold shadow-sm text-primary "
-                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a>
+                        {{-- <a class="btn  bg-gradient-light border-0 rounded-4  text-size-md fw-bold shadow-sm text-primary "
+                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a> --}}
 
                     </div>
 
