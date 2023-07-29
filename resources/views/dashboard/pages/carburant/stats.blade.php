@@ -6,8 +6,28 @@
       use App\Models\Releve;
       use App\Models\Facture;
       $date = request('date');
+      $titles = [];
+      $marges = [];
   @endphp
   @section('content')
+      <script>
+          function getRandomColor(alpha) {
+              var r = Math.floor(Math.random() * 256);
+              var g = Math.floor(Math.random() * 256);
+              var b = Math.floor(Math.random() * 256);
+              return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          }
+
+          function conditionColor(value) {
+              if (value < 0) {
+                  return 'red';
+              } else if (value == 0) {
+                  return 'blue';
+              } else {
+                  return 'limegreen';
+              }
+          }
+      </script>
       <div class="card shadow">
           <div class="card-header py-2 d-flex  justify-content-between align-items-center ">
               <span class="text-primary m-0 fw-bold d-flex  ">Statistiques carburants
@@ -55,6 +75,7 @@
                                   $total_achat_qte = 0;
                                   $test = [];
                                   $title = $carb->titre;
+                                  array_push($titles, $title);
                                   
                                   $relevesStat1 = Releve::whereMonth('date_systeme', date('m', strtotime($date)))
                                       ->whereYear('date_systeme', date('Y', strtotime($date)))
@@ -97,6 +118,7 @@
                                   
                                       # code...
                                   }
+                                  array_push($marges, $total_vente_euro - $total_achat_euro);
                               @endphp
                               <tr>
                                   <td>{{ $carb->titre }}</td>
@@ -135,6 +157,49 @@
                       </tbody>
 
                   </table>
+                  <hr>
+                  <div class="chart-width mx-auto">
+                      <h3 class="py-3 fw-bold text-size-md ">Marges bénéficières</h3>
+                      <div class="chart-area text-size-md ">
+                          <canvas height="auto" id="chart_marge_cigars"></canvas>
+                      </div>
+                  </div>
+
+                  <script type="text/javascript">
+                      var labels = {!! json_encode($titles) !!};
+                      var marges = {!! json_encode($marges) !!};
+                      var backgroundColors = marges.map(marge => conditionColor(marge));
+
+                      const data_marge_cigar = {
+                          labels: labels,
+                          datasets: [{
+                              label: 'marge ',
+                              backgroundColor: backgroundColors,
+                              data: marges,
+                          }]
+                      };
+
+                      const config_marge_cigar = {
+                          type: 'bar',
+                          data: data_marge_cigar,
+                          options: {
+                              responsive: true,
+                              maintainAspectRatio: false,
+                              plugins: {
+                                  legend: {
+                                      display: false
+                                  },
+                              }
+
+
+                          }
+                      };
+
+                      new Chart(
+                          document.getElementById('chart_marge_cigars'),
+                          config_marge_cigar
+                      );
+                  </script>
               </div>
 
           </div>

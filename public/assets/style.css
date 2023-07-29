@@ -62,6 +62,9 @@ table {
     .badge {
         font-size: 13px;
     }
+    .chart-width {
+        width: 100% !important;
+    }
 }
 
 @media (min-width: 768px) {
@@ -71,5 +74,8 @@ table {
     }
     .badge {
         font-size: 17px;
+    }
+    .chart-width {
+        width: 50% !important;
     }
 }
