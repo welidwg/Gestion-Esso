@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ArchiveSolde;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ArchiveSoldeController extends Controller
@@ -12,9 +13,14 @@ class ArchiveSoldeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($request)
     {
-        //
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        $users = User::whereMonth('created_date', $month)
+            ->whereYear('created_date', $year)
+            ->get();
     }
 
     /**

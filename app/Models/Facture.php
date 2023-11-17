@@ -9,4 +9,5 @@ class Facture extends Model
 {
     use HasFactory;
     protected $fillable = ["ref", "montant", "date_facture"];
+   
 }
