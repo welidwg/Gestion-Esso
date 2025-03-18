@@ -17,9 +17,7 @@
                         <div class="row">
                             @php
                                 $min_h = '';
-                                $releve = Releve::where('date_systeme', date('Y-m-d'))
-                                    ->orderBy('id', 'desc')
-                                    ->first();
+                                $releve = Releve::where('date_systeme', date('Y-m-d'))->orderBy('id', 'desc')->first();
                                 if ($releve) {
                                     $min_h = date('H:i', strtotime($releve->heure_f));
                                 }
@@ -415,12 +413,6 @@
                                 <legend class="fw-bold mb-3 ">-Recette divers
                                 </legend>
                                 <div class="row">
-
-
-
-
-
-
                                     <div class="container-rows">
                                         <div class="col-6 form-label p-2  "><strong>Montant</strong></div>
 
@@ -430,6 +422,49 @@
                                                     <input class="form-control text-dark " type="number" step="0.01"
                                                         required id="divers" value="0" placeholder="" required
                                                         name="divers" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class="border p-2 mx-auto mb-3">
+                                <legend class="fw-bold mb-3 ">-Recette PMI
+                                </legend>
+                                <div class="row">
+                                    <div class="container-rows">
+                                        <div class="col-6 form-label p-2  "><strong>Montant</strong></div>
+
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="pmi" value="0" placeholder="" required
+                                                        name="pmi" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="row">
+                            <fieldset class="border p-2 mx-auto mb-3">
+                                <legend class="fw-bold mb-3 ">-Recette FDG
+                                </legend>
+                                <div class="row">
+                                    <div class="container-rows">
+                                        <div class="col-6 form-label p-2  "><strong>Montant</strong></div>
+
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="fdg" value="0" placeholder="" required
+                                                        name="fdg" />
                                                 </div>
                                             </div>
                                         </div>

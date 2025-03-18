@@ -33,7 +33,9 @@ class Releve extends Model
         "vente",
         "vente_cigarette",
         "tva",
-        "divers"
+        "divers",
+        "pmi",
+        "fdg",
     ];
 
     public function caissier(): BelongsTo

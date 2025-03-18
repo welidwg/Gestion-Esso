@@ -222,7 +222,9 @@
                                     </div>
                                     @php
                                         $tva = 0;
-                                        $relTva = Releve::whereMonth('date_systeme', date('m'))->get();
+                                        $relTva = Releve::whereMonth('date_systeme', Carbon::now()->month)
+                                            ->whereYear('date_systeme', Carbon::now()->year)
+                                            ->get();
                                         foreach ($relTva as $r) {
                                             $tva += $r->tva;
                                         }
@@ -251,6 +253,8 @@
                                         $recette = 0;
                                         $rec_carburants = 0;
                                         $rec_carburants_mois = 0;
+                                        $rec_pmi_mois = 0;
+                                        $rec_fdg_mois = 0;
                                         $rec_boutique = 0;
                                         $releves = Releve::where('date_systeme', date('Y-m-d'))->get();
                                         $relevesMois = Releve::whereMonth('date_systeme', Carbon::now()->month)
@@ -278,6 +282,8 @@
 
                                         foreach ($relevesMois as $rel) {
                                             $ventes = json_decode($rel->vente);
+                                            $rec_pmi_mois += $rel->pmi;
+                                            $rec_fdg_mois += $rel->fdg;
                                             foreach ($ventes as $vente) {
                                                 foreach ($vente as $key => $value) {
                                                     $rec_carburants_mois += $value->montant;
@@ -324,18 +330,48 @@
                                             boutique
                                         </span>
                                     </div>
-
                                     <div class="text-dark   fw-bold   mb-2"><span> {{ $rec_boutique }} € </span>
                                     </div>
-
-
                                 </div>
                                 <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="col-md-4  mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
+                                            PMI (mois {{ date('m/Y') }})
+                                        </span>
+                                    </div>
+                                    <div class="text-dark   fw-bold   mb-2"><span> {{ $rec_pmi_mois }} € </span>
+                                    </div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4  mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
+                                            FDG (mois {{ date('m/Y') }})
+                                        </span>
+                                    </div>
+                                    <div class="text-dark   fw-bold   mb-2"><span> {{ $rec_fdg_mois }} € </span>
+                                    </div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @php
                     // $start = Carbon::parse('10:30:00');
 
