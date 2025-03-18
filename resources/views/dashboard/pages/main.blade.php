@@ -161,11 +161,14 @@
                             <div class="row align-items-center no-gutters ">
                                 <div class="col me-2 d-flex flex-column justify-content-between h-100 text-size-md">
                                     <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Client en compte
+                                            (mois {{ date('m/Y') }})
                                         </span>
                                     </div>
                                     @php
-                                        
-                                        $cp = Compte::first();
+
+                                        $cp = Compte::whereMonth('created_at', Carbon::now()->month)
+                                            ->whereYear('created_at', Carbon::now()->year)
+                                            ->first();
                                     @endphp
                                     <div class="text-dark text-size-md fw-bold h5 mb-2">
                                         <span>{{ $cp ? $cp->compte_client : '0' }} €
@@ -195,7 +198,7 @@
                                             # code...
                                             $tva_achat += $facture->montant * 0.2;
                                         }
-                                        
+
                                     @endphp
 
                                     <div class="text-dark fw-bold text-size-md mb-2 "><span>{{ $tva_achat }} € </span>
@@ -247,8 +250,12 @@
                                     @php
                                         $recette = 0;
                                         $rec_carburants = 0;
+                                        $rec_carburants_mois = 0;
                                         $rec_boutique = 0;
                                         $releves = Releve::where('date_systeme', date('Y-m-d'))->get();
+                                        $relevesMois = Releve::whereMonth('date_systeme', Carbon::now()->month)
+                                            ->whereYear('date_systeme', Carbon::now()->year)
+                                            ->get();
                                         foreach ($releves as $rel) {
                                             $rec_boutique += $rel->divers;
                                             $ventes = json_decode($rel->vente);
@@ -268,7 +275,17 @@
                                             # code...
                                         }
                                         $recette = $rec_boutique + $rec_carburants;
-                                        
+
+                                        foreach ($relevesMois as $rel) {
+                                            $ventes = json_decode($rel->vente);
+                                            foreach ($ventes as $vente) {
+                                                foreach ($vente as $key => $value) {
+                                                    $rec_carburants_mois += $value->montant;
+                                                }
+                                                # code...
+                                            }
+                                        }
+
                                     @endphp
                                     <div class="text-dark fw-bold   mb-2"><span> {{ $recette }} € </span></div>
                                 </div>
@@ -284,11 +301,11 @@
                             <div class="row align-items-center no-gutters">
                                 <div class="col me-2">
                                     <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
-                                            carburant
+                                            carburant (mois {{ date('m') }})
                                         </span>
                                     </div>
 
-                                    <div class="text-dark  fw-bold   mb-2"><span> {{ $rec_carburants }} € </span>
+                                    <div class="text-dark  fw-bold   mb-2"><span> {{ $rec_carburants_mois }} € </span>
                                     </div>
 
 
@@ -321,7 +338,7 @@
 
                 @php
                     // $start = Carbon::parse('10:30:00');
-                    
+
                     // $end = Carbon::parse('12:45:00');
                     // $duration = $end->diffInMinutes($start);
                     // echo 'Duration: ' . $duration . ' minutes';
@@ -386,7 +403,8 @@
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0 text-size-md">Statistiques carburants (mois {{ date('m/Y') }})
+                        <h6 class="text-primary fw-bold m-0 text-size-md">Statistiques carburants (mois
+                            {{ date('m/Y') }})
 
                         </h6>
                         <a class="btn  bg-gradient-light border-0 rounded-4  text-size-md fw-bold shadow-sm text-primary "
@@ -416,7 +434,7 @@
                             <tbody>
                                 @php
                                     $carbs = Carburant::all();
-                                    
+
                                 @endphp
                                 @foreach ($carbs as $carb)
                                     @php
@@ -426,11 +444,11 @@
                                         $total_achat_qte = 0;
                                         $test = [];
                                         $title = $carb->titre;
-                                        
+
                                         $relevesStat1 = Releve::whereMonth('date_systeme', date('m'))
                                             ->whereYear('date_systeme', date('Y'))
                                             ->get();
-                                        
+
                                         $factureStat = Facture::whereMonth('date_facture', date('m'))
                                             ->whereYear('date_facture', date('Y'))
                                             ->get();
@@ -449,7 +467,7 @@
                                                 }
                                             }
                                         }
-                                        
+
                                         foreach ($factureStat as $fact) {
                                             if ($fact->$title != null) {
                                                 $achats = json_decode($fact->$title);
@@ -465,10 +483,10 @@
                                                     # code...
                                                 }
                                             }
-                                        
+
                                             # code...
                                         }
-                                        
+
                                     @endphp
                                     <tr>
                                         <td scope="row">{{ $title }}</td>
@@ -543,11 +561,11 @@
                                 $test = [];
                                 $title = $carb->titre;
                                 array_push($titles, $title);
-                            
+
                                 $relevesStat1 = Releve::whereMonth('date_systeme', date('m'))
                                     ->whereYear('date_systeme', date('Y'))
                                     ->get();
-                            
+
                                 $factureStat = Facture::whereMonth('date_facture', date('m'))
                                     ->whereYear('date_facture', date('Y'))
                                     ->get();
@@ -566,7 +584,7 @@
                                         }
                                     }
                                 }
-                            
+
                                 foreach ($factureStat as $fact) {
                                     if ($fact->$title != null) {
                                         $achats = json_decode($fact->$title);
@@ -582,13 +600,13 @@
                                             # code...
                                         }
                                     }
-                            
+
                                     # code...
                                 }
                                 $mrg = $total_vente_euro - $total_achat_euro;
                                 array_push($marges, $mrg);
                             }
-                            
+
                         @endphp
 
                         <div class="chart-area text-size-md">
@@ -672,7 +690,7 @@
                             <tbody>
                                 @php
                                     $cigars = Cigarette::all();
-                                    
+
                                 @endphp
                                 @foreach ($cigars as $cigarette)
                                     @php
@@ -682,11 +700,11 @@
                                         $total_achat_qte = 0;
                                         $test = [];
                                         $title = $cigarette->type;
-                                        
+
                                         $relevesStat2 = Releve::whereMonth('date_systeme', date('m'))
                                             ->whereYear('date_systeme', date('Y'))
                                             ->get();
-                                        
+
                                         $achatStat = AchatCigarette::whereMonth('date_achat', date('m'))
                                             ->whereYear('date_achat', date('Y'))
                                             ->get();
@@ -703,7 +721,7 @@
                                                 }
                                             }
                                         }
-                                        
+
                                         foreach ($achatStat as $achat) {
                                             $achats = json_decode($achat->achat);
                                             foreach ($achats as $ach) {
@@ -714,10 +732,10 @@
                                                     }
                                                 }
                                             }
-                                        
+
                                             # code...
                                         }
-                                        
+
                                     @endphp
                                     <tr>
                                         <td scope="row">{{ $title }}</td>
@@ -782,11 +800,11 @@
                                 $total_achat_qte = 0;
                                 $title = $cigarette->type;
                                 array_push($titles, $title);
-                            
+
                                 $relevesStat2 = Releve::whereMonth('date_systeme', date('m'))
                                     ->whereYear('date_systeme', date('Y'))
                                     ->get();
-                            
+
                                 $achatStat = AchatCigarette::whereMonth('date_achat', date('m'))
                                     ->whereYear('date_achat', date('Y'))
                                     ->get();
@@ -803,7 +821,7 @@
                                         }
                                     }
                                 }
-                            
+
                                 foreach ($achatStat as $achat) {
                                     $achats = json_decode($achat->achat);
                                     foreach ($achats as $ach) {
@@ -814,13 +832,13 @@
                                             }
                                         }
                                     }
-                            
+
                                     # code...
                                 }
                                 $mrg = $total_vente_euro - $total_achat_euro;
                                 array_push($marges, $mrg);
                             }
-                            
+
                         @endphp
 
                         <div class="chart-area text-size-md">
@@ -976,18 +994,18 @@
                         @php
                             $recettes = [];
                             $rels = Releve::whereDate('created_at', date('Y-m-d'))->get();
-                            
+
                             $total = 0;
                             $i = 0;
-                            
+
                             foreach ($rels as $r1) {
                                 # code...
                                 $total = $r1->totalPdf;
                                 array_push($recettes, $total);
                             }
-                            
+
                             # code...
-                            
+
                         @endphp
                         <script type="text/javascript">
                             var labelss = ["1ère période", "2ème période", "3ème période"];

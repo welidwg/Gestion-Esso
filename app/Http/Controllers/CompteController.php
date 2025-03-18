@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Compte;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -11,11 +12,26 @@ use Illuminate\Http\Request;
  */
 class CompteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public  function initV2(Request $request)
+    {
+        # code...
+        $solde = $request->solde;
+        $compte = Compte::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->first();
+
+        if ($compte) {
+            $compte->increment('montant', $solde);
+        } else {
+            Compte::create([
+                'montant' => $solde,
+                'created_at' => Carbon::now(), // Ensure it's created with the correct date
+            ]);
+        }
+        return response(["success" => "Solde modifié"], 200);
+    }
+
     public function init(Request $request)
     {
         # code...
@@ -28,6 +44,13 @@ class CompteController extends Controller
         }
         return response(["error" => "Montant non valide !"], 500);
     }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $comptes = Compte::paginate();

@@ -149,22 +149,23 @@ class ReleveControllerA extends Controller
                     $this->updateCigarette($type, $request->input($qte), $request->input($prix));
                 }
 
-                $divers= $request->input("divers");
 
-                $compte = Compte::where("id", "!=", null)->first();
+                $compte = Compte::whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->first();
+
                 if ($compte) {
-                    if ($request->client_compte != 0) {
-                        $compte->montant += ($request->totalPdf - $request->client_compte);
-                        $compte->compte_client +=  $request->client_compte;
-                    } else {
-                        $compte->montant += $request->totalPdf;
-                    }
-
-                    // $compte->tva_encaisse += $request->totalPdf * 0.2;
-                    $compte->save();
+                    $compte->increment('montant', $request->totalPdf);
+                    $compte->increment('compte_client', $request->client_compte);
                 } else {
-                    Compte::create(["montant" => $request->totalPdf, "compte_client" => $request->compte_clientPdf]);
+                    Compte::create([
+                        'montant' => $request->totalPdf,
+                        'compte_client' => $request->client_compte,
+                        'created_at' => Carbon::now(), // Ensure it's created with the correct date
+                    ]);
                 }
+
+
                 $data["vente"] = json_encode($final);
                 $data["tva"] = $request->totalPdf * 0.2;
                 $data["vente_cigarette"] = json_encode($final_cigars);

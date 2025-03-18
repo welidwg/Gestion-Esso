@@ -92,7 +92,8 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/user/{id}', [UserController::class, "show"])->name("user.show");
     Route::post('/user/{id}/edit', [UserController::class, "edit"])->name("user.edit");
     Route::get('/caissier', [
-        UserController::class, "index"
+        UserController::class,
+        "index"
     ])->name("user.caissier");
     Route::get('/caissier/releves', [UserController::class, "rapports"])->name("caissier.releves");
     Route::get('/caissier/hours', [UserController::class, "hours"])->name("caissier.hours");
@@ -106,6 +107,7 @@ Route::group(["middleware" => "auth"], function () {
 
     //compte
     Route::post("/comptes/init", [CompteController::class, "init"])->name("comptes.init")->middleware("admin");
+    Route::post("/comptes/v2/init", [CompteController::class, "initV2"])->name("comptes.initV2");
     Route::resource('comptes', CompteController::class)->middleware("admin");
 
 
