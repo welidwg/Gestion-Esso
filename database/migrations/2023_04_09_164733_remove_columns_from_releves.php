@@ -15,13 +15,27 @@ class RemoveColumnsFromReleves extends Migration
     {
         Schema::table('releves', function (Blueprint $table) {
             //
-            $table->dropColumn("qte_sp98");
-            $table->dropColumn("qte_sp95");
-            $table->dropColumn("qte_denergie");
-            $table->dropColumn("qte_diesel");
-            $table->dropColumn("qte_gpl");
-            $table->dropColumn("qte_petrol");
-            $table->dropColumn("qte_gnr");
+            if (Schema::hasColumn('releves', 'qte_sp98')) {
+                $table->dropColumn('qte_sp98');
+            }
+            if (Schema::hasColumn('releves', 'qte_sp95')) {
+                $table->dropColumn('qte_sp95');
+            }
+            if (Schema::hasColumn('releves', 'qte_denergie')) {
+                $table->dropColumn('qte_denergie');
+            }
+            if (Schema::hasColumn('releves', 'qte_diesel')) {
+                $table->dropColumn('qte_diesel');
+            }
+            if (Schema::hasColumn('releves', 'qte_gpl')) {
+                $table->dropColumn('qte_gpl');
+            }
+            if (Schema::hasColumn('releves', 'qte_petrol')) {
+                $table->dropColumn('qte_petrol');
+            }
+            if (Schema::hasColumn('releves', 'qte_gnr')) {
+                $table->dropColumn('qte_gnr');
+            }
         });
     }
 
