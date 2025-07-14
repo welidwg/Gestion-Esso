@@ -1,3 +1,20 @@
+<style>
+    .glow-icon {
+        color: limegreen;
+        /* or any highlight color */
+        animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 5px limegreen, 0 0 10px limegreen;
+        }
+
+        to {
+            text-shadow: 0 0 10px limegreen, 0 0 20px limegreen;
+        }
+    }
+</style>
 <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-dark p-0 toggled">
     <div class="container-fluid d-flex flex-column p-0">
         <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
@@ -11,24 +28,24 @@
         </a>
         <hr class="sidebar-divider my-0" />
         <ul id="accordionSidebar" class="navbar-nav text-light">
-
+            <li class="nav-item">
+                <a class="nav-link   {{ Route::currentRouteName() == 'desiderata.index' ? 'active' : '' }}"
+                    href="{{ route('desiderata.index') }}"><i
+                        class="fas fa-calendar glow-icon"></i><span>Calendrier</span></a>
+            </li>
             @if (Auth::user()->role == 0)
                 <li class="nav-item">
-                    <a class="nav-link   {{ Route::currentRouteName() == 'view.main' ? 'active' : '' }}"
-                        href="/main"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
-
+                    <a class="nav-link {{ Route::currentRouteName() == 'view.main' ? 'active' : '' }}" href="/main"><i
+                            class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link   {{ Route::currentRouteName() == 'commande.index' ? 'active' : '' }}"
+                    <a class="nav-link {{ Route::currentRouteName() == 'commande.index' ? 'active' : '' }}"
                         href="/commande"> <i class="fal fa-clipboard-list-check"></i><span>Commande</span></a>
-
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link   {{ Route::currentRouteName() == 'stats' ? 'active' : '' }}"
                         href="/stats/moyenne"><i class="fas fa-tachometer-alt"></i><span>Moyenne de
                             consommation</span></a>
-
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'carburant.index' ? 'active' : '' }}"

@@ -6,6 +6,7 @@ use App\Http\Controllers\CarburantControllerA;
 use App\Http\Controllers\CigaretteController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CompteController;
+use App\Http\Controllers\DesiderataController;
 use App\Http\Controllers\FactureCaissierController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\KiosqueController;
@@ -192,6 +193,11 @@ Route::group(["middleware" => "auth"], function () {
 
     //archive solde
     Route::resource("archive/solde", ArchiveSoldeController::class)->middleware("admin");
+
+    Route::get('/desiderata/report', [DesiderataController::class, 'generateReport'])->name('desiderata.report');
+    Route::get('/desiderata/shifts', [DesiderataController::class, 'getShiftsForDate'])->name('desiderata.shifts');
+    Route::get('/desiderata/events', [DesiderataController::class, 'events'])->name('desiderata.events');
+    Route::resource("desiderata", DesiderataController::class);
 
     //rapport
     Route::get("/rapport", function () {
