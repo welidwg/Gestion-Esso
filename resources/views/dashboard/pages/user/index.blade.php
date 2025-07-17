@@ -28,6 +28,7 @@
                           <tr>
                               <th>Code du caissier</th>
                               <th>Nom du caissier</th>
+                              <th>Login</th>
                               <th>Mot de passe</th>
                               <th>Date de création</th>
                               <th>Action</th>
@@ -38,6 +39,7 @@
                               <tr>
                                   <td>{{ $user->code }}</td>
                                   <td>{{ $user->nom }}</td>
+                                  <td>{{ $user->login }}</td>
 
                                   <td>{{ $user->plainTextPassword }}</td>
                                   <td>{{ date('d/m/Y', strtotime($user->created_at)) }}</td>

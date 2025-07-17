@@ -104,7 +104,7 @@
                             <select class="form-select" id="userSelect" name="user_id">
                                 @foreach ($users as $user)
                                     <option value="{{ $user['id'] }}">
-                                        {{ $user['name'] }} ({{ $user['login'] }})
+                                        {{ $user['nom'] }}
                                     </option>
                                 @endforeach
 

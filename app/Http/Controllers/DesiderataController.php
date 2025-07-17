@@ -91,7 +91,7 @@ class DesiderataController extends Controller
             return [
                 'id' => $item->id,
                 'title' => $item->shift_start . ' - ' . $item->shift_end .
-                    ' (' . $item->caissier->login . ')',
+                    ' (' . $item->caissier->nom . ')',
                 'start' => $item->choosen_date,
                 'allDay' => true,
                 'shift_start' => $item->shift_start,
