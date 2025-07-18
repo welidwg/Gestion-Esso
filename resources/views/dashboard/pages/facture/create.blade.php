@@ -109,6 +109,7 @@
                                                         id="prix_u_ttc_new_{{ $carb->id }}" value="0" placeholder="" required
                                                         name="prix_u_ttc_new_{{ $carb->id }}" />
                                                 </div>
+                                             
                                             </div>
                                                <div class="col-md-2 col-6">
                                                 <label class='text-size-md d-block d-md-none' style="white-space:nowrap">Montant TTC</label>
@@ -134,14 +135,14 @@
                                                         $(`#prix_u_ht_new_{{ $carb->id }}`).val(
                                                             parseFloat(
                                                                 prixA / 1000
-                                                            ).toFixed(2)
+                                                            )
                                                         );
 
                                                         $(`#prix_u_ttc_new_{{ $carb->id }}`).val(
                                                             parseFloat(
                                                                 $(`#prix_u_ht_new_{{ $carb->id }}`).val() *
                                                                 1.2
-                                                            ).toFixed(2)
+                                                            )
                                                         );
 
                                                         const tva = 1.2;
@@ -152,7 +153,7 @@
                                                                 $(
                                                                     `#prix_u_ttc_new_{{ $carb->id }}`
                                                                 ).val()
-                                                            ).toFixed(2)
+                                                            )
                                                         );
                                                         $(`#tva_new_{{ $carb->id }}`).val(
                                                             parseFloat(
@@ -161,7 +162,7 @@
                                                                     `#prix_u_ht_new_{{ $carb->id }}`
                                                                 ).val() *
                                                                 0.2
-                                                            ).toFixed(2)
+                                                            )
                                                         );
                                                     }
                                                 });

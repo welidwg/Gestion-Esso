@@ -74,7 +74,7 @@
                         @foreach ($carburants as $carb)
                             @php
                                 $title = $carb->titre;
-                                
+
                             @endphp
                             @if ($facture->$title != null)
                                 @php
@@ -97,7 +97,7 @@
 
                                         <div class="mb-3 ">
                                             <input class="form-control text-dark " type="number" step="0.01" required
-                                                id="" value="{{ $data[0]->prixA }}" placeholder=""
+                                                id="" value="{{ round($data[0]->prixA, 2) }}" placeholder=""
                                                 name="prixA_{{ $carb->id }}" />
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
 
                                         <div class="mb-3 ">
                                             <input class="form-control text-dark " type="number" step="0.01" required
-                                                id="" value="{{ $data[0]->pu_ttc }}" placeholder="" />
+                                                id="" value="{{ round($data[0]->pu_ttc, 2) }}" placeholder="" />
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-6">
@@ -134,7 +134,8 @@
 
                                         <div class="mb-3 ">
                                             <input class="form-control text-dark " type="number" step="0.01" required
-                                                id="" value="{{ $data[0]->montant }}" placeholder="" />
+                                                id="" value="{{ round($data[0]->montant, 2) }}"
+                                                placeholder="" />
                                         </div>
                                     </div>
                                     <hr class="d-block d-md-none" style="border: 2px solid black">

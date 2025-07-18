@@ -14,7 +14,8 @@ class Desiderata extends Model
         'choosen_date',
         'shift_start',
         'shift_end',
-        'is_splittable'
+        'is_splittable',
+        'isAbsent'
     ];
     public function caissier(): BelongsTo
     {

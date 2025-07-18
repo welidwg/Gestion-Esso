@@ -118,8 +118,16 @@
                     @endif
 
                     <div id="shiftOptions" class="form-check">
+
                         <!-- Shift radio buttons will go here -->
                     </div>
+                    <div class="form-check col mb-2">
+                        <input type="checkbox" class="form-check-input" name="isAbsent" id="isAbsent">
+                        <label class="form-check-label text-size-md" for="isAbsent">
+                            Absent ce jour?
+                        </label>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -467,8 +475,11 @@
 
                     // Helper function to convert time string to minutes
                     function timeToMinutes(timeStr) {
-                        const [hours, minutes] = timeStr.split(':').map(Number);
-                        return hours * 60 + minutes;
+                        if (timeStr != null) {
+                            const [hours, minutes] = timeStr.split(':').map(Number);
+                            return hours * 60 + minutes;
+                        }
+
                     }
 
                     if (availableShifts.length === 0) {
@@ -483,7 +494,7 @@
                 <div class="form-check">
                     <input class="form-check-input" type="radio" 
                            name="shift" id="shift${index}" 
-                           value="${shift.start},${shift.end}" required>
+                           value="${shift.start},${shift.end}" >
                     <label class="form-check-label" for="shift${index}">
                         ${shift.label}
                     </label>
@@ -507,12 +518,17 @@
                 if (eventId) {
                     formData.append('shift_id', eventId);
                 }
-                // Get the selected shift value (start,end)
-                const shiftValue = formData.get('shift').split(',');
+                // Get the selected shift value (start,end)*
+                console.log(formData.get('shift'));
 
-                // Add the start and end times to the form data
-                formData.append('shift_start', shiftValue[0]);
-                formData.append('shift_end', shiftValue[1]);
+                if (formData.get('shift') != null) {
+                    const shiftValue = formData.get('shift').split(',');
+
+                    // Add the start and end times to the form data
+                    formData.append('shift_start', shiftValue[0]);
+                    formData.append('shift_end', shiftValue[1]);
+                }
+
 
                 // For admin, use selected user_id, for others use their own ID
                 if (!isAdmin) {
@@ -533,6 +549,8 @@
                     modal.hide();
                 } else {
                     const error = await res.json();
+                    console.log(error);
+
                     alert("Erreur: " + (error.message || "Impossible d'enregistrer le créneau"));
                 }
             });

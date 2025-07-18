@@ -28,14 +28,29 @@ class DesiderataController extends Controller
     {
         $validated = $request->validate([
             'choosen_date' => 'required|date',
-            'shift_start' => 'required|date_format:H:i',
-            'shift_end' => 'required|date_format:H:i|after:shift_start',
-            'user_id' => 'required|exists:users,id'
+            'shift_start' => 'date_format:H:i',
+            'shift_end' => 'date_format:H:i|after:shift_start',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         // For non-admin users, verify they can only modify their own shifts
         if (auth()->user()->role != 0 && $validated['user_id'] != auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        if ($request->has("isAbsent") && $request->isAbsent == "on") {
+            Desiderata::updateOrCreate(
+                [
+                    'id' => $request->input('shift_id'), // For updates
+                    'choosen_date' => $validated['choosen_date'],
+                    'user_id' => $validated['user_id'],
+                    "isAbsent" => $request->isAbsent == "on" ? 1 : 0
+                ],
+                [
+                    'shift_start' => null,
+                    'shift_end' => null
+                ]
+            );
+            return response(["success" => "Bien ajouté"], 201);
         }
 
         // Convert times to minutes for comparison
@@ -47,9 +62,11 @@ class DesiderataController extends Controller
             ->where('id', '!=', $request->input('shift_id', 0)) // Exclude current shift if updating
             ->get()
             ->contains(function ($item) use ($newStart, $newEnd) {
-                $itemStart = $this->timeToMinutes($item->shift_start);
-                $itemEnd = $this->timeToMinutes($item->shift_end);
-                return ($newStart < $itemEnd && $newEnd > $itemStart);
+                if ($item->shift_start != null && $item->shift_end != null) {
+                    $itemStart = $this->timeToMinutes($item->shift_start);
+                    $itemEnd = $this->timeToMinutes($item->shift_end);
+                    return ($newStart < $itemEnd && $newEnd > $itemStart);
+                }
             });
 
         if ($overlapping) {
@@ -58,7 +75,6 @@ class DesiderataController extends Controller
             ], 422);
         }
 
-        // Update or create the shift
         Desiderata::updateOrCreate(
             [
                 'id' => $request->input('shift_id'), // For updates
@@ -70,6 +86,9 @@ class DesiderataController extends Controller
                 'shift_end' => $validated['shift_end']
             ]
         );
+
+        // Update or create the shift
+
 
         return response(["success" => "Bien ajouté"], 201);
     }
@@ -88,16 +107,19 @@ class DesiderataController extends Controller
         }
 
         return $desideratas->map(function ($item) {
+            $title = $item->isAbsent ? "Absent (" . $item->caissier->nom . ")" : $item->shift_start . ' - ' . $item->shift_end .
+                ' (' . $item->caissier->nom . ')';
             return [
                 'id' => $item->id,
-                'title' => $item->shift_start . ' - ' . $item->shift_end .
-                    ' (' . $item->caissier->nom . ')',
+                'title' => $title,
                 'start' => $item->choosen_date,
                 'allDay' => true,
                 'shift_start' => $item->shift_start,
                 'shift_end' => $item->shift_end,
                 'userId' => $item->user_id,
-                'userName' => $item->caissier->login ?? 'Unknown'
+                'userName' => $item->caissier->nom ?? 'Unknown',
+                'isAbsent' => $item->isAbsent,
+                "color" => $item->isAbsent ? "red" : ""
             ];
         });
 
