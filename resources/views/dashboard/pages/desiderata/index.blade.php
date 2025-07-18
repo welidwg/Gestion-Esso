@@ -625,7 +625,8 @@
                     data.users.forEach(user => {
                         const userCell = document.createElement('td');
                         const userShift = dateData.shifts.find(shift => shift.user_id === user.id);
-                        userCell.textContent = userShift ?
+                        userCell.textContent = userShift ? userShift.shift_start == null ?
+                            'Absent' :
                             `${userShift.shift_start} - ${userShift.shift_end}` :
                             '-';
                         row.appendChild(userCell);
