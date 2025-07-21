@@ -101,12 +101,25 @@ class DesiderataController extends Controller
 
     public function events()
     {
+
         $desideratas = Desiderata::where('user_id', Auth::id())->with("caissier")->get();
         if (Auth::user()->role == 0) {
             $desideratas = Desiderata::with("caissier")->get();
         }
 
-        return $desideratas->map(function ($item) {
+        // Unique list of user IDs from the desideratas
+        $userIds = $desideratas->pluck('user_id')->unique()->values();
+
+        // Define a list of colors
+        $colors = ['#36bd4fff', '#0e2074ff', '#FF33A8', '#A833FF', '#07756eff', '#eebe1eff', '#DAF7A6'];
+
+        // Assign a color per user ID
+        $userColors = [];
+        foreach ($userIds as $i => $userId) {
+            $userColors[$userId] = $colors[$i % count($colors)];
+        }
+
+        return $desideratas->map(function ($item) use ($userColors) {
             $title = $item->isAbsent ? "Absent (" . $item->caissier->nom . ")" : $item->shift_start . ' - ' . $item->shift_end .
                 ' (' . $item->caissier->nom . ')';
             return [
@@ -119,7 +132,7 @@ class DesiderataController extends Controller
                 'userId' => $item->user_id,
                 'userName' => $item->caissier->nom ?? 'Unknown',
                 'isAbsent' => $item->isAbsent,
-                "color" => $item->isAbsent ? "red" : ""
+                "color" => $item->isAbsent ? "red" : ($userColors[$item->user_id] ?? '#000000')
             ];
         });
 
