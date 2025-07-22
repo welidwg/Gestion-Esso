@@ -86,7 +86,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 0.8em;
-            color: #55585a;
+            color: #474849;
             font-weight: bold;
         }
     </style>
