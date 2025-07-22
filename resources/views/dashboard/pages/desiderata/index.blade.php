@@ -81,7 +81,6 @@
         }
 
         .fc-day-completely-booked::after {
-            content: "Complet";
             position: absolute;
             top: 50%;
             left: 50%;
