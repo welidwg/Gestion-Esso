@@ -346,6 +346,8 @@
                     }
                 ],
                 eventClick: function(info) {
+                    var eventDate = moment(info.event.start).format("YYYY-MM-DD");
+                    console.log(eventDate);
                     const isHoliday = info.event.display === 'background' ||
                         info.event.backgroundColor === '#ff0000' ||
                         info.event.classNames.includes('fc-holiday') ||
@@ -373,9 +375,12 @@
                                     'Accept': 'application/json'
                                 }
                             })
-                            .then(response => {
+                            .then(async response => {
                                 if (response.ok) {
                                     info.event.remove();
+
+
+                                    await checkDateAvailability(`${eventDate}`);
                                     alert("Créneau supprimé avec succès");
                                 } else {
                                     throw new Error("Échec de la suppression du créneau");
@@ -658,6 +663,7 @@
 
                 if (res.ok) {
                     calendar.refetchEvents();
+                    await checkDateAvailability(formData.get('choosen_date'));
                     modal.hide();
                 } else {
                     const error = await res.json();
@@ -792,6 +798,89 @@
                 if (!timeStr) return 0;
                 const [hours, minutes] = timeStr.split(':').map(Number);
                 return hours * 60 + minutes;
+            }
+            async function checkDateAvailability(dateStr) {
+                const date = new Date(dateStr);
+                const day = date.getDay();
+                const isWeekend = (day === 0 || day === 6);
+                const isHoliday = isFrenchHoliday(dateStr, frenchHolidays);
+
+                // Skip weekends and holidays
+                //if (isWeekend || isHoliday) return;
+
+                const dayEl = document.querySelector(`.fc-day[data-date="${dateStr}"]`);
+                if (!dayEl) return;
+
+                // Get shifts for this date
+                let existingShifts = [];
+                try {
+                    const response = await fetch(
+                        `{{ route('desiderata.shifts') }}?date=${dateStr}`
+                    );
+                    if (response.ok) {
+                        const data = await response.json();
+                        existingShifts = data.assigned_shifts || [];
+                    }
+                } catch (error) {
+                    console.error('Error fetching shifts:', error);
+                }
+
+                // Determine available shifts
+                const allShifts = isHoliday ? [{
+                        start: '09:00',
+                        end: '15:00'
+                    },
+                    {
+                        start: '15:00',
+                        end: '21:00'
+                    }
+                ] : isWeekend ? [{
+                        start: '06:30',
+                        end: '14:00'
+                    },
+                    {
+                        start: '14:00',
+                        end: '21:00'
+                    }
+                ] : [{
+                        start: '06:30',
+                        end: '11:00'
+                    },
+                    {
+                        start: '11:00',
+                        end: '15:00'
+                    },
+                    {
+                        start: '15:00',
+                        end: '21:00'
+                    },
+                    {
+                        start: '06:30',
+                        end: '14:00'
+                    },
+                    {
+                        start: '14:00',
+                        end: '21:00'
+                    }
+                ];
+
+                const availableShifts = allShifts.filter(shift => {
+                    const shiftStart = timeToMinutes(shift.start);
+                    const shiftEnd = timeToMinutes(shift.end);
+
+                    return !existingShifts.some(existing => {
+                        const existingStart = timeToMinutes(existing.shift_start);
+                        const existingEnd = timeToMinutes(existing.shift_end);
+                        return (shiftStart < existingEnd && shiftEnd > existingStart);
+                    });
+                });
+
+                // Toggle the completely-booked class
+                if (availableShifts.length === 0) {
+                    dayEl.classList.add('fc-day-completely-booked');
+                } else {
+                    dayEl.classList.remove('fc-day-completely-booked');
+                }
             }
         });
     </script>
