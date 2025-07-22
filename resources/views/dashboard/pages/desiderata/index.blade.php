@@ -76,7 +76,7 @@
         }
 
         .fc-day-completely-booked {
-            background-color: #e9ecef !important;
+            background-color: #a5a5a58a !important;
             position: relative;
         }
 
@@ -86,7 +86,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 0.8em;
-            color: #474849;
+            color: #6c757d;
             font-weight: bold;
         }
     </style>
