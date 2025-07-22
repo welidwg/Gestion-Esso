@@ -120,8 +120,7 @@ class DesiderataController extends Controller
         }
 
         return $desideratas->map(function ($item) use ($userColors) {
-            $title = $item->isAbsent ? "Absent (" . $item->caissier->nom . ")" : $item->shift_start . ' - ' . $item->shift_end .
-                ' (' . $item->caissier->nom . ')';
+            $title = $item->isAbsent ? "Absent (" . $item->caissier->nom . ")" : $item->caissier->nom . ' ' . $item->shift_start . ' - ' . $item->shift_end;
             return [
                 'id' => $item->id,
                 'title' => $title,
@@ -143,28 +142,57 @@ class DesiderataController extends Controller
     public function getShiftsForDate(Request $request)
     {
         $date = $request->query('date');
+        $start = $request->query('start');
+        $end = $request->query('end');
         $excludeUserId = $request->query('exclude_user');
 
-        $query = Desiderata::where('choosen_date', $date)
-            ->with('caissier')
-            ->select('id', 'shift_start', 'shift_end', 'user_id');
+        $query = Desiderata::with('caissier')
+            ->select('id', 'choosen_date', 'shift_start', 'shift_end', 'user_id');
+
+        if ($date) {
+            $query->where('choosen_date', $date);
+        }
+
+        if ($start && $end) {
+            $query->whereBetween('choosen_date', [$start, $end]);
+        }
 
         if ($excludeUserId) {
             $query->where('user_id', '!=', $excludeUserId);
         }
 
-        return $query->get()
-            ->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'shift_start' => $item->shift_start,
-                    'shift_end' => $item->shift_end,
-                    'user_id' => $item->user_id,
-                    'user_name' => $item->caissier->login ?? 'Unknown'
-                ];
-            });
+        return [
+            'assigned_shifts' => $query->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'date' => $item->choosen_date,
+                        'shift_start' => $item->shift_start,
+                        'shift_end' => $item->shift_end,
+                        'user_id' => $item->user_id,
+                        'user_name' => $item->caissier->login ?? 'Unknown',
+                    ];
+                }),
+            // Include the possible shifts configuration
+            'possible_shifts' => [
+                'weekday' => [
+                    ['06:30', '11:00'],
+                    ['11:00', '15:00'],
+                    ['15:00', '21:00'],
+                    ['06:30', '14:00'],
+                    ['14:00', '21:00']
+                ],
+                'weekend' => [
+                    ['06:30', '14:00'],
+                    ['14:00', '21:00']
+                ],
+                'holiday' => [
+                    ['09:00', '15:00'],
+                    ['15:00', '21:00']
+                ]
+            ]
+        ];
     }
-
     public function generateReport(Request $request)
     {
         $year = $request->query('year');

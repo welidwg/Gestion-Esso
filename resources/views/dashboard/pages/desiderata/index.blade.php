@@ -74,6 +74,22 @@
             background-color: #ccffcc !important;
             border-color: #99ff99 !important;
         }
+
+        .fc-day-completely-booked {
+            background-color: #e9ecef !important;
+            position: relative;
+        }
+
+        .fc-day-completely-booked::after {
+            content: "Complet";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8em;
+            color: #6c757d;
+            font-weight: bold;
+        }
     </style>
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Calendrier des Créneaux</h2>
@@ -370,14 +386,110 @@
                             });
                     }
                 },
+                datesSet: async function(info) {
+                    const start = info.startStr;
+                    const end = info.endStr;
+
+                    try {
+                        // First remove all existing "completely booked" classes
+                        document.querySelectorAll('.fc-day').forEach(dayEl => {
+                            dayEl.classList.remove('fc-day-completely-booked');
+                        });
+
+                        // Check each visible date
+                        const days = document.querySelectorAll('.fc-day');
+                        for (const dayEl of days) {
+                            const dateStr = dayEl.getAttribute('data-date');
+                            if (!dateStr) continue;
+
+                            const date = new Date(dateStr);
+                            const day = date.getDay();
+                            const isWeekend = (day === 0 || day === 6);
+                            const isHoliday = isFrenchHoliday(dateStr, frenchHolidays);
+
+                            // Skip weekends and holidays
+                            // if (isWeekend || isHoliday) continue;
+
+                            // Get shifts for this date (using the same logic as your modal)
+                            let existingShifts = [];
+                            try {
+                                const response = await fetch(
+                                    `{{ route('desiderata.shifts') }}?date=${dateStr}`
+                                );
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    existingShifts = data.assigned_shifts || [];
+                                }
+                            } catch (error) {
+                                console.error('Error fetching shifts:', error);
+                            }
+
+                            // Determine available shifts (same logic as your modal)
+                            const allShifts = isHoliday ? [{
+                                    start: '09:00',
+                                    end: '15:00'
+                                },
+                                {
+                                    start: '15:00',
+                                    end: '21:00'
+                                }
+                            ] : isWeekend ? [{
+                                    start: '06:30',
+                                    end: '14:00'
+                                },
+                                {
+                                    start: '14:00',
+                                    end: '21:00'
+                                }
+                            ] : [{
+                                    start: '06:30',
+                                    end: '11:00'
+                                },
+                                {
+                                    start: '11:00',
+                                    end: '15:00'
+                                },
+                                {
+                                    start: '15:00',
+                                    end: '21:00'
+                                },
+                                {
+                                    start: '06:30',
+                                    end: '14:00'
+                                },
+                                {
+                                    start: '14:00',
+                                    end: '21:00'
+                                }
+                            ];
+
+                            const availableShifts = allShifts.filter(shift => {
+                                const shiftStart = timeToMinutes(shift.start);
+                                const shiftEnd = timeToMinutes(shift.end);
+
+                                return !existingShifts.some(existing => {
+                                    const existingStart = timeToMinutes(existing
+                                        .shift_start);
+                                    const existingEnd = timeToMinutes(existing
+                                        .shift_end);
+                                    return (shiftStart < existingEnd && shiftEnd >
+                                        existingStart);
+                                });
+                            });
+
+                            // If no shifts available, mark as completely booked
+                            if (availableShifts.length === 0) {
+                                dayEl.classList.add('fc-day-completely-booked');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error checking booked dates:', error);
+                    }
+                },
+
                 dateClick: async function(info) {
                     const isAdmin = {{ Auth::user()->role == 0 ? 'true' : 'false' }};
 
-                    // if (isAdmin) {
-                    //     document.getElementById('userSelect').style.display = 'block';
-                    // } else {
-                    //     document.getElementById('userSelect').style.display = 'none';
-                    // }
 
                     const date = info.dateStr;
                     const day = new Date(date).getDay();
@@ -463,7 +575,7 @@
                         const shiftEnd = timeToMinutes(shift.end);
 
                         // Check if this shift overlaps with any existing shift
-                        return !existingShifts.some(existing => {
+                        return !existingShifts["assigned_shifts"].some(existing => {
                             const existingStart = timeToMinutes(existing.shift_start);
                             const existingEnd = timeToMinutes(existing.shift_end);
 
@@ -674,6 +786,12 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+            }
+
+            function timeToMinutes(timeStr) {
+                if (!timeStr) return 0;
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                return hours * 60 + minutes;
             }
         });
     </script>
