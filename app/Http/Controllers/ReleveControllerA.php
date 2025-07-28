@@ -58,11 +58,13 @@ class ReleveControllerA extends Controller
     public function updateCigarette($type, $qte, $pv = null)
     {
         $cigar = Cigarette::where("type", $type)->first();
-        $cigar->qte -= $qte;
-        if ($pv != null && $pv != 0) {
-            $cigar->prixV = $pv;
+        if ($cigar) {
+            $cigar->qte -= $qte;
+            if ($pv != null && $pv != 0) {
+                $cigar->prixV = $pv;
+            }
+            $cigar->save();
         }
-        $cigar->save();
     }
     public function editCarburant($title, $qte)
     {
@@ -100,82 +102,79 @@ class ReleveControllerA extends Controller
             $final_cigars = [];
             $check2 = Releve::orderBy('id', 'desc')->first();
             $carbs = Carburant::all();
-            if (!$check) {
-                // if ($check2) {
+
+            // if ($check2) {
 
 
-                //     if ($check2->date_systeme == date("Y-m-d")) {
-                //         if ((date("H:i:s", strtotime($data["heure_d"])) >= $check2->heure_d && date("H:i:s", strtotime($data["heure_f"])) <= $check2->heure_f) ||
-                //             (date("H:i:s", strtotime($data["heure_d"])) >= $check2->heure_d) || (date("H:i:s", strtotime($data["heure_f"])) <= $check2->heure_f)
-                //         ) {
-                //             return response(json_encode(["type" => "error", "message" => "Il y a un conflit du temps ! Un autre caissier a déjà cloturé sa journée dans ce temps !"]), 500);
-                //         }
-                //     }
-                // }
-                foreach ($request->input("titles") as $v) {
-                    $carb = [];
-                    $titleLowercase = strtolower($v);
-                    $qte = "qte_" . $titleLowercase;
-                    $prix = "prix_" . $titleLowercase;
-                    $montant = "montant_" . $titleLowercase;
-                    if ($request->input($montant) != 0) {
-                        $carb = array($v => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                        array_push($final, $carb);
-                        $this->updateCarburant($v, $data[$qte], $request->input($prix));
-                    }
+            //     if ($check2->date_systeme == date("Y-m-d")) {
+            //         if ((date("H:i:s", strtotime($data["heure_d"])) >= $check2->heure_d && date("H:i:s", strtotime($data["heure_f"])) <= $check2->heure_f) ||
+            //             (date("H:i:s", strtotime($data["heure_d"])) >= $check2->heure_d) || (date("H:i:s", strtotime($data["heure_f"])) <= $check2->heure_f)
+            //         ) {
+            //             return response(json_encode(["type" => "error", "message" => "Il y a un conflit du temps ! Un autre caissier a déjà cloturé sa journée dans ce temps !"]), 500);
+            //         }
+            //     }
+            // }
+            foreach ($request->input("titles") as $v) {
+                $carb = [];
+                $titleLowercase = strtolower($v);
+                $qte = "qte_" . $titleLowercase;
+                $prix = "prix_" . $titleLowercase;
+                $montant = "montant_" . $titleLowercase;
+                if ($request->input($montant) != 0) {
+                    $carb = array($v => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+                    array_push($final, $carb);
+                    $this->updateCarburant($v, $data[$qte], $request->input($prix));
                 }
-                // if ($request->has("types")) {
-                //     foreach ($request->input("types") as $type) {
-                //         $cigar = Cigarette::where("type", $type)->first();
-                //         $cigars = [];
-
-                //         $qte = "qteC_" . $cigar->id;
-                //         $prix = "prixVC_" . $cigar->id;
-                //         $montant = "montantC_" . $cigar->id;
-                //         $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                //         array_push($final_cigars, $cigars);
-                //         $this->updateCigarette($type, $request->input($qte), $request->input($prix));
-                //     }
-                // }
-                $cigar = Cigarette::latest()->first();
-                $cigars = [];
-                $type = $cigar->type;
-                $qte = "qteC";
-                $prix = "prixVC";
-                $montant = "montantC";
-                if ($request->input($qte) != 0) {
-                    $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                    array_push($final_cigars, $cigars);
-                    $this->updateCigarette($type, $request->input($qte), $request->input($prix));
-                }
-
-
-                $compte = Compte::whereMonth('created_at', Carbon::now()->month)
-                    ->whereYear('created_at', Carbon::now()->year)
-                    ->first();
-
-                if ($compte) {
-                    $compte->increment('montant', $request->totalPdf);
-                    $compte->increment('compte_client', $request->client_compte);
-                } else {
-                    Compte::create([
-                        'montant' => $request->totalPdf,
-                        'compte_client' => $request->client_compte,
-                        'created_at' => Carbon::now(), // Ensure it's created with the correct date
-                    ]);
-                }
-
-
-                $data["vente"] = json_encode($final);
-                $data["tva"] = $request->totalPdf * 0.2;
-                $data["vente_cigarette"] = json_encode($final_cigars);
-                Releve::create($data);
-                return response(json_encode(["type" => "success", "message" => "Bien ajouté !"]), 200);
-
-                // return response(json_encode(["type" => "success", "message" => date("H:i:s", strtotime($data["heure_d"])) . "  " . $check2->heure_d]), 200);
-            } else {
-                return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter un relevé aujourd'hui !"]), 500);
             }
+            // if ($request->has("types")) {
+            //     foreach ($request->input("types") as $type) {
+            //         $cigar = Cigarette::where("type", $type)->first();
+            //         $cigars = [];
+
+            //         $qte = "qteC_" . $cigar->id;
+            //         $prix = "prixVC_" . $cigar->id;
+            //         $montant = "montantC_" . $cigar->id;
+            //         $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+            //         array_push($final_cigars, $cigars);
+            //         $this->updateCigarette($type, $request->input($qte), $request->input($prix));
+            //     }
+            // }
+            $cigar = Cigarette::latest()->first();
+            $cigars = [];
+            $type = $cigar->type;
+            $qte = "qteC";
+            $prix = "prixVC";
+            $montant = "montantC";
+            if ($request->input($qte) != 0) {
+                $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+                array_push($final_cigars, $cigars);
+                $this->updateCigarette($type, $request->input($qte), $request->input($prix));
+            }
+
+
+            $compte = Compte::whereMonth('created_at', Carbon::now()->month)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->first();
+
+            if ($compte) {
+                $compte->increment('montant', $request->totalPdf);
+                $compte->increment('compte_client', $request->client_compte);
+            } else {
+                Compte::create([
+                    'montant' => $request->totalPdf,
+                    'compte_client' => $request->client_compte,
+                    'created_at' => Carbon::now(), // Ensure it's created with the correct date
+                ]);
+            }
+
+
+            $data["vente"] = json_encode($final);
+            $data["tva"] = $request->totalPdf * 0.2;
+            $data["vente_cigarette"] = json_encode($final_cigars);
+            Releve::create($data);
+            return response(json_encode(["type" => "success", "message" => "Bien ajouté !"]), 200);
+
+            // return response(json_encode(["type" => "success", "message" => date("H:i:s", strtotime($data["heure_d"])) . "  " . $check2->heure_d]), 200);
         } catch (\Throwable $th) {
             return response(json_encode(["type" => "error", "message" => $th->getMessage()]), 500);
         }
