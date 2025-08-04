@@ -13,15 +13,8 @@
                         @csrf
                         @method('PUT')
                         <div class="row mb-3">
-                            <div class="col-md-6 mb-3">
-                                <div class="">
-                                    <label class="form-label" for=""><strong>Choisissez le date d'achat
-                                        </strong></label>
-                                </div>
-                                <input class="form-control  text-dark" type="date" required id="" placeholder=""
-                                    name="date_achat" value="" />
-                            </div>
-                            <div class="col-md-6 mb-3">
+
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="">
                                     <label class="form-label" for=""><strong>Sélectionnez les cigarettees achtetées
                                         </strong></label>
@@ -102,17 +95,19 @@
 
 
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="row">
                             <div class="col-4">
-                                <div class="mb-">
-                                    <label class="form-label" for=""><strong>Type</strong></label>
+                                <div class="">
+                                    <label class="form-label" for=""><strong>Choisissez le date d'achat
+                                        </strong></label>
                                 </div>
+
                             </div>
                             <div class="col-4">
                                 <div class="mb- ">
-                                    <label class="form-label" for=""><strong>Quantité achetée </strong></label>
+                                    <label class="form-label" for=""><strong>Nombre d'articles </strong></label>
 
                                 </div>
                             </div>
@@ -125,7 +120,43 @@
 
                         </div>
                         <div class="container-rows">
+                            <div class="row" id="row">
 
+                                <input class="form-control bg-light text-dark text-size-md" type="hidden" required
+                                    id="" placeholder="" required name="type"
+                                    value="{{ $cigarettes[0]['type'] }}" readonly />
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <input class="form-control  text-dark" type="date" required id=""
+                                            placeholder="" name="date_achat" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3 ">
+                                        <input class="form-control text-dark text-size-md" type="number" step="1"
+                                            required id="" value="0" placeholder="" required
+                                            name="qte_{{ $cigarettes[0]['id'] }}" />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3  d-flex align-items-center">
+                                        <input class="form-control text-dark text-size-md " type="number" step="0.01"
+                                            required id="" value="0" placeholder="" required
+                                            name="Total_{{ $cigarettes[0]['id'] }}" />
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-md-3">
+                                    <div class="mb-3 ">
+                                        <input class="form-control text-dark " type="number" step="0.01" required
+                                            id="" value="${pv}" placeholder="" required hidden
+                                            name="prixV_${id}" />
+                                    </div>
+
+                                </div> --}}
+                                {{-- <input type="hidden" name="types[]" value="${type}"> --}}
+
+                            </div>
                         </div>
 
 

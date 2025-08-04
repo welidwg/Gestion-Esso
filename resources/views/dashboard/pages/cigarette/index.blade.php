@@ -17,9 +17,9 @@
                   <div class="dropdown-menu shadow dropdown-menu-start animated--fade-in">
 
                       <p class="text-center dropdown-header">Menu cigarettes</p>
-                      <a class="dropdown-item " href="{{ route('cigarette.create') }}"><i class="fas fa-plus"></i>
+                      {{-- <a class="dropdown-item " href="{{ route('cigarette.create') }}"><i class="fas fa-plus"></i>
                           Nouveau
-                          type</a>
+                          type</a> --}}
                       <a class="dropdown-item " href="{{ route('cigarette.achat') }}"><i class="fas fa-plus"></i>
                           Nouvelle
                           achat</a>
@@ -73,10 +73,10 @@
                                               <a href="{{ route('cigarette.prixV', $cigar->id) }}"><i
                                                       class="fas fa-edit text-info"></i></a>
 
-                                              <button type="submit" class="btn bg-transparent border-none"
+                                              {{-- <button type="submit" class="btn bg-transparent border-none"
                                                   id="delete_cigar{{ $cigar->id }}"
                                                   onclick="return confirm('Vous êtes sur ?')"><i
-                                                      class="fas fa-trash text-danger"></i></button>
+                                                      class="fas fa-trash text-danger"></i></button> --}}
                                           </form>
                                       </div>
                                   </td>

@@ -52,9 +52,9 @@ class FactureController extends Controller
             $facture->ref = $request->ref;
             $facture->montant = $request->montant;
             $facture->date_facture = $request->date_facture;
-            if ($check) {
-                return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter une facture avec cette date !"]), 500);
-            }
+            // if ($check) {
+            //     return response(json_encode(["type" => "error", "message" => "Vous avez déjà ajouter une facture avec cette date !"]), 500);
+            // }
             $data = [];
             $carbs = Carburant::all();
             if ($request->has("tva")) {

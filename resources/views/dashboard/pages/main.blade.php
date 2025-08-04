@@ -245,6 +245,31 @@
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
                                 <div class="col me-2">
+                                    <div class="text-uppercase text-success fw-bold text-xs mb-3"><span>Total TVA à payer
+                                            (mois {{ date('m') }})
+                                        </span>
+                                    </div>
+                                    @php
+
+                                    @endphp
+
+                                    <div
+                                        class="fw-bold text-size-md mb-2 {{ $tva_achat - $tva > 0 ? 'text-success' : 'text-danger' }}">
+                                        <span>{{ $tva_achat - $tva }} € </span>
+                                    </div>
+                                    <div class="text-dark  mb-0"></div>
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4  mb-4 ">
+                    <div class="card shadow border-start-primary py-2 h-100">
+                        <div class="card-body h-100">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
                                     <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>Recette
                                             d'aujourd'hui
                                         </span>
@@ -338,7 +363,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4  mb-4 ">
+                {{-- <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -354,8 +379,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4  mb-4 ">
+                </div> --}}
+                {{-- <div class="col-md-4  mb-4 ">
                     <div class="card shadow border-start-primary py-2 h-100">
                         <div class="card-body h-100">
                             <div class="row align-items-center no-gutters">
@@ -371,7 +396,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 @php
                     // $start = Carbon::parse('10:30:00');
 
@@ -597,6 +622,7 @@
                                 $test = [];
                                 $title = $carb->titre;
                                 array_push($titles, $title);
+                                $test=0;
 
                                 $relevesStat1 = Releve::whereMonth('date_systeme', date('m'))
                                     ->whereYear('date_systeme', date('Y'))
@@ -774,7 +800,7 @@
 
                                     @endphp
                                     <tr>
-                                        <td scope="row">{{ $title }}</td>
+                                        <td scope="row">{{ 'Cigarette' }}</td>
                                         <td>
                                             <div class="d-flex flex-column">
                                                 <span class="text-dark">
@@ -812,112 +838,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xl-6 mb-3">
-                <div class="card shadow mb-4 h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary fw-bold m-0 text-size-md">Marges bénéficières du cigarettes en € (mois
-                            {{ date('m/Y') }})
 
-                        </h6>
-                        {{-- <a class="btn  bg-gradient-light border-0 rounded-4  text-size-md fw-bold shadow-sm text-primary "
-                            href="/carburant/stats?date={{ date('Y-m') }}">Plus</a> --}}
-
-                    </div>
-
-                    <div class="card-body">
-                        @php
-                            $cigars = Cigarette::all();
-                            $titles = [];
-                            $marges = [];
-                            foreach ($cigars as $cigarette) {
-                                $total_vente_euro = 0;
-                                $total_vente_qte = 0;
-                                $total_achat_euro = 0;
-                                $total_achat_qte = 0;
-                                $title = $cigarette->type;
-                                array_push($titles, $title);
-
-                                $relevesStat2 = Releve::whereMonth('date_systeme', date('m'))
-                                    ->whereYear('date_systeme', date('Y'))
-                                    ->get();
-
-                                $achatStat = AchatCigarette::whereMonth('date_achat', date('m'))
-                                    ->whereYear('date_achat', date('Y'))
-                                    ->get();
-                                foreach ($relevesStat2 as $r) {
-                                    $ventes = json_decode($r->vente_cigarette);
-                                    if ($ventes != null) {
-                                        foreach ($ventes as $vente) {
-                                            foreach ($vente as $k => $v) {
-                                                if ($k == $title) {
-                                                    $total_vente_euro += $v->montant;
-                                                    $total_vente_qte += $v->qte;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                foreach ($achatStat as $achat) {
-                                    $achats = json_decode($achat->achat);
-                                    foreach ($achats as $ach) {
-                                        foreach ($ach as $key => $value) {
-                                            if ($key == $title) {
-                                                $total_achat_euro += $achat->total;
-                                                $total_achat_qte += $value->qte;
-                                            }
-                                        }
-                                    }
-
-                                    # code...
-                                }
-                                $mrg = $total_vente_euro - $total_achat_euro;
-                                array_push($marges, $mrg);
-                            }
-
-                        @endphp
-
-                        <div class="chart-area text-size-md">
-                            <canvas height="auto" id="chart_marge_cigars"></canvas>
-                        </div>
-                        <script type="text/javascript">
-                            var labels = {!! json_encode($titles) !!};
-                            var marges = {!! json_encode($marges) !!};
-                            var backgroundColors = marges.map(marge => conditionColor(marge));
-
-                            const data_marge_cigar = {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'marge ',
-                                    backgroundColor: backgroundColors,
-                                    data: marges,
-                                }]
-                            };
-
-                            const config_marge_cigar = {
-                                type: 'bar',
-                                data: data_marge_cigar,
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: {
-                                        legend: {
-                                            display: false
-                                        },
-                                    }
-
-
-                                }
-                            };
-
-                            new Chart(
-                                document.getElementById('chart_marge_cigars'),
-                                config_marge_cigar
-                            );
-                        </script>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100 text-size-md">
                     <div class="card-header d-flex justify-content-between align-items-center">

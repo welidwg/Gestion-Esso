@@ -729,6 +729,12 @@
                     thead.querySelector('tr').appendChild(th);
                 });
 
+                // Create an object to store total hours per user
+                const userTotals = {};
+                data.users.forEach(user => {
+                    userTotals[user.id] = 0; // Initialize to 0 hours
+                });
+
                 // Add rows for each date
                 data.dates.forEach(dateData => {
                     const row = document.createElement('tr');
@@ -742,55 +748,60 @@
                     data.users.forEach(user => {
                         const userCell = document.createElement('td');
                         const userShift = dateData.shifts.find(shift => shift.user_id === user.id);
-                        userCell.textContent = userShift ? userShift.shift_start == null ?
-                            'Absent' :
-                            `${userShift.shift_start} - ${userShift.shift_end}` :
-                            '-';
+
+                        if (userShift) {
+                            if (userShift.shift_start == null) {
+                                userCell.textContent = 'Absent';
+                            } else {
+                                const shiftText =
+                                    `${userShift.shift_start} - ${userShift.shift_end}`;
+                                userCell.textContent = shiftText;
+
+                                // Calculate hours worked and add to total
+                                const startTime = userShift.shift_start.split(':');
+                                const endTime = userShift.shift_end.split(':');
+                                const startHours = parseInt(startTime[0]) + parseInt(startTime[1]) /
+                                    60;
+                                const endHours = parseInt(endTime[0]) + parseInt(endTime[1]) / 60;
+                                const hoursWorked = endHours - startHours;
+                                userTotals[user.id] += hoursWorked;
+                            }
+                        } else {
+                            userCell.textContent = '-';
+                        }
                         row.appendChild(userCell);
                     });
 
                     tbody.appendChild(row);
                 });
+
+                // Add totals row
+                const totalsRow = document.createElement('tr');
+                const totalsLabelCell = document.createElement('td');
+                totalsLabelCell.textContent = 'Total Heures';
+                totalsLabelCell.style.fontWeight = 'bold';
+                totalsRow.appendChild(totalsLabelCell);
+
+                data.users.forEach(user => {
+                    const totalCell = document.createElement('td');
+                    totalCell.textContent = userTotals[user.id].toFixed(2) + ' h';
+                    totalCell.style.fontWeight = 'bold';
+                    totalsRow.appendChild(totalCell);
+                });
+
+                tbody.appendChild(totalsRow);
             }
 
             function exportToExcel() {
-                // You can use a library like SheetJS (xlsx) for proper Excel export
-                // This is a simple CSV export alternative
                 const table = document.getElementById('reportTable');
-                let csv = [];
+                const ws = XLSX.utils.table_to_sheet(table);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Rapport");
 
-                // Get headers
-                const headers = [];
-                table.querySelectorAll('thead th').forEach(th => {
-                    headers.push(th.textContent);
-                });
-                csv.push(headers.join(','));
+                // Generate a filename with the month and year
+                const filename = `creneaux_${document.getElementById('reportMonthTitle').textContent}.xlsx`;
 
-                // Get rows
-                table.querySelectorAll('tbody tr').forEach(tr => {
-                    const row = [];
-                    tr.querySelectorAll('td').forEach(td => {
-                        row.push(td.textContent);
-                    });
-                    csv.push(row.join(','));
-                });
-
-                // Download CSV
-                const csvContent = csv.join('\n');
-                const blob = new Blob([csvContent], {
-                    type: 'text/csv;charset=utf-8;'
-                });
-                const link = document.createElement('a');
-                const url = URL.createObjectURL(blob);
-
-                link.setAttribute('href', url);
-                link.setAttribute('download',
-                    `creneaux_${document.getElementById('reportMonthTitle').textContent}.csv`);
-                link.style.visibility = 'hidden';
-
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                XLSX.writeFile(wb, filename);
             }
 
             function timeToMinutes(timeStr) {
