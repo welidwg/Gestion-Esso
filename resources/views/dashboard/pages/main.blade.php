@@ -38,6 +38,9 @@
             {{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block"
                 role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
         </div>
+        @php
+            $carbs = Carburant::all();
+        @endphp
         {{-- @php
             $moyennes = [];
             $carbs = Carburant::all();
@@ -460,6 +463,32 @@
         </div> --}}
             </div>
         </div>
+        <div class="row d-flex justify-content-start text-size-md mb-2">
+            <h4 class="text-dark mb-2">Marges de carburants</h4>
+            @foreach ($carbs as $carb)
+                <div class="col-md-2  mb-2  ">
+                    <div class="card shadow border-start-primary  py-2 h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters ">
+                                <div class="col me-2 d-flex flex-column justify-content-between h-100 text-size-md">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-3"><span>{{ $carb->titre }}
+                                        </span>
+                                    </div>
+
+                                    <div class="text-dark text-size-md fw-bold h5 mb-2">
+                                        <span>{{ $carb->prixV - $carb->prixA }} €
+                                        </span>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-auto"><i class="fas fa-euro-sign fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
         <div class="row text-size-md">
             <div class="col-lg-6 col-xl-6 mb-3">
                 <div class="card shadow mb-4 h-100">
@@ -493,10 +522,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $carbs = Carburant::all();
 
-                                @endphp
                                 @foreach ($carbs as $carb)
                                     @php
                                         $total_vente_euro = 0;
@@ -622,7 +648,7 @@
                                 $test = [];
                                 $title = $carb->titre;
                                 array_push($titles, $title);
-                                $test=0;
+                                $test = 0;
 
                                 $relevesStat1 = Releve::whereMonth('date_systeme', date('m'))
                                     ->whereYear('date_systeme', date('Y'))
