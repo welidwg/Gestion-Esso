@@ -2,6 +2,7 @@
 @section('title')
     Calendrier
 @endsection
+
 @section('content')
     <style>
         #reportTable {
@@ -309,9 +310,11 @@
                 // ... existing configuration ...
                 locale: 'fr',
                 validRange: function(nowDate) {
-                    // Only show current month and future months
+                    // Allow viewing from 6 months ago, but editing only from current month
+                    const sixMonthsAgo = new Date(nowDate);
+                    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
                     return {
-                        start: nowDate
+                        start: sixMonthsAgo
                     };
                 },
                 headerToolbar: {
@@ -346,7 +349,8 @@
                 ],
                 eventClick: function(info) {
                     var eventDate = moment(info.event.start).format("YYYY-MM-DD");
-                    console.log(eventDate);
+
+
                     const isHoliday = info.event.display === 'background' ||
                         info.event.backgroundColor === '#ff0000' ||
                         info.event.classNames.includes('fc-holiday') ||
@@ -493,13 +497,23 @@
 
                 dateClick: async function(info) {
                     const isAdmin = {{ Auth::user()->role == 0 ? 'true' : 'false' }};
-
-
                     const date = info.dateStr;
                     const day = new Date(date).getDay();
                     const isWeekend = (day === 0 || day === 6);
                     const isHoliday = isFrenchHoliday(info.dateStr, frenchHolidays);
                     const currentUserId = {{ auth()->id() ?? 'null' }};
+
+                    // Only allow events in the current month/year or after
+                    var now = moment();
+                    var clicked = moment(info.dateStr);
+
+                    if (
+                        clicked.year() < now.year() ||
+                        (clicked.year() === now.year() && clicked.month() < now.month())
+                    ) {
+                        alert("Vous ne pouvez pas gérer des créneaux sur des mois passés.");
+                        return;
+                    }
 
                     if (isHoliday) {
                         const holiday = frenchHolidays.find(h => h.start === info.dateStr);

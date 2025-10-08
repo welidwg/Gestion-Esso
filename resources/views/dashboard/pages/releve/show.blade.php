@@ -2,6 +2,9 @@
     Journal caisse
 @endsection
 @section('content')
+    @php
+        $qte_cigars = 0;
+    @endphp
     <div class="row">
         <div class="col">
             <div class="card shadow mb-3">
@@ -247,7 +250,7 @@
                                 <legend class="fw-bold text-dark"><i class="fal fa-file-alt text-primary"></i> Recette du
                                     boutique </legend>
                                 <div class="row">
-                                    <div class=" col-6">
+                                    <div class=" col-4">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette cigarettes</strong></label><input
                                                 class="form-control bg-light " type="number" readonly required
@@ -255,7 +258,16 @@
                                                 step="0.01" min="0" value="0">
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class=" col-4">
+                                        <div class="mb-3"><label class="form-label" for=""><strong>
+                                                    Quantié vendue</strong></label><input class="form-control bg-light "
+                                                type="number" readonly required id="qte_vendue_cigarette" placeholder=""
+                                                name="qte_vendue_cigarette" step="0.01" min="0"
+                                                value="0">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette divers</strong></label><input class="form-control bg-light "
                                                 type="number" required readonly id="recette_divers" placeholder=""
@@ -347,12 +359,12 @@
                                 <legend class="fw-bold ">-Les cigarettes Vendues
                                 </legend>
                                 @php
-                                    
+
                                     $total = 0;
                                     $total_cigars = 0;
                                 @endphp
 
-                                @if ($releve->vente_cigarette !== null)
+                                @if (count(json_decode($releve->vente_cigarette)) > 0)
 
 
                                     <div class="row p-2">
@@ -365,7 +377,7 @@
                                         <hr>
                                         @php
                                             $ventes_cigars = json_decode($releve->vente_cigarette);
-                                            
+
                                         @endphp
                                         <div class="p-3">
 
@@ -378,15 +390,17 @@
                                                             $id = $cigarette->id;
                                                         @endphp
                                                         @foreach ($vente as $k => $v)
-                                                            @if ($k == $title)
+                                                            @if (strtolower($k) == strtolower($title))
                                                                 @php
                                                                     $total_cigars += $v->montant;
+                                                                    $qte_cigars += $v->qte;
                                                                 @endphp
+                                                                <script>
+                                                                    $("#qte_vendue_cigarette").val("{{ $qte_cigars }}")
+                                                                </script>
                                                                 <div
                                                                     class="d-flex justify-content-center align-items-center">
-                                                                    {{-- <div class="col-2 mb-3">
-                                                                    <strong> {{ $k }}</strong>
-                                                                </div> --}}
+
                                                                     <div class="col-4 m-2 text-size-md">
                                                                         <input class="form-control bg-light text-size-md"
                                                                             readonly type="number" required
@@ -418,9 +432,7 @@
                                                                         value="{{ $cigarette->type }}">
                                                                     <script>
                                                                         $("#qteC_{{ $cigarette->id }}").on("input", (e) => {
-                                                                            console.log('====================================');
-                                                                            console.log(e.target.value);
-                                                                            console.log('====================================');
+
                                                                             if (!isNaN(e.target.value)) {
                                                                                 let pv = $("#prixC_{{ $cigarette->id }}").val();
                                                                                 $("#montantC_{{ $cigarette->id }}").val(parseFloat(pv * e.target.value).toFixed(2))
