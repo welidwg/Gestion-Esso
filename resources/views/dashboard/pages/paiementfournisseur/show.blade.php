@@ -170,12 +170,7 @@
                                                 class="d-block">{{ $paiement->updated_at->format('d/m/Y à H:i') }}</strong>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="info-item">
-                                            <span class="text-muted">Statut:</span>
-                                            <span class="badge bg-success">Complété</span>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
