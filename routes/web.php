@@ -9,7 +9,9 @@ use App\Http\Controllers\CompteController;
 use App\Http\Controllers\DesiderataController;
 use App\Http\Controllers\FactureCaissierController;
 use App\Http\Controllers\FactureController;
+use App\Http\Controllers\FactureEPController;
 use App\Http\Controllers\KiosqueController;
+use App\Http\Controllers\PaiementFournisseurController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReleveControllerA;
 use App\Http\Controllers\StatController;
@@ -113,6 +115,8 @@ Route::group(["middleware" => "auth"], function () {
 
 
     Route::resource('carburants', CarburantController::class)->middleware("admin");;
+    Route::resource('factureep', FactureEPController::class)->middleware("admin");;
+    Route::resource('paiementfournisseur', PaiementFournisseurController::class);
 
     //carburant
     Route::post(

@@ -30,13 +30,21 @@
         <ul id="accordionSidebar" class="navbar-nav text-light">
             <li class="nav-item">
                 <a class="nav-link   {{ Route::currentRouteName() == 'desiderata.index' ? 'active' : '' }}"
-                    href="{{ route('desiderata.index') }}"><i
-                        class="fas fa-calendar glow-icon"></i><span>Calendrier</span></a>
+                    href="{{ route('desiderata.index') }}"><i class="fas fa-calendar "></i><span>Calendrier</span></a>
             </li>
             @if (Auth::user()->role == 0)
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'view.main' ? 'active' : '' }}" href="/main"><i
-                            class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+                            class="fas fa-tachometer-alt "></i><span>Tableau de bord</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'factureep.index' ? 'active' : '' }}"
+                        href="/factureep"><i class="fas fa-file-plus glow-icon"></i><span>Facture Epicerie</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'paiementfournisseur.index' ? 'active' : '' }}"
+                        href="/paiementfournisseur"><i class="fas fa-file-plus glow-icon"></i><span>Paiement
+                            fournisseur</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'commande.index' ? 'active' : '' }}"
