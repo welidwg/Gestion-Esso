@@ -472,6 +472,26 @@
                                 </div>
                             </fieldset>
                         </div>
+                        <div class="row">
+                            <fieldset class="border p-2 mx-auto mb-3">
+                                <legend class="fw-bold mb-3 ">-Mode d'encaissement
+                                </legend>
+                                <div class="row">
+                                    <div class="container-rows">
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <select name="mode_paiement" id="" class="form-select">
+                                                        <option value="Carte bleue">Carte bleue</option>
+                                                        <option value="Espèce">Espèce</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
                         <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit"
                                 id="submitBtnReleve">Terminer la
                                 journée</button>

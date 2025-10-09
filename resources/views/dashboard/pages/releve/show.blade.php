@@ -16,6 +16,17 @@
                         action="{{ route('releve.update', $releve->id) }}">
                         @csrf
                         @method('PUT')
+                        @if ($releve->mode_paiement != null)
+                            <div class="row">
+                                <fieldset class="border p-2 mx-auto mb-3">
+                                    <legend class="fw-bold text-primary"><i class="fal fa-credit-card text-primary"></i>
+                                        Mode
+                                        d'encaissement : {{ $releve->mode_paiement }} </legend>
+                                    <div class="row">
+                                    </div>
+                                </fieldset>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
@@ -46,6 +57,7 @@
                             </div>
                             {{-- <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                         </div>
+
                         {{-- <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3"><label class="form-label" for="first_name"><strong>
@@ -282,9 +294,10 @@
                                 </div>
                             </fieldset>
                         </div>
+
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold ">-Les quantités des carburants vendues (à
+                                <legend class="fw-bold text-dark">-Les quantités des carburants vendues (à
                                     partir de rapport PDF)
                                 </legend>
                                 <div class="row">
@@ -356,7 +369,7 @@
                         </div>
                         <div class="row">
                             <fieldset class="border  mx-auto mb-3">
-                                <legend class="fw-bold ">-Les cigarettes Vendues
+                                <legend class="fw-bold text-dark">-Les cigarettes Vendues
                                 </legend>
                                 @php
 
