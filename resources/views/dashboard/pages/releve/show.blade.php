@@ -16,17 +16,7 @@
                         action="{{ route('releve.update', $releve->id) }}">
                         @csrf
                         @method('PUT')
-                        @if ($releve->mode_paiement != null)
-                            <div class="row">
-                                <fieldset class="border p-2 mx-auto mb-3">
-                                    <legend class="fw-bold text-primary"><i class="fal fa-credit-card text-primary"></i>
-                                        Mode
-                                        d'encaissement : {{ $releve->mode_paiement }} </legend>
-                                    <div class="row">
-                                    </div>
-                                </fieldset>
-                            </div>
-                        @endif
+
                         <div class="row">
                             <div class="col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
@@ -262,7 +252,7 @@
                                 <legend class="fw-bold text-dark"><i class="fal fa-file-alt text-primary"></i> Recette du
                                     boutique </legend>
                                 <div class="row">
-                                    <div class=" col-4">
+                                    <div class="col-md-3">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette cigarettes</strong></label><input
                                                 class="form-control bg-light " type="number" readonly required
@@ -270,7 +260,7 @@
                                                 step="0.01" min="0" value="0">
                                         </div>
                                     </div>
-                                    <div class=" col-4">
+                                    <div class="col-md-3">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Quantié vendue</strong></label><input class="form-control bg-light "
                                                 type="number" readonly required id="qte_vendue_cigarette" placeholder=""
@@ -279,12 +269,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-4">
+                                    <div class="col-md-3">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
                                                     Recette divers</strong></label><input class="form-control bg-light "
                                                 type="number" required readonly id="recette_divers" placeholder=""
                                                 name="recette_divers" step="0.01" min="0"
                                                 value="{{ $releve->divers }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3"><label class="form-label" for=""><strong>
+                                                    Mode d'encaissement</strong></label><input
+                                                class="form-control bg-light " type="text" required readonly
+                                                id="mode_paiement" placeholder="" name="mode_paiement" step="0.01"
+                                                min="0" value="{{ $releve->mode_paiement }}">
                                         </div>
                                     </div>
 

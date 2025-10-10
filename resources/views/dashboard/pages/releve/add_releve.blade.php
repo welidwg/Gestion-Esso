@@ -484,6 +484,7 @@
                                                     <select name="mode_paiement" id="" class="form-select">
                                                         <option value="Carte bleue">Carte bleue</option>
                                                         <option value="Espèce">Espèce</option>
+                                                        <option value="Compte clients">Compte clients</option>
                                                     </select>
                                                 </div>
                                             </div>
