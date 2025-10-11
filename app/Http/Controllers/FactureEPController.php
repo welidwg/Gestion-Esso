@@ -25,6 +25,7 @@ class FactureEPController extends Controller
             'factures.*.tva' => 'required|numeric',
             'factures.*.prix_ttc' => 'required|numeric',
         ]);
+        
         foreach ($data['factures'] as $facture) {
             FactureEP::create($facture);
         }

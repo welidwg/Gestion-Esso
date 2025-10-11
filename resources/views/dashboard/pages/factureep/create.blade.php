@@ -115,60 +115,66 @@
         let i = 1;
 
         function addFacture() {
+            // Get the value from the first fournisseur input
+            let firstSupplierInput = document.getElementById('nom_fournisseur_0');
+            let fournisseurValue = firstSupplierInput ? firstSupplierInput.value : '';
+
             let html = `<div class="facture-item card mb-3">
-            <div class="card-header d-flex justify-content-between align-items-center bg-light">
-                <h6 class="mb-0">Article #${i+1}</h6>
-                <button type="button" class="btn btn-sm btn-danger remove-item" onclick="removeFacture(this)">
-                    <i class="fas fa-trash"></i> Supprimer
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="nom_fournisseur_${i}" class="form-label">Nom de fournisseur</label>
-                        <input type="text" class="form-control" id="nom_fournisseur_${i}" name="factures[${i}][nom_de_fournisseur]" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="date_${i}" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date_${i}" name="factures[${i}][date]" required>
-                    </div>
-                    <div class="col-12">
-                        <label for="designation_${i}" class="form-label">Désignation</label>
-                        <input type="text" class="form-control" id="designation_${i}" name="factures[${i}][designation]" required>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="prix_unite_${i}" class="form-label">PRIX UNITÉ (€)</label>
-                        <input type="number" step="0.01" class="form-control" id="prix_unite_${i}" name="factures[${i}][prix_unite]" required oninput="updateLine(${i})">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="qte_${i}" class="form-label">Quantité</label>
-                        <input type="number" class="form-control" id="qte_${i}" name="factures[${i}][qte]" required oninput="updateLine(${i})">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="tva_${i}" class="form-label">TVA (%)</label>
-                        <input type="number" step="0.01" class="form-control" id="tva_${i}" name="factures[${i}][tva]" required oninput="updateLine(${i})">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="prix_ht_${i}" class="form-label">PRIX HT (€)</label>
-                        <input type="number" step="0.01" class="form-control bg-light" id="prix_ht_${i}" name="factures[${i}][prix_ht]" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="prix_ttc_${i}" class="form-label">PRIX TTC (€)</label>
-                        <input type="number" step="0.01" class="form-control bg-light" id="prix_ttc_${i}" name="factures[${i}][prix_ttc]" readonly>
-                    </div>
+        <div class="card-header d-flex justify-content-between align-items-center bg-light">
+            <h6 class="mb-0">Article #${i+1}</h6>
+            <button type="button" class="btn btn-sm btn-danger remove-item" onclick="removeFacture(this)">
+                <i class="fas fa-trash"></i> Supprimer
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <!-- Hidden input for fournisseur in added rows -->
+                <input type="hidden" id="nom_fournisseur_${i}" name="factures[${i}][nom_de_fournisseur]" value="${fournisseurValue}">
+                <div class="col-md-6 d-none">
+                    <label for="nom_fournisseur_${i}" class="form-label">Nom de fournisseur</label>
+                    <input type="text" class="form-control" id="nom_fournisseur_${i}_visible" name="factures[${i}][nom_de_fournisseur]_visible" value="${fournisseurValue}">
+                </div>
+                <div class="col-md-6">
+                    <label for="date_${i}" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="date_${i}" name="factures[${i}][date]" required>
+                </div>
+                <div class="col-12">
+                    <label for="designation_${i}" class="form-label">Désignation</label>
+                    <input type="text" class="form-control" id="designation_${i}" name="factures[${i}][designation]" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="prix_unite_${i}" class="form-label">PRIX UNITÉ (€)</label>
+                    <input type="number" step="0.01" class="form-control" id="prix_unite_${i}" name="factures[${i}][prix_unite]" required oninput="updateLine(${i})">
+                </div>
+                <div class="col-md-2">
+                    <label for="qte_${i}" class="form-label">Quantité</label>
+                    <input type="number" class="form-control" id="qte_${i}" name="factures[${i}][qte]" required oninput="updateLine(${i})">
+                </div>
+                <div class="col-md-2">
+                    <label for="tva_${i}" class="form-label">TVA (%)</label>
+                    <input type="number" step="0.01" class="form-control" id="tva_${i}" name="factures[${i}][tva]" required oninput="updateLine(${i})">
+                </div>
+                <div class="col-md-2">
+                    <label for="prix_ht_${i}" class="form-label">PRIX HT (€)</label>
+                    <input type="number" step="0.01" class="form-control bg-light" id="prix_ht_${i}" name="factures[${i}][prix_ht]" readonly>
+                </div>
+                <div class="col-md-3">
+                    <label for="prix_ttc_${i}" class="form-label">PRIX TTC (€)</label>
+                    <input type="number" step="0.01" class="form-control bg-light" id="prix_ttc_${i}" name="factures[${i}][prix_ttc]" readonly>
                 </div>
             </div>
-        </div>`;
+        </div>
+    </div>`;
 
             document.getElementById('facture-group').insertAdjacentHTML('beforeend', html);
 
-            // Show remove button on first item if there are multiple items
             if (i === 1) {
                 document.querySelector('.facture-item .remove-item').classList.remove('d-none');
             }
-
             i++;
         }
+
+
 
         function removeFacture(button) {
             const item = button.closest('.facture-item');
