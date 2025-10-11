@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Releve extends Model
 {
@@ -43,5 +44,10 @@ class Releve extends Model
     {
         # code...
         return $this->belongsTo(User::class, "user_id");
+    }
+    public function boutique_recette(): HasOne
+    {
+        # code...
+        return $this->hasOne(ReleveBoutique::class);
     }
 }

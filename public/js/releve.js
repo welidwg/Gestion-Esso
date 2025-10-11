@@ -1,6 +1,17 @@
 let totalSaisie = 0;
 let totalPdf = 0;
 
+$("#generateTotalBoutique").on("click", (e) => {
+    var totalInput = document.getElementById("totalb");
+    let total = 0;
+    var inputs = document.getElementsByClassName("inputMontantCalculeBoutique");
+    for (var i = 0; i < inputs.length; i++) {
+        total += parseFloat(inputs[i].value);
+    }
+
+    totalInput.value = parseFloat(total).toFixed(2);
+});
+
 $("#generateTotalSaisie").on("click", (e) => {
     var totalInput = document.getElementById("totalSaisie");
     let total = 0;
@@ -11,6 +22,7 @@ $("#generateTotalSaisie").on("click", (e) => {
 
     totalInput.value = parseFloat(total).toFixed(2);
 });
+
 $("#generateTotalSaisiePdf").on("click", (e) => {
     var totalInput = document.getElementById("totalSaisiePdf");
     let total = 0;
@@ -205,6 +217,7 @@ $("#edit_releve_form").on("submit", (e) => {
             // $("#errors").html(errors.message);
         });
 });
+
 function DeleteReleve(path) {
     axios
         .delete(path)
@@ -240,6 +253,7 @@ function checkEcart(id_saisie, id_rapport, name) {
         }
     }
 }
+
 function deletRow(id) {
     $(`#${id}`).remove();
 }

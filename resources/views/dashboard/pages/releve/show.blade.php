@@ -3,7 +3,9 @@
 @endsection
 @section('content')
     @php
+        use App\Models\ReleveBoutique;
         $qte_cigars = 0;
+        $boutique = ReleveBoutique::where('releve_id', $releve->id)->first();
     @endphp
     <div class="row">
         <div class="col">
@@ -247,51 +249,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold text-dark"><i class="fal fa-file-alt text-primary"></i> Recette du
-                                    boutique </legend>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="mb-3"><label class="form-label" for=""><strong>
-                                                    Recette cigarettes</strong></label><input
-                                                class="form-control bg-light " type="number" readonly required
-                                                id="recette_cigarette" placeholder="" name="recette_cigarette"
-                                                step="0.01" min="0" value="0">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="mb-3"><label class="form-label" for=""><strong>
-                                                    Quantié vendue</strong></label><input class="form-control bg-light "
-                                                type="number" readonly required id="qte_vendue_cigarette" placeholder=""
-                                                name="qte_vendue_cigarette" step="0.01" min="0"
-                                                value="0">
-                                        </div>
-                                    </div>
 
-                                    <div class="col-md-3">
-                                        <div class="mb-3"><label class="form-label" for=""><strong>
-                                                    Recette divers</strong></label><input class="form-control bg-light "
-                                                type="number" required readonly id="recette_divers" placeholder=""
-                                                name="recette_divers" step="0.01" min="0"
-                                                value="{{ $releve->divers }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="mb-3"><label class="form-label" for=""><strong>
-                                                    Mode d'encaissement</strong></label><input
-                                                class="form-control bg-light " type="text" required readonly
-                                                id="mode_paiement" placeholder="" name="mode_paiement" step="0.01"
-                                                min="0" value="{{ $releve->mode_paiement }}">
-                                        </div>
-                                    </div>
-
-
-
-
-                                </div>
-                            </fieldset>
-                        </div>
 
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
@@ -366,137 +324,115 @@
                             </fieldset>
                         </div>
                         <div class="row">
-                            <fieldset class="border  mx-auto mb-3">
-                                <legend class="fw-bold text-dark">-Les cigarettes Vendues
+                            <fieldset class="border p-2 mx-auto mb-3">
+                                <legend class="fw-bold mb-3 text-dark ">-Recette Boutique
                                 </legend>
-                                @php
-
-                                    $total = 0;
-                                    $total_cigars = 0;
-                                @endphp
-
-                                @if (count(json_decode($releve->vente_cigarette)) > 0)
-
-
-                                    <div class="row p-2">
-                                        <div class="d-flex justify-content-center align-items-center mb-3 ">
-                                            {{-- <div class="col-2 "><strong>Type</strong></div> --}}
-                                            <div class="col-4 form-label  "><strong>Quantité vendue</strong></div>
-                                            <div class="col-4 form-label  "><strong>Montant</strong></div>
-                                            <div class="col-4 form-label  "><strong>Prix de vente</strong></div>
-                                        </div>
-                                        <hr>
-                                        @php
-                                            $ventes_cigars = json_decode($releve->vente_cigarette);
-
-                                        @endphp
-                                        <div class="p-3">
-
-
-                                            @if ($ventes_cigars)
-                                                @forelse ($cigarettes as $cigarette)
-                                                    @forelse ($ventes_cigars as $vente)
-                                                        @php
-                                                            $title = $cigarette->type;
-                                                            $id = $cigarette->id;
-                                                        @endphp
-                                                        @foreach ($vente as $k => $v)
-                                                            @if (strtolower($k) == strtolower($title))
-                                                                @php
-                                                                    $total_cigars += $v->montant;
-                                                                    $qte_cigars += $v->qte;
-                                                                @endphp
-                                                                <script>
-                                                                    $("#qte_vendue_cigarette").val("{{ $qte_cigars }}")
-                                                                </script>
-                                                                <div
-                                                                    class="d-flex justify-content-center align-items-center">
-
-                                                                    <div class="col-4 m-2 text-size-md">
-                                                                        <input class="form-control bg-light text-size-md"
-                                                                            readonly type="number" required
-                                                                            id="qteC_{{ $cigarette->id }}" placeholder=""
-                                                                            name="{{ 'qteC_' . $id }}" min="0"
-                                                                            step="0.01" value="{{ $v->qte }}"
-                                                                            max="{{ $cigarette->qte }}" />
-                                                                    </div>
-
-                                                                    <div class="col-4 ">
-                                                                        <input
-                                                                            class="form-control bg-light m-2 text-size-md"
-                                                                            type="number" required
-                                                                            id="montantC_{{ $cigarette->id }}"
-                                                                            placeholder="" name="{{ 'montantC_' . $id }}"
-                                                                            step="0.01" value="{{ $v->montant }}"
-                                                                            readonly min="0" />
-                                                                    </div>
-                                                                    <div class="col-4 m-2">
-                                                                        <input
-                                                                            class="form-control bg-light m-2 text-size-md"
-                                                                            type="number" required
-                                                                            id="prixC_{{ $cigarette->id }}" readonly
-                                                                            placeholder="" name="{{ 'prixC_' . $id }}"
-                                                                            step="0.01" min="0"
-                                                                            value="{{ $v->prix }}" />
-                                                                    </div>
-                                                                    <input type="hidden" name="types[]"
-                                                                        value="{{ $cigarette->type }}">
-                                                                    <script>
-                                                                        $("#qteC_{{ $cigarette->id }}").on("input", (e) => {
-
-                                                                            if (!isNaN(e.target.value)) {
-                                                                                let pv = $("#prixC_{{ $cigarette->id }}").val();
-                                                                                $("#montantC_{{ $cigarette->id }}").val(parseFloat(pv * e.target.value).toFixed(2))
-                                                                            }
-                                                                        })
-                                                                    </script>
-                                                                </div>
-                                                            @endif
-                                                        @endforeach
-
-                                                    @empty
-                                                    @endforelse
-
-
-                                                    {{-- <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label" for="">
-                                                    <strong>
-                                                        {{ $carburant->titre }}</strong>
-                                                </label>
-                                              
-                                                <input class="form-control" type="number" required
-                                                    id="{{ $carburant->titre }}" placeholder=""
-                                                    name="{{ $title == 'd-energie' ? 'qte_denergie' : 'qte_' . $title }}"
-                                                    step="0.01" value="0" max="{{ $carburant->qtiteStk }}" />
-                                                <input type="hidden" name="titles[]" value="{{ $carburant->titre }}">
+                                <div class="row">
+                                    <div class="col-md-2 col-6">
+                                        <div class=" form-label "><strong>Recette Cigarette</strong></div>
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark bg-light" type="number"
+                                                        step="0.01" readonly required id="recette_cigarettes"
+                                                        value="{{ $boutique == null ? 0 : $boutique->cigarettes_recette }}"
+                                                        placeholder="" required name="recette_cigarettes" />
+                                                </div>
                                             </div>
-                                        </div> --}}
-                                                @empty
-                                                @endforelse
-                                                {{-- {{ $total }} --}}
-                                                <script></script>
-                                            @endif
                                         </div>
-
                                     </div>
-                                @endif
-                                @php
-                                    $rec_divers = $releve->boutiquePdf == 0 ? 0 : $releve->boutiquePdf - $total_cigars;
-                                @endphp
-                                <script>
-                                    $("#recette_cigarette").val("{{ $total_cigars }}")
-                                    // $("#recette_divers").val("{{ $rec_divers }}")
-                                </script>
+                                    <div class=" col-md-2 col-6">
+                                        <div class=" form-label "><strong>Quantité vendue</strong></div>
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark bg-light" type="number"
+                                                        step="0.01" readonly required id="qte_cigarettes"
+                                                        value="{{ $boutique == null ? 0 : $boutique->cigarettes_qte }}"
+                                                        placeholder="" required name="qte_cigarettes" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-2 col-6">
+                                        <div class=" form-label   "><strong>Recette divers</strong></div>
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark bg-light " type="number"
+                                                        step="0.01" required id="divers"
+                                                        value="{{ $boutique == null ? $releve->divers : $boutique->divers }}"
+                                                        placeholder="" required readonly name="divers" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Espèce</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
+                                                type="number" required id="espece_boutique" placeholder=""
+                                                name="espece_boutique" step="0.01" min="0"
+                                                value="{{ $boutique == null ? 0 : $boutique->espece }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Carte Bleue</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
+                                                type="number" required id="carte_bleue_boutique" placeholder=""
+                                                name="carte_bleue_boutique" step="0.01" min="0"
+                                                value="{{ $boutique == null ? 0 : $boutique->carte_bleue }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Chèque</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
+                                                type="number" required id="cheque_boutique" placeholder=""
+                                                name="cheque_boutique" step="0.01" min="0"
+                                                value="{{ $boutique == null ? 0 : $boutique->cheque }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Client compte</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
+                                                type="number" required id="client_compte_boutique" placeholder=""
+                                                name="client_compte_boutique" step="0.01" min="0"
+                                                value="{{ $boutique == null ? 0 : $boutique->client_compte }}">
+                                        </div>
+                                    </div>
+                                    @php
+                                        $total_boutique =
+                                            $boutique == null
+                                                ? 0
+                                                : $boutique->client_compte +
+                                                    $boutique->espece +
+                                                    $boutique->carte_bleue +
+                                                    $boutique->cheque;
+                                    @endphp
+                                    <div class="col-md-2  ">
+                                        <div class="mb-3"><label class="form-label text-dark fw-bold"
+                                                for="first_name"><strong>
+                                                    Total Boutique</strong> </label><input class="form-control bg-light"
+                                                type="number" required id="totalb" placeholder="" name="totalb"
+                                                readonly step="0.01" min="0" value="{{ $total_boutique }}">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </fieldset>
                         </div>
 
 
                         @if (Auth::user()->role == 1)
-                            <div class=" mx-auto text-center"><button class="btn btn-primary "
+                            {{-- <div class=" mx-auto text-center"><button class="btn btn-primary "
                                     type="submit">Enregistrer</button>
 
-                            </div>
+                            </div> --}}
                         @endif
                 </div>
                 </form>

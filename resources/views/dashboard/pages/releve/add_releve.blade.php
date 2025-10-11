@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                                    Carte Bleu</strong></label><input
+                                                    Carte Bleue</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
                                                 step="0.01" id="carte_bleu" placeholder="" name="carte_bleu"
                                                 min="0" value="0"
@@ -103,7 +103,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-6">
+                                    {{-- <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Boutique</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
@@ -113,7 +113,7 @@
 
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
@@ -189,7 +189,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-6">
+                                    {{-- <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Boutique</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
@@ -199,7 +199,7 @@
 
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
@@ -322,37 +322,16 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
                                 <legend class="fw-bold mb-3 ">-Les cigarettes Vendues
                                 </legend>
                                 <div class="row">
 
-                                    {{-- <div class="form-check  mb-2">
-                                        <script>
-                                            let cigars = [];
-                                        </script>
-                                        <select name="" class="form-select my-select" id="type_selected">
-                                            <option value="">Sélectionnez le type du cigarette vendue</option>
-                                            @foreach ($cigarettes as $item)
-                                                <option value="{{ str_replace(' ', '', $item->type) }}"
-                                                    data-pv="{{ $item->prixV }}" data-qte="{{ $item->qte }}"
-                                                    data-id="{{ $item->id }}" data-type="{{ $item->type }}">
-                                                    {{ $item->type }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <script>
-                                            $(function() {
-                                                $('select').select2();
-                                            });
-                                        </script>
-                                    </div> --}}
+                            
 
                                     <div class="d-flex  align-items-center mb-3 ">
-                                        {{-- <div class="col-4 "><strong>Type</strong></div> --}}
                                         <div class="col-6 form-label  m-2"><strong>Quantité vendue</strong></div>
-                                        {{-- <div class="col-3 form-label  m-2"><strong>Prix de vente</strong></div> --}}
                                         <div class="col-6 form-label  m-2"><strong>Montant</strong></div>
                                     </div>
                                     <hr>
@@ -367,7 +346,6 @@
                                                         required id="qteC" value="0" placeholder="" required
                                                         name="qteC" />
 
-                                                    {{-- <small>(Dans le stock : ${qte})</small> --}}
                                                 </div>
 
                                             </div>
@@ -407,15 +385,38 @@
                                     </div>
                                 </div>
                             </fieldset>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold mb-3 ">-Recette divers
+                                <legend class="fw-bold mb-3 ">-Recette Boutique
                                 </legend>
                                 <div class="row">
-                                    <div class="container-rows">
-                                        <div class="col-6 form-label p-2  "><strong>Montant</strong></div>
-
+                                    <div class="col-md-2 col-6">
+                                        <div class=" form-label "><strong>Recette Cigarette</strong></div>
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="recette_cigarettes" value="0" placeholder=""
+                                                        required name="recette_cigarettes" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-2 col-6">
+                                        <div class=" form-label "><strong>Quantité vendue</strong></div>
+                                        <div class="row " id="">
+                                            <div class="col-12">
+                                                <div class="mb-3 ">
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="qte_cigarettes" value="0" placeholder=""
+                                                        required name="qte_cigarettes" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-2 col-6">
+                                        <div class=" form-label   "><strong>Recette divers</strong></div>
                                         <div class="row " id="">
                                             <div class="col-12">
                                                 <div class="mb-3 ">
@@ -426,10 +427,56 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Espèce</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique" type="number" required
+                                                id="espece_boutique" placeholder="" name="espece_boutique"
+                                                step="0.01" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Carte Bleue</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique" type="number" required
+                                                id="carte_bleue_boutique" placeholder="" name="carte_bleue_boutique"
+                                                step="0.01" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Chèque</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique" type="number" required
+                                                id="cheque_boutique" placeholder="" name="cheque_boutique"
+                                                step="0.01" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-6">
+                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
+                                                    Client compte</strong></label><input
+                                                class="form-control inputMontantCalculeBoutique" type="number" required
+                                                id="client_compte_boutique" placeholder="" name="client_compte_boutique"
+                                                step="0.01" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2  ">
+                                        <div class="mb-3"><label class="form-label text-dark fw-bold"
+                                                for="first_name"><strong>
+                                                    Total Boutique</strong> <a style="cursor: pointer;"
+                                                    id="generateTotalBoutique" class="text-primary"><i
+                                                        class="fas fa-calculator"></i></a></label><input
+                                                class="form-control bg-light" type="number" required id="totalb"
+                                                placeholder="" name="totalb" readonly step="0.01" min="0"
+                                                value="0">
+
+
+                                        </div>
+                                    </div>
                                 </div>
+
                             </fieldset>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <fieldset class="border p-2 mx-auto mb-3">
                                 <legend class="fw-bold mb-3 ">-Recette PMI
                                 </legend>
@@ -471,28 +518,8 @@
                                     </div>
                                 </div>
                             </fieldset>
-                        </div>
-                        <div class="row">
-                            <fieldset class="border p-2 mx-auto mb-3">
-                                <legend class="fw-bold mb-3 ">-Mode d'encaissement
-                                </legend>
-                                <div class="row">
-                                    <div class="container-rows">
-                                        <div class="row " id="">
-                                            <div class="col-12">
-                                                <div class="mb-3 ">
-                                                    <select name="mode_paiement" id="" class="form-select">
-                                                        <option value="Carte bleue">Carte bleue</option>
-                                                        <option value="Espèce">Espèce</option>
-                                                        <option value="Compte clients">Compte clients</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
+                        </div> --}}
+
                         <div class=" mx-auto text-center"><button class="btn btn-primary " type="submit"
                                 id="submitBtnReleve">Terminer la
                                 journée</button>

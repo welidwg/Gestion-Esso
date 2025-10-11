@@ -284,12 +284,21 @@
                                         $rec_pmi_mois = 0;
                                         $rec_fdg_mois = 0;
                                         $rec_boutique = 0;
-                                        $releves = Releve::where('date_systeme', date('Y-m-d'))->get();
+                                        $releves = Releve::where('date_systeme', date('Y-m-d'))
+                                            ->with('boutique_recette')
+                                            ->get();
                                         $relevesMois = Releve::whereMonth('date_systeme', Carbon::now()->month)
                                             ->whereYear('date_systeme', Carbon::now()->year)
                                             ->get();
                                         foreach ($releves as $rel) {
-                                            $rec_boutique += $rel->divers;
+                                            if ($rel->boutique_recette == null) {
+                                                $rec_boutique += $rel->divers;
+                                            } else {
+                                                $rec_boutique +=
+                                                    $rel->boutique_recette->divers +
+                                                    $rel->boutique_recette->cigarettes_recette;
+                                            }
+
                                             $ventes = json_decode($rel->vente);
                                             $ventes_cigarettes = json_decode($rel->vente_cigarette);
                                             foreach ($ventes as $vente) {
@@ -298,12 +307,12 @@
                                                 }
                                                 # code...
                                             }
-                                            foreach ($ventes_cigarettes as $vente1) {
-                                                foreach ($vente1 as $key => $value) {
-                                                    $rec_boutique += $value->montant;
-                                                }
-                                                # code...
-                                            }
+                                            // foreach ($ventes_cigarettes as $vente1) {
+                                            //     foreach ($vente1 as $key => $value) {
+                                            //         $rec_boutique += $value->montant;
+                                            //     }
+                                            //     # code...
+                                            // }
                                             # code...
                                         }
                                         $recette = $rec_boutique + $rec_carburants;

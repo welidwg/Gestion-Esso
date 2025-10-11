@@ -6,6 +6,7 @@ use App\Models\Carburant;
 use App\Models\Cigarette;
 use App\Models\Compte;
 use App\Models\Releve;
+use App\Models\ReleveBoutique;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\MockObject\Stub\ReturnStub;
@@ -139,17 +140,17 @@ class ReleveControllerA extends Controller
             //         $this->updateCigarette($type, $request->input($qte), $request->input($prix));
             //     }
             // }
-            $cigar = Cigarette::latest()->first();
-            $cigars = [];
-            $type = $cigar->type;
-            $qte = "qteC";
-            $prix = "prixVC";
-            $montant = "montantC";
-            if ($request->input($qte) != 0) {
-                $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                array_push($final_cigars, $cigars);
-                $this->updateCigarette($type, $request->input($qte), $request->input($prix));
-            }
+            // $cigar = Cigarette::latest()->first();
+            // $cigars = [];
+            // $type = $cigar->type;
+            // $qte = "qteC";
+            // $prix = "prixVC";
+            // $montant = "montantC";
+            // if ($request->input($qte) != 0) {
+            //     $cigars = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+            //     array_push($final_cigars, $cigars);
+            //     $this->updateCigarette($type, $request->input($qte), $request->input($prix));
+            // }
 
 
             $compte = Compte::whereMonth('created_at', Carbon::now()->month)
@@ -170,8 +171,19 @@ class ReleveControllerA extends Controller
 
             $data["vente"] = json_encode($final);
             $data["tva"] = $request->totalPdf * 0.2;
-            $data["vente_cigarette"] = json_encode($final_cigars);
-            Releve::create($data);
+            // $data["vente_cigarette"] = json_encode($final_cigars);
+            $rel = Releve::create($data);
+            ReleveBoutique::create([
+                "releve_id" => $rel->id,
+                "espece" => $request->espece_boutique,
+                "carte_bleue" => $request->carte_bleue_boutique,
+                "cheque" => $request->cheque_boutique,
+                "client_compte" => $request->client_compte_boutique,
+                "divers" => $request->divers,
+                "cigarettes_qte" => $request->qte_cigarettes,
+                "cigarettes_recette" => $request->recette_cigarettes
+            ]);
+
             return response(json_encode(["type" => "success", "message" => "Bien ajouté !"]), 200);
 
             // return response(json_encode(["type" => "success", "message" => date("H:i:s", strtotime($data["heure_d"])) . "  " . $check2->heure_d]), 200);
