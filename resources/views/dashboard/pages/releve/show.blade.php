@@ -22,22 +22,20 @@
                         <div class="row">
                             <div class="col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
-                                            début</strong></label><input class="form-control bg-light" type="time"
-                                        required id="heure_d" placeholder="" value='{{ $releve->heure_d }}' readonly
-                                        name="heure_d"></div>
+                                            début</strong></label><input class="form-control" type="time" required
+                                        id="heure_d" placeholder="" value='{{ $releve->heure_d }}' name="heure_d"></div>
 
                             </div>
                             <div class=" col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Heure
-                                            fin</strong></label><input class="form-control bg-light" type="time" required
-                                        value="{{ $releve->heure_f }}" id="heure_f" readonly placeholder=""
-                                        name="heure_f"></div>
+                                            fin</strong></label><input class="form-control" type="time" required
+                                        value="{{ $releve->heure_f }}" id="heure_f" placeholder="" name="heure_f"></div>
                             </div>
                             <div class=" col-6 col-md-3">
                                 <div class="mb-3"><label class="form-label" for=""><strong>Date
-                                        </strong></label><input readonly class="form-control bg-light" type="text"
+                                        </strong></label><input class="form-control bg-light " type="text" readonly
                                         required value="{{ date('d/m/Y', strtotime($releve->date_systeme)) }}"
-                                        @if (Auth::user()->role == 0) readonly @endif id="date_systeme" placeholder=""
+                                        @if (Auth::user()->role == 0)  @endif id="date_systeme" placeholder=""
                                         name="date_systeme"></div>
                             </div>
                             <div class="col-6 col-md-3">
@@ -74,7 +72,7 @@
                                     </div>
                                     <div class=" col-6 col-md-2">
                                         <div class="mb-3"><label class="form-label" for=""><strong>
-                                                    Carte Bleu</strong></label><input
+                                                    Carte Bleue</strong></label><input
                                                 class="form-control inputMontantCalcule" type="number" required
                                                 step="0.01" id="carte_bleu" placeholder="" name="carte_bleu"
                                                 min="0" value="{{ $releve->carte_bleu }}">
@@ -121,7 +119,7 @@
                                     </div>
                                     <div class=" col-6 col-md-2 ">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                                    Total</strong> </label> <a href="#!" id="generateTotalSaisie"
+                                                    Total</strong> </label> <a id="generateTotalSaisie"
                                                 class="text-dark"><i class="fas fa-calculator"></i></a><input
                                                 class="form-control bg-light" type="number" required id="totalSaisie"
                                                 placeholder="" name="totalSaisie" readonly step="0.01" min="0"
@@ -148,7 +146,7 @@
                                     </div>
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                                    Carte Bleu</strong></label><input
+                                                    Carte Bleue</strong></label><input
                                                 class="form-control inputMontantCalculePdf" type="number" required
                                                 step="0.01" min="0" id="carte_bleuPdf"
                                                 value="{{ $releve->carte_bleuPdf }}" placeholder=""
@@ -333,8 +331,8 @@
                                         <div class="row " id="">
                                             <div class="col-12">
                                                 <div class="mb-3 ">
-                                                    <input class="form-control text-dark bg-light" type="number"
-                                                        step="0.01" readonly required id="recette_cigarettes"
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="recette_cigarettes"
                                                         value="{{ $boutique == null ? 0 : $boutique->cigarettes_recette }}"
                                                         placeholder="" required name="recette_cigarettes" />
                                                 </div>
@@ -346,8 +344,8 @@
                                         <div class="row " id="">
                                             <div class="col-12">
                                                 <div class="mb-3 ">
-                                                    <input class="form-control text-dark bg-light" type="number"
-                                                        step="0.01" readonly required id="qte_cigarettes"
+                                                    <input class="form-control text-dark " type="number" step="0.01"
+                                                        required id="qte_cigarettes"
                                                         value="{{ $boutique == null ? 0 : $boutique->cigarettes_qte }}"
                                                         placeholder="" required name="qte_cigarettes" />
                                                 </div>
@@ -355,14 +353,14 @@
                                         </div>
                                     </div>
                                     <div class=" col-md-2 col-6">
-                                        <div class=" form-label   "><strong>Recette divers</strong></div>
+                                        <div class=" form-label"><strong>Recette divers</strong></div>
                                         <div class="row " id="">
                                             <div class="col-12">
                                                 <div class="mb-3 ">
-                                                    <input class="form-control text-dark bg-light " type="number"
-                                                        step="0.01" required id="divers"
+                                                    <input class="form-control text-dark" type="number" step="0.01"
+                                                        required id="divers"
                                                         value="{{ $boutique == null ? $releve->divers : $boutique->divers }}"
-                                                        placeholder="" required readonly name="divers" />
+                                                        placeholder="" required name="divers" />
                                                 </div>
                                             </div>
                                         </div>
@@ -370,36 +368,36 @@
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Espèce</strong></label><input
-                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
-                                                type="number" required id="espece_boutique" placeholder=""
-                                                name="espece_boutique" step="0.01" min="0"
+                                                class="form-control inputMontantCalculeBoutique " type="number" required
+                                                id="espece_boutique" placeholder="" name="espece_boutique"
+                                                step="0.01" min="0"
                                                 value="{{ $boutique == null ? 0 : $boutique->espece }}">
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Carte Bleue</strong></label><input
-                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
-                                                type="number" required id="carte_bleue_boutique" placeholder=""
-                                                name="carte_bleue_boutique" step="0.01" min="0"
+                                                class="form-control inputMontantCalculeBoutique " type="number" required
+                                                id="carte_bleue_boutique" placeholder="" name="carte_bleue_boutique"
+                                                step="0.01" min="0"
                                                 value="{{ $boutique == null ? 0 : $boutique->carte_bleue }}">
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Chèque</strong></label><input
-                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
-                                                type="number" required id="cheque_boutique" placeholder=""
-                                                name="cheque_boutique" step="0.01" min="0"
+                                                class="form-control inputMontantCalculeBoutique " type="number" required
+                                                id="cheque_boutique" placeholder="" name="cheque_boutique"
+                                                step="0.01" min="0"
                                                 value="{{ $boutique == null ? 0 : $boutique->cheque }}">
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
-                                                class="form-control inputMontantCalculeBoutique bg-light" readonly
-                                                type="number" required id="client_compte_boutique" placeholder=""
-                                                name="client_compte_boutique" step="0.01" min="0"
+                                                class="form-control inputMontantCalculeBoutique " type="number" required
+                                                id="client_compte_boutique" placeholder="" name="client_compte_boutique"
+                                                step="0.01" min="0"
                                                 value="{{ $boutique == null ? 0 : $boutique->client_compte }}">
                                         </div>
                                     </div>
@@ -414,7 +412,9 @@
                                     @endphp
                                     <div class="col-md-2  ">
                                         <div class="mb-3"><label class="form-label text-dark fw-bold"
-                                                for="first_name"><strong>
+                                                for="first_name"><strong><a style="cursor: pointer;"
+                                                        id="generateTotalBoutique" class="text-primary"><i
+                                                            class="fas fa-calculator"></i></a>
                                                     Total Boutique</strong> </label><input class="form-control bg-light"
                                                 type="number" required id="totalb" placeholder="" name="totalb"
                                                 readonly step="0.01" min="0" value="{{ $total_boutique }}">
@@ -428,11 +428,11 @@
                         </div>
 
 
-                        @if (Auth::user()->role == 1)
-                            {{-- <div class=" mx-auto text-center"><button class="btn btn-primary "
+                        @if (Auth::user()->role == 0)
+                            <div class=" mx-auto text-center"><button class="btn btn-primary "
                                     type="submit">Enregistrer</button>
 
-                            </div> --}}
+                            </div>
                         @endif
                 </div>
                 </form>
@@ -447,7 +447,7 @@
         // ', true);
         $('input').addClass("shadow-none text-dark");
         $('textarea').addClass("shadow-none");
-        @if (Auth::user()->role == 0)
+        @if (Auth::user()->role == 1)
             $('input:not("#diff")').addClass("bg-light");
             $('input').attr('readonly', true);
             $('textarea').attr('readonly', true);
@@ -459,7 +459,7 @@
         // @endif
         // ', true);
     </script>
-    @if (Auth::user()->role == 1)
+    @if (Auth::user()->role == 0)
         <script src="{{ asset('/js/releve.js') }}"></script>
     @endif
 @endsection

@@ -13,6 +13,8 @@ $("#generateTotalBoutique").on("click", (e) => {
 });
 
 $("#generateTotalSaisie").on("click", (e) => {
+    console.log("tota lsiaise on cvlick");
+
     var totalInput = document.getElementById("totalSaisie");
     let total = 0;
     var inputs = document.getElementsByClassName("inputMontantCalcule");

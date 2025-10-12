@@ -231,7 +231,7 @@ class ReleveControllerA extends Controller
         //
         try {
             $data = $request->all();
-            $oldTotal = $releve->totalSaisie;
+            // $oldTotal = $releve->totalSaisie;
             $oldTotalPdf = $releve->totalPdf;
             $client_compte = $releve->client_comptePdf;
             $compte = Compte::latest()->first();
@@ -249,70 +249,84 @@ class ReleveControllerA extends Controller
                 $compte->compte_client += $data["client_comptePdf"];
             }
 
-            $ventes = json_decode($releve->vente);
-            $ventes_cigars = $releve->vente_cigarette == null ? [] :  json_decode($releve->vente_cigarette);
+            // $ventes = json_decode($releve->vente);
+            // $ventes_cigars = $releve->vente_cigarette == null ? [] :  json_decode($releve->vente_cigarette);
 
 
-            $qte = "";
-            $prix = "";
-            $montant = "";
-            $final = [];
-            $final_ventes = [];
+            // $qte = "";
+            // $prix = "";
+            // $montant = "";
+            // $final = [];
+            // $final_ventes = [];
 
-            foreach ($request->input("titles") as $titre) {
-                $carb = [];
-                $titleLowercase = strtolower($titre);
-                $qte = "qte_" . $titleLowercase;
-                $prix = "prix_" . $titleLowercase;
-                $montant = "montant_" . $titleLowercase;
+            // foreach ($request->input("titles") as $titre) {
+            //     $carb = [];
+            //     $titleLowercase = strtolower($titre);
+            //     $qte = "qte_" . $titleLowercase;
+            //     $prix = "prix_" . $titleLowercase;
+            //     $montant = "montant_" . $titleLowercase;
 
-                foreach ($ventes as $vente) {
-                    $title = strtolower($titre);
-                    foreach ($vente as $k => $v) {
-                        if ($k == $titre) {
-                            if ($v->qte !== $request->input($qte)) {
-                                $this->editCarburant($k, $v->qte);
-                                $this->updateCarburant($k, $request->input($qte));
-                            }
-                        }
-                    }
-                }
-                $carb = array($titre => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                array_push($final, $carb);
-            }
-            if ($request->has("types")) {
-
-
-                foreach ($request->input("types") as $type) {
-                    $types = [];
-                    $cigar = Cigarette::where("type", $type)->first();
-
-                    $qte = "qteC_" . $cigar->id;
-                    $prix = "prixC_" . $cigar->id;
-                    $montant = "montantC_" . $cigar->id;
-                    if (count($ventes_cigars) > 0) {
+            //     foreach ($ventes as $vente) {
+            //         $title = strtolower($titre);
+            //         foreach ($vente as $k => $v) {
+            //             if ($k == $titre) {
+            //                 if ($v->qte !== $request->input($qte)) {
+            //                     $this->editCarburant($k, $v->qte);
+            //                     $this->updateCarburant($k, $request->input($qte));
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     $carb = array($titre => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+            //     array_push($final, $carb);
+            // }
+            // if ($request->has("types")) {
 
 
-                        foreach ($ventes_cigars as $vente) {
+            //     foreach ($request->input("types") as $type) {
+            //         $types = [];
+            //         $cigar = Cigarette::where("type", $type)->first();
 
-                            foreach ($vente as $k => $v) {
-                                if ($k == $type) {
-                                    if ($v->qte !== $request->input($qte)) {
-                                        $this->editCigarette($k, $v->qte);
-                                        $this->updateCigarette($k, $request->input($qte));
-                                    }
-                                }
-                            }
-                        }
-                        $types = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
-                        array_push($final_ventes, $types);
-                    }
-                }
-            }
-            $data["vente"] = json_encode($final);
-            $data["vente_cigarette"] = count($final_ventes) > 0 ? json_encode($final_ventes) : null;
+            //         $qte = "qteC_" . $cigar->id;
+            //         $prix = "prixC_" . $cigar->id;
+            //         $montant = "montantC_" . $cigar->id;
+            //         if (count($ventes_cigars) > 0) {
+
+
+            //             foreach ($ventes_cigars as $vente) {
+
+            //                 foreach ($vente as $k => $v) {
+            //                     if ($k == $type) {
+            //                         if ($v->qte !== $request->input($qte)) {
+            //                             $this->editCigarette($k, $v->qte);
+            //                             $this->updateCigarette($k, $request->input($qte));
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //             $types = array($type => ["qte" => $request->input($qte), "prix" => $request->input($prix), "montant" => $request->input($montant)]);
+            //             array_push($final_ventes, $types);
+            //         }
+            //     }
+            // }
+            //$data["vente"] = json_encode($final);
+            //$data["vente_cigarette"] = count($final_ventes) > 0 ? json_encode($final_ventes) : null;
             $data["date_systeme"] = $releve->date_systeme;
             $releve->update($data);
+            $bt = ReleveBoutique::where("releve_id", $releve->id)->first();
+            if ($bt) {
+                $bt->update([
+                    "espece" => $request->espece_boutique,
+                    "carte_bleue" => $request->carte_bleue_boutique,
+                    "cheque" => $request->cheque_boutique,
+                    "client_compte" => $request->client_compte_boutique,
+                    "divers" => $request->divers,
+                    "cigarettes_qte" => $request->qte_cigarettes,
+                    "cigarettes_recette" => $request->recette_cigarettes
+                ]);
+            }
+
+
 
             return response(json_encode(["type" => "success", "message" => "Bien modifié !"]), 200);
         } catch (\Throwable $th) {
