@@ -324,6 +324,17 @@ class ReleveControllerA extends Controller
                     "cigarettes_qte" => $request->qte_cigarettes,
                     "cigarettes_recette" => $request->recette_cigarettes
                 ]);
+            } else {
+                ReleveBoutique::create([
+                    "releve_id" => $releve->id,
+                    "espece" => $request->espece_boutique,
+                    "carte_bleue" => $request->carte_bleue_boutique,
+                    "cheque" => $request->cheque_boutique,
+                    "client_compte" => $request->client_compte_boutique,
+                    "divers" => $request->divers,
+                    "cigarettes_qte" => $request->qte_cigarettes,
+                    "cigarettes_recette" => $request->recette_cigarettes
+                ]);
             }
 
 
