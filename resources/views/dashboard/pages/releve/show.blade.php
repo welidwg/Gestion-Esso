@@ -97,16 +97,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-2">
-                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                                    Boutique</strong></label><input
-                                                class="form-control inputMontantCalcule" type="number" required
-                                                id="boutique" placeholder="" name="boutique" step="0.01"
-                                                min="0" value="{{ $releve->boutique }}">
 
-
-                                        </div>
-                                    </div>
                                     <div class=" col-6 col-md-2">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
@@ -175,16 +166,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-6">
-                                        <div class="mb-3"><label class="form-label" for="first_name"><strong>
-                                                    Boutique</strong></label><input
-                                                class="form-control inputMontantCalculePdf" type="number" required
-                                                id="boutiquePdf" placeholder="" name="boutiquePdf" step="0.01"
-                                                min="0" value="{{ $releve->boutiquePdf }}">
 
-
-                                        </div>
-                                    </div>
                                     <div class="col-md-2 col-6">
                                         <div class="mb-3"><label class="form-label" for="first_name"><strong>
                                                     Client compte</strong></label><input
