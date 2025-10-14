@@ -256,6 +256,22 @@ function checkEcart(id_saisie, id_rapport, name) {
     }
 }
 
+function toggleCigaretteFieldsVisibility() {
+    const checkbox = document.getElementById('toggleCigaretteFields');
+    const recetteInput = document.getElementById('recette_cigarettes');
+    const qteInput = document.getElementById('qte_cigarettes');
+
+    if (checkbox.checked) {
+        recetteInput.disabled = false;
+        qteInput.disabled = false;
+    } else {
+        recetteInput.disabled = true;
+        qteInput.disabled = true;
+        recetteInput.value = 0;
+        qteInput.value = 0;
+    }
+}
+
 function deletRow(id) {
     $(`#${id}`).remove();
 }

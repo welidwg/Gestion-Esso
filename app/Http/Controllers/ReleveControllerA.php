@@ -168,7 +168,7 @@ class ReleveControllerA extends Controller
                 ]);
             }
 
-
+            $data["isLast"] = $request->isLast == 'on' ? 1 : 0;
             $data["vente"] = json_encode($final);
             $data["tva"] = $request->totalPdf * 0.2;
             // $data["vente_cigarette"] = json_encode($final_cigars);
@@ -180,8 +180,8 @@ class ReleveControllerA extends Controller
                 "cheque" => $request->cheque_boutique,
                 "client_compte" => $request->client_compte_boutique,
                 "divers" => $request->divers,
-                "cigarettes_qte" => $request->qte_cigarettes,
-                "cigarettes_recette" => $request->recette_cigarettes
+                "cigarettes_qte" => $request->qte_cigarettes ?? 0,
+                "cigarettes_recette" => $request->recette_cigarettes ?? 0
             ]);
 
             return response(json_encode(["type" => "success", "message" => "Bien ajouté !"]), 200);
@@ -311,6 +311,7 @@ class ReleveControllerA extends Controller
             // }
             //$data["vente"] = json_encode($final);
             //$data["vente_cigarette"] = count($final_ventes) > 0 ? json_encode($final_ventes) : null;
+            $data["isLast"] = $request->isLast == 'on' ? 1 : 0;
             $data["date_systeme"] = $releve->date_systeme;
             $releve->update($data);
             $bt = ReleveBoutique::where("releve_id", $releve->id)->first();
@@ -321,8 +322,8 @@ class ReleveControllerA extends Controller
                     "cheque" => $request->cheque_boutique,
                     "client_compte" => $request->client_compte_boutique,
                     "divers" => $request->divers,
-                    "cigarettes_qte" => $request->qte_cigarettes,
-                    "cigarettes_recette" => $request->recette_cigarettes
+                    "cigarettes_qte" => $request->qte_cigarettes ?? 0,
+                    "cigarettes_recette" => $request->recette_cigarettes ?? 0
                 ]);
             } else {
                 ReleveBoutique::create([
@@ -332,8 +333,8 @@ class ReleveControllerA extends Controller
                     "cheque" => $request->cheque_boutique,
                     "client_compte" => $request->client_compte_boutique,
                     "divers" => $request->divers,
-                    "cigarettes_qte" => $request->qte_cigarettes,
-                    "cigarettes_recette" => $request->recette_cigarettes
+                    "cigarettes_qte" => $request->qte_cigarettes ?? 0,
+                    "cigarettes_recette" => $request->recette_cigarecette_cigarettesrette ?? 0
                 ]);
             }
 

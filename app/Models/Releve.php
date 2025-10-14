@@ -37,7 +37,8 @@ class Releve extends Model
         "divers",
         "pmi",
         "fdg",
-        "mode_paiement"
+        "mode_paiement",
+        "isLast"
     ];
 
     public function caissier(): BelongsTo

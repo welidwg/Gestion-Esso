@@ -38,8 +38,14 @@
                             class="fas fa-tachometer-alt "></i><span>Tableau de bord</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'factureep.index' ? 'active' : '' }}"
-                        href="/factureep"><i class="fas fa-file-plus glow-icon"></i><span>Facture Epicerie</span></a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'factureepicerie.index' ? 'active' : '' }}"
+                        href="/factureepicerie"><i class="fas fa-file-plus glow-icon"></i><span>Facture
+                            Epicerie</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'articlefacture.index' ? 'active' : '' }}"
+                        href="/articlefacture"><i class="fas fa-file-plus glow-icon"></i><span>Articles
+                            Epicerie</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'paiementfournisseur.index' ? 'active' : '' }}"

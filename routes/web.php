@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveSoldeController;
+use App\Http\Controllers\ArticleFactureController;
 use App\Http\Controllers\CarburantController;
 use App\Http\Controllers\CarburantControllerA;
 use App\Http\Controllers\CigaretteController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\DesiderataController;
 use App\Http\Controllers\FactureCaissierController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\FactureEPController;
+use App\Http\Controllers\FactureEpicerieController;
 use App\Http\Controllers\KiosqueController;
 use App\Http\Controllers\PaiementFournisseurController;
 use App\Http\Controllers\PdfController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Carburant;
 use App\Models\Cigarette;
 use App\Models\FactureCaissier;
+use App\Models\FactureEpicerie;
 use App\Models\Releve;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -116,7 +119,10 @@ Route::group(["middleware" => "auth"], function () {
 
     Route::resource('carburants', CarburantController::class)->middleware("admin");;
     Route::resource('factureep', FactureEPController::class)->middleware("admin");;
+    Route::resource('factureepicerie', FactureEpicerieController::class)->middleware("admin");
     Route::resource('paiementfournisseur', PaiementFournisseurController::class);
+    Route::resource('articlefacture', ArticleFactureController::class)->middleware("admin");
+
 
     //carburant
     Route::post(

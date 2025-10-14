@@ -390,27 +390,34 @@
                             <fieldset class="border p-2 mx-auto mb-3">
                                 <legend class="fw-bold mb-3 ">-Recette Boutique
                                 </legend>
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="toggleCigaretteFields"
+                                        name="isLast" onchange="toggleCigaretteFieldsVisibility()">
+                                    <label class="form-check-label" for="toggleCigaretteFields">Clôture de
+                                        caisse</label>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-2 col-6">
-                                        <div class=" form-label "><strong>Recette Cigarette</strong></div>
-                                        <div class="row " id="">
+                                        <div class="form-label"><strong>Recette Cigarette</strong></div>
+                                        <div class="row">
                                             <div class="col-12">
-                                                <div class="mb-3 ">
-                                                    <input class="form-control text-dark " type="number" step="0.01"
-                                                        required id="recette_cigarettes" value="0" placeholder=""
-                                                        required name="recette_cigarettes" />
+                                                <div class="mb-3">
+                                                    <input class="form-control text-dark" type="number" step="0.01"
+                                                        id="recette_cigarettes" value="0" placeholder="" disabled
+                                                        name="recette_cigarettes" required />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-md-2 col-6">
-                                        <div class=" form-label "><strong>Quantité vendue</strong></div>
-                                        <div class="row " id="">
+
+                                    <div class="col-md-2 col-6">
+                                        <div class="form-label"><strong>Quantité vendue</strong></div>
+                                        <div class="row">
                                             <div class="col-12">
-                                                <div class="mb-3 ">
-                                                    <input class="form-control text-dark " type="number" step="0.01"
-                                                        required id="qte_cigarettes" value="0" placeholder=""
-                                                        required name="qte_cigarettes" />
+                                                <div class="mb-3">
+                                                    <input class="form-control text-dark" type="number" step="0.01"
+                                                        disabled id="qte_cigarettes" value="0" placeholder=""
+                                                        name="qte_cigarettes" required />
                                                 </div>
                                             </div>
                                         </div>
