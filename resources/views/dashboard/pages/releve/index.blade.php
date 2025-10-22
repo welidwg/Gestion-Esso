@@ -73,7 +73,7 @@
                           @foreach ($releves as $releve)
                               @php
                                   $currentDate = $releve->date_systeme;
-                                  
+
                               @endphp
                               <tr
                                   @if ($releve->diff != '0') style='background-color:rgba(255,0,0,0.2)' @else style='background-color:rgba(0,255,0,0.2)' @endif>

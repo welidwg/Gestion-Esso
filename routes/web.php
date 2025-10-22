@@ -17,6 +17,7 @@ use App\Http\Controllers\PaiementFournisseurController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReleveControllerA;
 use App\Http\Controllers\StatController;
+use App\Http\Controllers\StockCarburantController;
 use App\Http\Controllers\UserController;
 use App\Models\Carburant;
 use App\Models\Cigarette;
@@ -122,7 +123,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('factureepicerie', FactureEpicerieController::class)->middleware("admin");
     Route::resource('paiementfournisseur', PaiementFournisseurController::class);
     Route::resource('articlefacture', ArticleFactureController::class)->middleware("admin");
-
+    Route::resource('stockcarburant', StockCarburantController::class)->middleware("admin");;
 
     //carburant
     Route::post(

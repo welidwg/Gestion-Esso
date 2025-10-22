@@ -38,18 +38,24 @@
                             class="fas fa-tachometer-alt "></i><span>Tableau de bord</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'factureepicerie.index' ? 'active' : '' }}"
-                        href="/factureepicerie"><i class="fas fa-file-plus glow-icon"></i><span>Facture
-                            Epicerie</span></a>
+                    <a class="nav-link {{ Route::currentRouteName() == 'stockcarburant.index' ? 'active' : '' }}"
+                        href="/stockcarburant"><i class="fal fa-clipboard-list-check glow-icon"></i><span>Stock
+                            carburant</span></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ Route::currentRouteName() == 'factureepicerie.index' ? 'active' : '' }}"
+                        href="/factureepicerie"><i class="fas fa-file-plus "></i><span>Facture
+                            Epicerie</span></a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'articlefacture.index' ? 'active' : '' }}"
-                        href="/articlefacture"><i class="fas fa-file-plus glow-icon"></i><span>Articles
+                        href="/articlefacture"><i class="fas fa-file-plus "></i><span>Articles
                             Epicerie</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'paiementfournisseur.index' ? 'active' : '' }}"
-                        href="/paiementfournisseur"><i class="fas fa-file-plus glow-icon"></i><span>Paiement
+                        href="/paiementfournisseur"><i class="fas fa-file-plus "></i><span>Paiement
                             fournisseur</span></a>
                 </li>
                 <li class="nav-item">
@@ -63,7 +69,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'carburant.index' ? 'active' : '' }}"
-                        href="{{ route('carburant.index') }}"><i class="fas fa-box-full"></i><span>Carburants</span></a>
+                        href="{{ route('carburant.index') }}"><i
+                            class="fas fa-box-full"></i><span>Carburants</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'cigarette.index' ? 'active' : '' }}"
