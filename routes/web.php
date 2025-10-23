@@ -123,7 +123,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('factureepicerie', FactureEpicerieController::class)->middleware("admin");
     Route::resource('paiementfournisseur', PaiementFournisseurController::class);
     Route::resource('articlefacture', ArticleFactureController::class)->middleware("admin");
-    Route::resource('stockcarburant', StockCarburantController::class)->middleware("admin");;
+    Route::resource('stockcarburant', StockCarburantController::class);
 
     //carburant
     Route::post(

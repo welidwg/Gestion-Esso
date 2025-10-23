@@ -32,16 +32,17 @@
                 <a class="nav-link   {{ Route::currentRouteName() == 'desiderata.index' ? 'active' : '' }}"
                     href="{{ route('desiderata.index') }}"><i class="fas fa-calendar "></i><span>Calendrier</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'stockcarburant.index' ? 'active' : '' }}"
+                    href="/stockcarburant"><i class="fal fa-clipboard-list-check glow-icon"></i><span>Stock
+                        carburant</span></a>
+            </li>
             @if (Auth::user()->role == 0)
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'view.main' ? 'active' : '' }}" href="/main"><i
                             class="fas fa-tachometer-alt "></i><span>Tableau de bord</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'stockcarburant.index' ? 'active' : '' }}"
-                        href="/stockcarburant"><i class="fal fa-clipboard-list-check glow-icon"></i><span>Stock
-                            carburant</span></a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'factureepicerie.index' ? 'active' : '' }}"
                         href="/factureepicerie"><i class="fas fa-file-plus "></i><span>Facture

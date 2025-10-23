@@ -44,12 +44,40 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $currentDate = null;
+                                @endphp
                                 @foreach ($stocks as $stock)
+                                    @php
+                                        $stockDate = \Carbon\Carbon::parse($stock->date_stock)->format('d/m/Y');
+                                        $isNewDate = $currentDate !== $stockDate;
+                                        $currentDate = $stockDate;
+                                    @endphp
+
+                                    @if ($isNewDate)
+                                        {{-- Date Header --}}
+                                        <tr class="date-header bg-light">
+                                            <td colspan="3" class="px-4 py-3 border-0">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-calendar-alt text-primary me-2 fs-5"></i>
+                                                        <h6 class="mb-0 fw-bold text-primary">{{ $stockDate }}</h6>
+                                                    </div>
+                                                    <span class="badge bg-primary bg-opacity-10 text-primary">
+                                                        {{ $stocks->where('date_stock', $stock->date_stock)->count() }}
+                                                        carburants
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+
+                                    {{-- Stock Row --}}
                                     <tr class="border-bottom">
-                                        <td class="px-4 py-3 fw-medium text-dark border-0">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-calendar-day text-muted me-2"></i>
-                                                {{ \Carbon\Carbon::parse($stock->date)->format('d/m/Y') }}
+                                        <td class="px-4 py-3 fw-medium text-muted border-0">
+                                            <div class="d-flex align-items-center ps-4">
+                                                <i class="fas fa-clock text-muted me-2"></i>
+                                                {{ \Carbon\Carbon::parse($stock->date_stock)->format('d/m/Y H:i') }}
                                             </div>
                                         </td>
                                         <td class="px-4 py-3 border-0">
@@ -133,6 +161,28 @@
 
         .card-footer {
             border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .date-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #007bff;
+        }
+
+        .date-header td {
+            border-top: 2px solid #dee2e6 !important;
+            border-bottom: 1px solid #dee2e6 !important;
+        }
+
+        .date-header+tr {
+            border-top: none !important;
+        }
+
+        .ps-4 {
+            padding-left: 2rem !important;
+        }
+
+        .date-header h6 {
+            font-size: 1.1rem;
         }
     </style>
 @endsection

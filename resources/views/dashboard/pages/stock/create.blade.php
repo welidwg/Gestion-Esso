@@ -17,7 +17,7 @@
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <label for="date" class="form-label fw-semibold">Date du stock</label>
-                                    <input type="date" class="form-control form-control-lg" id="date"
+                                    <input type="datetime-local" class="form-control form-control-lg" id="date"
                                         name="date_stock" value="{{ date('Y-m-d') }}" required>
                                     <div class="form-text">Sélectionnez la date correspondante au stock</div>
                                 </div>
@@ -25,14 +25,44 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="text-primary mb-0">
-                                    <i class="fas fa-list me-2"></i>Stocks
+                                    <i class="fas fa-list me-2"></i>Sélection des carburants
                                 </h5>
-                                <button type="button" class="btn btn-success btn-sm" onclick="addStock()">
-                                    <i class="fas fa-plus me-1"></i>Ajouter un carburant
-                                </button>
                             </div>
 
-                            <div id="stocks-group" class="mb-4"></div>
+                            <!-- Checkbox list for carburants -->
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="row" id="carburants-checkbox-group">
+                                        @foreach ($carburants as $carburant)
+                                            <div class="col-md-6 mb-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input carburant-checkbox" type="checkbox"
+                                                        value="{{ $carburant->titre }}" id="carburant-{{ $carburant->id }}"
+                                                        onchange="toggleCarburantRow(this)">
+                                                    <label class="form-check-label fw-medium"
+                                                        for="carburant-{{ $carburant->id }}">
+                                                        {{ $carburant->titre }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic rows for selected carburants -->
+                            <div class="mb-4">
+                                <h6 class="text-primary mb-3">
+                                    <i class="fas fa-edit me-2"></i>Stocks à saisir
+                                </h6>
+                                <div id="stocks-group" class="mb-4">
+                                    <div class="text-center py-4 text-muted">
+                                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                                        <p class="mb-0">Cochez les carburants pour lesquels vous souhaitez saisir le
+                                            stock.</p>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                                 <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
@@ -56,137 +86,128 @@
             }));
 
         let stockIndex = 0;
-        let selectedCarburantIds = [];
+        const activeRows = new Map(); // Map to track active rows by carburant name
 
-        function getAvailableOptions() {
-            return carburants
-                .filter(c => !selectedCarburantIds.includes(c.titre))
-                .map(c => `<option value="${c.titre}">${c.titre}</option>`)
-                .join('');
-        }
+        function toggleCarburantRow(checkbox) {
+            const carburantName = checkbox.value;
+            const isChecked = checkbox.checked;
 
-        function addStock() {
-            if (carburants.length === selectedCarburantIds.length) {
-                showAlert("Tous les carburants disponibles ont déjà été ajoutés.", "warning");
-                return;
+            if (isChecked) {
+                // Add row for this carburant
+                addStockRow(carburantName);
+            } else {
+                // Remove row for this carburant
+                removeStockRow(carburantName);
             }
-
-            let availableOptions = getAvailableOptions();
-            let html = `
-        <div class="card stock-item mb-3" data-index="${stockIndex}">
-            <div class="card-body">
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-5">
-                        <label class="form-label fw-semibold">Type de carburant</label>
-                        <select name="stocks[${stockIndex}][carburant]" class="form-select select-carburant" required>
-                            <option value="">Choisir un carburant...</option>
-                            ${availableOptions}
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <label class="form-label fw-semibold">Stock réel (L)</label>
-                        <input type="number" step="0.01" min="0" class="form-control" 
-                               name="stocks[${stockIndex}][stock_reel]" required placeholder="0.00">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-outline-danger w-100" onclick="removeStock(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `;
-
-            document.getElementById('stocks-group').insertAdjacentHTML('beforeend', html);
-            stockIndex++;
-            refreshSelectListeners();
             updateEmptyState();
         }
 
-        function removeStock(button) {
-            let card = button.closest('.stock-item');
-            let select = card.querySelector('.select-carburant');
-            let oldValue = select.value;
-
-            card.style.opacity = '0';
-            setTimeout(() => {
-                card.remove();
-                if (oldValue) {
-                    selectedCarburantIds = selectedCarburantIds.filter(titre => titre != oldValue);
-                    updateAllSelectOptions();
-                }
-                updateEmptyState();
-            }, 300);
-        }
-
-        function refreshSelectListeners() {
-            document.querySelectorAll('.select-carburant').forEach(select => {
-                select.removeEventListener('change', onCarburantChange);
-                select.addEventListener('change', onCarburantChange);
-            });
-        }
-
-        function onCarburantChange(e) {
-            let select = e.target;
-            let newValue = select.value;
-            let row = select.closest('.stock-item');
-
-            // Remove old selection from list
-            let oldValue = select.oldValue;
-            if (oldValue) {
-                selectedCarburantIds = selectedCarburantIds.filter(titre => titre != oldValue);
+        function addStockRow(carburantName) {
+            if (activeRows.has(carburantName)) {
+                return; // Row already exists
             }
-            if (newValue) {
-                selectedCarburantIds.push(newValue);
-            }
-            select.oldValue = newValue;
 
-            updateAllSelectOptions();
+            const html = `
+                <div class="card stock-item mb-3" data-carburant="${carburantName}" data-index="${stockIndex}">
+                    <div class="card-body">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold">Type de carburant</label>
+                                <input type="text" class="form-control bg-light" value="${carburantName}" readonly>
+                                <input type="hidden" name="stocks[${stockIndex}][carburant]" value="${carburantName}">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold">Stock réel (L)</label>
+                                <input type="number" step="0.01" min="0" class="form-control stock-input" 
+                                       name="stocks[${stockIndex}][stock_reel]" required placeholder="0.00">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-outline-danger w-100" 
+                                        onclick="removeStockByButton('${carburantName}')"
+                                        title="Retirer ce carburant">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('stocks-group').insertAdjacentHTML('beforeend', html);
+            activeRows.set(carburantName, stockIndex);
+            stockIndex++;
         }
 
-        function updateAllSelectOptions() {
-            let allSelects = document.querySelectorAll('.select-carburant');
-            allSelects.forEach(select => {
-                let selected = select.value;
-                let options = carburants
-                    .filter(c => selectedCarburantIds.includes(c.titre) ? c.titre === selected : true)
-                    .map(c =>
-                        `<option value="${c.titre}"${selected === c.titre ? ' selected' : ''}>${c.titre}</option>`)
-                    .join('');
-                select.innerHTML = `<option value="">Choisir un carburant...</option>${options}`;
-            });
+        function removeStockRow(carburantName) {
+            const row = document.querySelector(`.stock-item[data-carburant="${carburantName}"]`);
+            if (row) {
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.remove();
+                    activeRows.delete(carburantName);
+                    // Uncheck the corresponding checkbox
+                    const checkbox = document.querySelector(`.carburant-checkbox[value="${carburantName}"]`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                }, 300);
+            }
+        }
+
+        function removeStockByButton(carburantName) {
+            removeStockRow(carburantName);
+            updateEmptyState();
         }
 
         function updateEmptyState() {
             const stocksGroup = document.getElementById('stocks-group');
-            if (stocksGroup.children.length === 0) {
+            const hasStocks = stocksGroup.querySelectorAll('.stock-item').length > 0;
+
+            if (!hasStocks) {
                 stocksGroup.innerHTML = `
-                <div class="text-center py-4 text-muted">
-                    <i class="fas fa-inbox fa-3x mb-3"></i>
-                    <p class="mb-0">Aucun carburant ajouté. Cliquez sur "Ajouter un carburant" pour commencer.</p>
-                </div>
-            `;
+                    <div class="text-center py-4 text-muted">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p class="mb-0">Cochez les carburants pour lesquels vous souhaitez saisir le stock.</p>
+                    </div>
+                `;
             }
         }
 
-        function showAlert(message, type = 'info') {
-            // Simple alert implementation - you can replace with a toast library
-            alert(message);
+        function validateForm() {
+            const hasStocks = document.querySelectorAll('.stock-item').length > 0;
+            if (!hasStocks) {
+                alert('Veuillez sélectionner au moins un carburant.');
+                return false;
+            }
+
+            // Validate that all stock inputs have values
+            const emptyInputs = document.querySelectorAll('.stock-input:invalid');
+            if (emptyInputs.length > 0) {
+                alert('Veuillez remplir tous les champs de stock.');
+                return false;
+            }
+
+            return true;
         }
 
-        // On page load, add one initial input row
+        // Set today's date as default
         document.addEventListener('DOMContentLoaded', function() {
-            addStock();
-            // Set today's date as default
             document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+            // Add form validation
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                if (!validateForm()) {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 
     <style>
         .stock-item {
             transition: all 0.3s ease;
-            border-left: 4px solid #007bff;
+            border-left: 4px solid #28a745;
         }
 
         .stock-item:hover {
@@ -199,6 +220,21 @@
 
         .card-header {
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .carburant-checkbox-group {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .bg-light[readonly] {
+            background-color: #f8f9fa !important;
+            border-color: #e9ecef;
         }
     </style>
 @endsection
