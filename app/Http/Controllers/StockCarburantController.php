@@ -29,7 +29,7 @@ class StockCarburantController extends Controller
                 'date_stock' => 'required',
                 'stocks' => 'required|array',
                 'stocks.*.carburant' => 'required|string',
-                'stocks.*.stock_reel' => 'required|integer',
+                'stocks.*.stock_reel' => 'required|numeric',
             ]);
 
             foreach ($validated['stocks'] as $item) {
@@ -46,6 +46,7 @@ class StockCarburantController extends Controller
             if ($th instanceof \Illuminate\Validation\ValidationException) {
                 dd($th->errors()); // 👈 shows the specific validation errors
             }
+
             dd($th);
         }
     }
