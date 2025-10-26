@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArticleFacture;
 use App\Models\FactureEpicerie;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,15 @@ class FactureEpicerieController extends Controller
             'date' => 'required|date',
             'articles' => 'required|array',
         ]);
+        foreach ($validatedData['articles'] as $index => $article) {
+            $des = $article["designation"];
+
+            $check = ArticleFacture::where("designation", "like", $des)->first();
+            if ($check->tva == 0) {
+                $check->tva = $article["tva"];
+                $check->save();
+            }
+        }
 
         FactureEpicerie::create([
             'nom_de_fournisseur' => $validatedData['nom_de_fournisseur'],

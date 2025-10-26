@@ -81,9 +81,8 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label fw-semibold">TVA (%)</label>
-                                                <input type="number" step="0.01" class="form-control bg-light" readonly
-                                                    id="tva_0" name="articles[0][tva]" required
-                                                    oninput="updateArticleLine(0)">
+                                                <input type="number" step="0.01" class="form-control " id="tva_0"
+                                                    name="articles[0][tva]" required oninput="updateArticleLine(0)">
                                             </div>
                                             <div class="col-md-2 d-flex align-items-end">
                                                 <button type="button" class="btn btn-outline-danger w-100"
@@ -198,7 +197,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="form-label fw-semibold">TVA (%)</label>
-                            <input type="number" step="0.01" class="form-control bg-light" readonly 
+                            <input type="number" step="0.01" class="form-control "  
                                    id="tva_${articleIndex}" name="articles[${articleIndex}][tva]" required 
                                    oninput="updateArticleLine(${articleIndex})">
                         </div>
