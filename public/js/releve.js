@@ -104,10 +104,32 @@ $("#add_releve_form").on("submit", (e) => {
         $("#submitBtnReleve").attr("disabled", false);
         // Swal.fire("Erreur !", divElement, "error");
     } else {
+        let recette_cig = $("#recette_cigarettes").val();
+        let qte_cig = $("#qte_cigarettes").val();
+        if (qte_cig != 0 && recette_cig == 0) {
+            Swal.fire(
+                "Erreur !",
+                "Il faut saisir la recette de cigarettes avec la quantité!",
+                "error"
+            );
+            $("#submitBtnReleve").attr("disabled", false);
+            return;
+        }
+        if (qte_cig == 0 && recette_cig != 0) {
+            Swal.fire(
+                "Erreur !",
+                "Il faut saisir la quantité de cigarettes avec la recette!",
+                "error"
+            );
+            $("#submitBtnReleve").attr("disabled", false);
+            return;
+        }
+
         const divElement = document.createElement("div");
         const titleCarb = document.createElement("h5");
 
         const titleCigars = document.createElement("h5");
+        const titleBoutique = document.createElement("h5");
 
         if (carbs.length !== 0) {
             titleCarb.innerHTML = "Carburants";
@@ -116,13 +138,7 @@ $("#add_releve_form").on("submit", (e) => {
                 let qte = $(`input[name="qte_${element.title}"]`).val();
                 let montant = $(`input[name="montant_${element.title}"]`).val();
 
-                //   console.log(
-                //       element.title +
-                //           " => " +
-                //           $(`input[name="qte_${element.title}"]`).val() +
-                //           " : " +
-                //           $(`input[name="montant_${element.title}"]`).val()
-                // );
+
                 if (qte != 0) {
                     let childElement = document.createElement("p");
                     childElement.innerHTML = `<span class="fw-bold">${element.title} <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
@@ -130,18 +146,20 @@ $("#add_releve_form").on("submit", (e) => {
                 }
             });
         }
+        titleBoutique.innerHTML = "Boutique";
+        divElement.appendChild(titleBoutique);
+        let childElement = document.createElement("p");
+        childElement.innerHTML = ` Recette cigarettes <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${recette_cig} | Quantité <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${qte_cig} <br/>
+           Recette divers <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${$("#divers").val()}<br/>
+ Espèce <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${$("#espece_boutique").val()}<br/>
+ Carte Bleue <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${$("#carte_bleue_boutique").val()}<br/>
+ Chèque <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${$("#cheque_boutique").val()}<br/>
+ Client compte <span class="fw-bold"> <i class="fas fa-long-arrow-alt-right"></i> </span> ${$("#client_compte_boutique").val()}<br/>
+            `;
 
-        // if (cigars.length !== 0) {
-        //     // titleCigars.innerHTML = "Cigarettes";
-        //     // divElement.appendChild(titleCigars);
-        //     // cigars.forEach((element) => {
-        //     //     let qte = $(`input[name="qteC_${element.id}"]`).val();
-        //     //     let montant = $(`input[name="montantC_${element.id}"]`).val();
-        //     //     let childElement = document.createElement("p");
-        //     //     childElement.innerHTML = `<span class="fw-bold">${element.type} <i class="fas fa-long-arrow-alt-right"></i> </span> Quantité : ${qte} | Montant : ${montant}`;
-        //     //     divElement.appendChild(childElement);
-        //     // });
-        // }
+        divElement.appendChild(childElement);
+
+
         let qteC = parseFloat($("#qteC").val());
         if (!isNaN(qteC) && qteC != 0) {
             titleCigars.innerHTML = "Cigarettes";

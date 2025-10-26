@@ -27,6 +27,17 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="prix_unite" class="form-label">TVA (%)</label>
+                <select name="tva" class="form-select" id="tva">
+                    <option {{ $articlefacture->tva == 5.5 ? 'selected' : '' }} value="5.5">5.5%</option>
+                    <option {{ $articlefacture->tva == 10 ? 'selected' : '' }} value="10">10%</option>
+                    <option {{ $articlefacture->tva == 20 ? 'selected' : '' }} value="20">20%</option>
+                </select>
+                @error('tva')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
             <button type="submit" class="btn btn-primary">Mettre à jour</button>
             <a href="{{ route('articlefacture.index') }}" class="btn btn-secondary">Annuler</a>

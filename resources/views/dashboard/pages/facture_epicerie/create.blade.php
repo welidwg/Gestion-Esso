@@ -35,13 +35,13 @@
                     <div class="row g-3">
                         <div class="col-md-2">
                             <label for="prix_unite_0" class="form-label">Prix Unité (€)</label>
-                            <input type="number" step="0.01" class="form-control" id="prix_unite_0"
+                            <input type="number" step="0.01" class="form-control bg-light" id="prix_unite_0"
                                 name="articles[0][prix_unite]" required oninput="updateArticleLine(0)" placeholder="0.00"
                                 readonly>
                         </div>
                         <div class="col-md-2">
                             <label for="qte_0" class="form-label">Quantité</label>
-                            <input type="number" class="form-control" id="qte_0" name="articles[0][qte]" required
+                            <input type="number" class="form-control " id="qte_0" name="articles[0][qte]" required
                                 oninput="updateArticleLine(0)" placeholder="0" min="1">
                         </div>
                         <div class="col-md-2">
@@ -51,8 +51,8 @@
                         </div>
                         <div class="col-md-2">
                             <label for="tva_0" class="form-label">TVA (%)</label>
-                            <input type="number" step="0.01" class="form-control" id="tva_0" name="articles[0][tva]"
-                                required oninput="updateArticleLine(0)" value="20">
+                            <input type="number" step="0.01" class="form-control bg-light" id="tva_0" readonly
+                                name="articles[0][tva]" required oninput="updateArticleLine(0)" value="20">
                         </div>
                         <div class="col-md-2">
                             <label for="prix_ttc_0" class="form-label">Prix TTC (€)</label>
@@ -95,6 +95,7 @@
 
     <script>
         const articlePrices = @json($articles->mapWithKeys(fn($a) => [$a->designation => (float) $a->prix_unite]));
+        const articleTva = @json($articles->mapWithKeys(fn($a) => [$a->designation => (float) $a->tva]));
 
         let articleIndex = 1;
 
@@ -115,7 +116,7 @@
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label for="prix_unite_${articleIndex}" class="form-label">Prix Unité (€)</label>
-                        <input type="number" step="0.01" class="form-control" id="prix_unite_${articleIndex}" name="articles[${articleIndex}][prix_unite]" required oninput="updateArticleLine(${articleIndex})" placeholder="0.00" readonly>
+                        <input type="number" step="0.01" class="form-control bg-light" id="prix_unite_${articleIndex}" name="articles[${articleIndex}][prix_unite]" required oninput="updateArticleLine(${articleIndex})" placeholder="0.00" readonly>
                     </div>
                     <div class="col-md-2">
                         <label for="qte_${articleIndex}" class="form-label">Quantité</label>
@@ -127,11 +128,11 @@
                     </div>
                     <div class="col-md-2">
                         <label for="tva_${articleIndex}" class="form-label">TVA (%)</label>
-                        <input type="number" step="0.01" class="form-control" id="tva_${articleIndex}" name="articles[${articleIndex}][tva]" required oninput="updateArticleLine(${articleIndex})" value="20">
+                        <input type="number" step="0.01" class="form-control bg-light " readonly id="tva_${articleIndex}" name="articles[${articleIndex}][tva]" required oninput="updateArticleLine(${articleIndex})" value="20">
                     </div>
                     <div class="col-md-2">
                         <label for="prix_ttc_${articleIndex}" class="form-label">Prix TTC (€)</label>
-                        <input type="number" step="0.01" class="form-control bg-light" id="prix_ttc_${articleIndex}" name="articles[${articleIndex}][prix_ttc]" readonly>
+                        <input type="number" step="0.01" class="form-control bg-light" id="prix_ttc_${articleIndex}" name="articles[${articleIndex}][prix_ttc]" >
                     </div>
                     <div class="col-md-2 d-flex align-items-end">
                         <button type="button" class="btn btn-danger w-100" onclick="removeArticle(this)">Supprimer</button>
@@ -150,10 +151,13 @@
         function onDesignationChange(index) {
             const select = document.getElementById(`designation_${index}`);
             const prixUniteInput = document.getElementById(`prix_unite_${index}`);
+            const tvaInput = document.getElementById(`tva_${index}`);
             const selectedDesignation = select.value;
 
             const price = articlePrices[selectedDesignation] ?? 0;
+            const tva = articleTva[selectedDesignation] ?? 0;
             prixUniteInput.value = price.toFixed(2);
+            tvaInput.value = tva.toFixed(1);
             updateArticleLine(index);
         }
 

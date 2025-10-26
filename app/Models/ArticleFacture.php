@@ -11,5 +11,6 @@ class ArticleFacture extends Model
     protected $fillable = [
         'designation',
         'prix_unite',
+        'tva',
     ];
 }

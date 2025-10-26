@@ -23,9 +23,10 @@ class ArticleFactureController extends Controller
         $request->validate([
             'designation' => 'required|string|unique:article_factures',
             'prix_unite' => 'nullable|numeric|min:0',
+            'tva' => 'numeric|min:5',
         ]);
 
-        ArticleFacture::create($request->only(['designation', 'prix_unite']));
+        ArticleFacture::create($request->only(['designation', 'prix_unite', "tva"]));
 
         return redirect()->route('articlefacture.index')->with('success', 'Article ajouté.');
     }
@@ -40,9 +41,11 @@ class ArticleFactureController extends Controller
         $request->validate([
             'designation' => 'required|string|unique:article_factures,designation,' . $articlefacture->id,
             'prix_unite' => 'nullable|numeric|min:0',
+            'tva' => 'numeric|min:5',
+
         ]);
 
-        $articlefacture->update($request->only(['designation', 'prix_unite']));
+        $articlefacture->update($request->only(['designation', 'prix_unite', 'tva']));
 
         return redirect()->route('articlefacture.index')->with('success', 'Article modifié.');
     }
