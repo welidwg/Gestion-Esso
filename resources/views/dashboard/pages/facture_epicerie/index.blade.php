@@ -85,10 +85,7 @@
                                                     class="btn btn-outline-primary rounded-start-2" title="Voir détails">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('factureepicerie.edit', $facture->id) }}"
-                                                    class="btn btn-outline-warning" title="Modifier">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
+
                                                 <form action="{{ route('factureepicerie.destroy', $facture->id) }}"
                                                     method="POST" class="d-inline"
                                                     onsubmit="return confirm('Confirmer la suppression de cette facture ?')">
