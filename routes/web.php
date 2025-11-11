@@ -12,6 +12,7 @@ use App\Http\Controllers\FactureCaissierController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\FactureEPController;
 use App\Http\Controllers\FactureEpicerieController;
+use App\Http\Controllers\HeureCaissierController;
 use App\Http\Controllers\KiosqueController;
 use App\Http\Controllers\PaiementFournisseurController;
 use App\Http\Controllers\PdfController;
@@ -124,7 +125,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('paiementfournisseur', PaiementFournisseurController::class);
     Route::resource('articlefacture', ArticleFactureController::class)->middleware("admin");
     Route::resource('stockcarburant', StockCarburantController::class);
-
+    Route::resource('heure-caissiers', HeureCaissierController::class);
     //carburant
     Route::post(
         "/carburant/editjauge",
