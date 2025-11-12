@@ -93,7 +93,7 @@ class ReleveControllerA extends Controller
     {
         try {
             $data = $request->all();
-            $data["date_systeme"] = date("Y-m-d");
+            // $data["date_systeme"] = date("Y-m-d");
             $qte = "";
             $prix = "";
             $montant = "";
