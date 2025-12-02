@@ -21,6 +21,13 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="mb-3"><label class="form-label"
+                                        for="username"><strong>Login</strong></label><input class="form-control"
+                                        type="text" required id="login" value="{{ $user->login }}" placeholder=""
+                                        name="login">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="email"><strong>Changer le mot de
                                             passe</strong>

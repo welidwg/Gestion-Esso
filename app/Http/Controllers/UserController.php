@@ -117,6 +117,10 @@ class UserController extends Controller
             //     return   response(json_encode(["type" => "error", "message" => $validate->errors()]), 500);
             // }
             $user = User::find($id);
+            $loginExists = User::where("login", $req->login)->where("id", "!=", $id)->first();
+            if ($loginExists) {
+                return   response(json_encode(["type" => "error", "message" => ["login" => ["Ce login est déjà utilisé."]]]), 500);
+            }
 
             if ($req->has("password")) {
                 $password = Hash::make($req->password);
@@ -124,6 +128,7 @@ class UserController extends Controller
                 $user->plainTextPassword = $req->password;
             }
             $user->nom = $req->nom;
+            $user->login = $req->login;
             $user->save();
             return response(json_encode(["type" => "success", "message" => "L'utilisateur est bien modifié"]), 201);
         } catch (\Throwable $th) {

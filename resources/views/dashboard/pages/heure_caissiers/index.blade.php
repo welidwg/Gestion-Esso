@@ -53,6 +53,10 @@
                                         <th>Mois</th>
                                         <th>Total Heures</th>
                                         <th>Date d'ajout</th>
+
+                                        @if (Auth::user()->role == 0)
+                                            <th>Actions</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,6 +68,20 @@
                                             <td>{{ $heure->date_hours->format('F Y') }}</td>
                                             <td><strong>{{ number_format($heure->total_hours, 2) }}h</strong></td>
                                             <td>{{ $heure->created_at->format('d/m/Y') }}</td>
+
+                                            @if (Auth::user()->role == 0)
+                                                <td>
+                                                    <form action="{{ route('heure-caissiers.destroy', $heure->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ces heures ?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <tr>
@@ -79,6 +97,7 @@
                                             <td><strong>Total</strong></td>
                                             <td></td>
                                             <td><strong>{{ number_format($heures->sum('total_hours'), 2) }}h</strong></td>
+                                            <td></td>
                                             <td></td>
                                         </tr>
                                     </tfoot>

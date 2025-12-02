@@ -28,13 +28,13 @@ class HeureCaissierController extends Controller
             ->whereYear('date_hours', $year)
             ->whereMonth('date_hours', $month)
             ->get();
-            if(Auth::user()->role==1){
+        if (Auth::user()->role == 1) {
             $heures = HeureCaissier::with('user')
                 ->whereYear('date_hours', $year)
                 ->whereMonth('date_hours', $month)
-                ->where("user_id",Auth::user()->id)
+                ->where("user_id", Auth::user()->id)
                 ->get();
-            }
+        }
 
         // Get all users for the dropdown
 
@@ -83,5 +83,13 @@ class HeureCaissierController extends Controller
         ]);
 
         return redirect()->route('heure-caissiers.index')->with('success', 'Heures ajoutées avec succès.');
+    }
+
+    function destroy($id)
+    {
+        $heure = HeureCaissier::findOrFail($id);
+        $heure->delete();
+
+        return redirect()->route('heure-caissiers.index')->with('success', 'Heures supprimées avec succès.');
     }
 }
